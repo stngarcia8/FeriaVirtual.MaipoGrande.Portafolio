@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+    oraclexe:
+        image: oracle/database:18.4.0-xe
+        container_name: oraclexe
+        networks:
+            - oranet
+        expose:
+            - 1521
+            - 5500
+        ports:
+            - 1521:1521
+            - 5500:5500
+        environment:
+            - ORACLE_PWD=avaras08
+            - ORACLE_CHARACTERSET=AL32UTF8
+        volumes:
+            - d:/containers/volumenes/script/oracle:/script_files
+            - oradata:/opt/oracle/oradata
+
+networks:
+    oranet:
+
+volumes:
+    oradata:
