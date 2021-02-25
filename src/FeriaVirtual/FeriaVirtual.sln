@@ -3,13 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeriaVirtual.Domain", "FeriaVirtual.Domain\FeriaVirtual.Domain.csproj", "{5B36843E-C510-45AB-9739-CE05FABB386C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeriaVirtual.Domain", "FeriaVirtual.Domain\FeriaVirtual.Domain.csproj", "{5B36843E-C510-45AB-9739-CE05FABB386C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeriaVirtual.Application", "FeriaVirtual.Application\FeriaVirtual.Application.csproj", "{B96374F1-51BF-414B-8294-E20BC07D6338}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeriaVirtual.Application", "FeriaVirtual.Application\FeriaVirtual.Application.csproj", "{B96374F1-51BF-414B-8294-E20BC07D6338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeriaVirtual.Infrastructure", "FeriaVirtual.Infrastructure\FeriaVirtual.Infrastructure.csproj", "{9451AA53-B9CB-485C-B69C-0AED03D03008}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeriaVirtual.Infrastructure", "FeriaVirtual.Infrastructure\FeriaVirtual.Infrastructure.csproj", "{9451AA53-B9CB-485C-B69C-0AED03D03008}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeriaVirtual.IOC", "FeriaVirtual.IOC\FeriaVirtual.IOC.csproj", "{52F1F8D3-D7DB-4716-AF36-5E559CD398FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeriaVirtual.IOC", "FeriaVirtual.IOC\FeriaVirtual.IOC.csproj", "{52F1F8D3-D7DB-4716-AF36-5E559CD398FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{28CAE28F-B741-44DD-8E9C-E243D4F167AD}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
