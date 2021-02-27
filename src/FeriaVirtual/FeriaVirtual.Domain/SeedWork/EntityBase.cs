@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using FeriaVirtual.Domain.SeedWork.Validations;
 
 namespace FeriaVirtual.Domain.SeedWork
 {
     public abstract class EntityBase
     {
-
-
-
-
         public abstract Dictionary<string, object> GetPrimitives();
 
+        protected static void CheckRule(IBusinessRule rule)
+        {
+            if (!rule.IsFailed()) return;
+            throw new BusinessRuleValidationException(rule);
+        }
     }
 }

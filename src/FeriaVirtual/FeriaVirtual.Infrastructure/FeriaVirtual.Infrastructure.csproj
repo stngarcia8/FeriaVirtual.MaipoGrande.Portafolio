@@ -15,8 +15,4 @@
     <ProjectReference Include="..\FeriaVirtual.Domain\FeriaVirtual.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Persistence\RelationalRepositories\" />
-  </ItemGroup>
-
 </Project>

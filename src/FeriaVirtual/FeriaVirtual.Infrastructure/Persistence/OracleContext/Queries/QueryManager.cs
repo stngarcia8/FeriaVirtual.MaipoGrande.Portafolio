@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using FeriaVirtual.Domain.SeedWork;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using FeriaVirtual.Domain.Models.Users.Credentials;
+using FeriaVirtual.Domain.Models.Users.Rules;
 using FeriaVirtual.Domain.SeedWork;
+using FeriaVirtual.Domain.SeedWork.Validations;
 
 namespace FeriaVirtual.Domain.Models.Users
 {
     public class User
-        : EntityBase
+        : EntityBase, IAggregateRoot
     {
         public Guid UserId { get; protected set; }
         public string FirstName { get; protected set; }
@@ -16,20 +17,25 @@ namespace FeriaVirtual.Domain.Models.Users
         public Credential GetCredential { get; protected set; }
 
 
-        public User(string firstName, string lastName,
-            string dni, int profileId)
+        internal User() { }
+
+        public User
+            (string firstName, string lastName, string dni, int profileId)
         {
             InitializeVars(GuidGenerator.NewSequentialGuid(),
                 firstName, lastName, dni, profileId);
             GetCredential = null;
+            var userRule = new CreateUserRules();
+            CheckRule(BusinessRulesValidator<User>.BuildValidator(userRule, this));
         }
 
-        public User(
-            Guid id, string firstName, string lastName,
-            string dni, int profileId)
+        public User
+            (Guid id, string firstName, string lastName, string dni, int profileId)
         {
             InitializeVars(id, firstName, lastName,
                 dni, profileId);
+            var userRule = new UpdateUserRules();
+            CheckRule(BusinessRulesValidator<User>.BuildValidator(userRule, this));
         }
 
         private void InitializeVars(
@@ -51,17 +57,23 @@ namespace FeriaVirtual.Domain.Models.Users
             Guid id, string username, string password, string email, int isActive) =>
             GetCredential = new Credential(id, username, password, email, isActive);
 
-        public void EnableUser()
-        {
-            if (GetCredential == null) return;
-            GetCredential.EnableCredential();
-        }
+        public void ChangeFirstName(string firstName) =>
+            FirstName= firstName;
 
-        public void DisableUser()
-        {
-            if (GetCredential == null) return;
+        public void ChangeLastName(string lastName) =>
+            LastName = lastName;
+
+        public void ChangeDni(string dni) =>
+            Dni = dni;
+
+        public void ChangeProfile(int profileId) =>
+            ProfileId= profileId;
+
+        public void EnableUser() =>
+            GetCredential.EnableCredential();
+
+        public void DisableUser() => 
             GetCredential.DisableCredential();
-        }
 
         public override Dictionary<string, object> GetPrimitives()
         {
