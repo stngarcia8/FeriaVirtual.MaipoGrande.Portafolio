@@ -25,5 +25,6 @@ namespace FeriaVirtual.Infrastructure
             _configurationRoot = builder.Build();
         }
 
+
     }
 }

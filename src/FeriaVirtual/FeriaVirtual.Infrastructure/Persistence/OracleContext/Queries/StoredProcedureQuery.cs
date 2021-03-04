@@ -1,39 +1,85 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using FeriaVirtual.Infrastructure.Persistence.OracleContext.Exceptions;
+using System.Threading.Tasks;
+using FeriaVirtual.Domain.SeedWork;
+using Oracle.ManagedDataAccess.Client;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 {
     class StoredProcedureQuery
-        : QueryBase, IStoredProcedureQuery
+        : QueryParameter
     {
-        private StoredProcedureQuery(IDBContext dbContext)
-            : base(dbContext) =>
-            _command.CommandType = CommandType.StoredProcedure;
+        private StoredProcedureQuery(OracleCommand command)
+            : base(command) { }
 
-        public static IStoredProcedureQuery BuildQuery(IDBContext dbContext) =>
-            new StoredProcedureQuery(dbContext);
+        public static StoredProcedureQuery BuildQuery(OracleCommand command) =>
+            new StoredProcedureQuery(command);
 
-        public new void AddParameter(
-            string parameterName, object parameterValue, DbType parameterType) =>
-            base.AddParameter(parameterName, parameterValue, parameterType);
-
-        public new void ClearParameters() =>
-            base.ClearParameters();
-
-        public void Execute(string storeProcedureName)
+        public void  Excecute<TEntity>
+            (string spName, TEntity entity)
+            where TEntity : EntityBase
         {
             try {
-                if (string.IsNullOrWhiteSpace(storeProcedureName)) {
-                    throw new StoredProcedureFailedException("Nombre de procedimiento almacenado inválido, nulo o vacío.");
+                if (string.IsNullOrWhiteSpace(spName)) {
+                    throw new QueryExecutorFailedException("No ha especificado un nombre de procedimiento almacenado para ejecutar.");
                 }
-                _command.CommandText = storeProcedureName;
+                this.ClearParameters();
+                _command.CommandType = System.Data.CommandType.StoredProcedure;
+                _command.CommandText = spName;
+                if (entity.GetPrimitives() != null) CreateStoredProcedureParameters(entity);
                 _command.ExecuteNonQuery();
             } catch (Exception ex) {
-                string message = $"Error al intentar ejecutar procedimiento almacenado {storeProcedureName}, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
-                throw new StoredProcedureFailedException(message);
+                string message = $"Error al intentar ejecutar procedimiento almacenado {spName}, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
+                throw new QueryExecutorFailedException(message);
             }
         }
+
+        private void CreateStoredProcedureParameters<TEntity>(TEntity entity)
+            where TEntity : EntityBase
+        {
+            foreach (KeyValuePair<string, object> primitive in entity.GetPrimitives()) {
+                this.AddParameter($"p{primitive.Key}", primitive.Value, GetFieldDbType(primitive.Value));
+            }
+        }
+
+        private DbType GetFieldDbType(Object value)
+        {
+            Type obj = value.GetType();
+            return obj.Name switch {
+                "DateTime" => DbType.Date,
+                "float" => DbType.Double,
+                "Int32" => DbType.Int32,
+                _ => DbType.String,
+            };
+        }
+
+        public void Excecute
+            (string spName, Dictionary<string, object> parameters = null)
+        {
+            try {
+                if (string.IsNullOrWhiteSpace(spName)) {
+                    throw new QueryExecutorFailedException("No ha especificado un nombre de procedimiento almacenado para ejecutar.");
+                }
+                this.ClearParameters();
+                _command.CommandType = System.Data.CommandType.StoredProcedure;
+                _command.CommandText = spName;
+                if(parameters!=null) CreateStoredProcedureParameters(parameters);
+                _command.ExecuteNonQuery();
+            } catch (Exception ex) {
+                string message = $"Error al intentar ejecutar procedimiento almacenado {spName}, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
+                throw new QueryExecutorFailedException(message);
+            }
+        }
+
+        private void CreateStoredProcedureParameters(Dictionary<string, object> parameters)
+        {
+            foreach (KeyValuePair<string, object> parameter in parameters) {
+                this.AddParameter($"p{parameter.Key}", parameter.Value, GetFieldDbType(parameter.Value));
+            }
+        }
+
+
 
 
     }

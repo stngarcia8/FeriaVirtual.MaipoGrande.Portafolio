@@ -8,10 +8,12 @@ namespace FeriaVirtual.IOC
 {
     public static class DependencyContainer
     {
-        public static void RegisterServices(IServiceCollection services)
+        public static ServiceProvider GetServiceProvider()
         {
-            services.AddApplication();
-            services.AddInfrastructure();
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddApplication();
+            serviceCollection.AddInfrastructure();
+            return serviceCollection.BuildServiceProvider();
         }
 
 

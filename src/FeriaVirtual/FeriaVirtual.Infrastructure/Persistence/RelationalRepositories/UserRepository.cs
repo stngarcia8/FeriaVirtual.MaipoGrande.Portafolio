@@ -1,46 +1,50 @@
-﻿using FeriaVirtual.Domain.Models.Users;
+﻿using System;
+using System.Collections.Generic;
+using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.Models.Users.Interfaces;
+using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 
 namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 {
     public class UserRepository
-        : RepositoryBase, IUserRepository
+        : IUserRepository
     {
-        private readonly IUserRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserRepository(IUserRepository repository)
-        {
-            _dbConfig = RelationalConfig.Build()
-            _repository = repository;
-        }
+        public UserRepository() =>
+            _unitOfWork = new UnitOfWork(ContextManager.BuildContext(RelationalConfig.Build()));
 
         public void Create(User user)
         {
-            _sqlStatement = "sp_add_credential";
-            this.Execute<Credential>(user.GetCredential);
-            _sqlStatement = "sp_add_user";
-            this.Execute<User>(user);
+            _unitOfWork.Context.SaveByStoredProcedure<Credential>("sp_add_credential", user.GetCredential);
+            _unitOfWork.Context.SaveByStoredProcedure<User>("sp_add_user", user);
+            _unitOfWork.SaveChanges();
         }
 
         public void Update(User user)
         {
-            _sqlStatement = "sp_update_credential";
-            this.Execute<Credential>(user.GetCredential);
-            _sqlStatement = "sp_update_user";
-            this.Execute<User>(user);
+            _unitOfWork.Context.SaveByStoredProcedure<Credential>("sp_update_credential", user.GetCredential);
+            _unitOfWork.Context.SaveByStoredProcedure<User>("sp_update_user", user);
+            _unitOfWork.SaveChanges();
         }
 
-        public void EnableUser(User user)
+        public void EnableUser(Guid userId)
         {
-            _sqlStatement = "sp_enable_user";
-            this.Execute<Credential>(user.GetCredential);
+            var parameters = new Dictionary<string, object> {
+                {"UserId", userId.ToString() }
+            };
+            _unitOfWork.Context.SaveByStoredProcedure("sp_enable_user", parameters);
+            _unitOfWork.SaveChanges();
         }
 
-        public void DisableUser(User user)
+        public void DisableUser(Guid userId)
         {
-            _sqlStatement = "sp_disable_user";
-            this.Execute<Credential>(user.GetCredential);
+            var parameters = new Dictionary<string, object> {
+                {"UserId", userId.ToString() }
+            };
+            _unitOfWork.Context.SaveByStoredProcedure("sp_disable_user", parameters);
+            _unitOfWork.SaveChanges();
         }
 
 

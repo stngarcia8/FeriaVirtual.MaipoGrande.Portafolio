@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FeriaVirtual.Domain.Models.Users.Exceptions;
 using FeriaVirtual.Domain.Models.Users.Rules;
 using FeriaVirtual.Domain.SeedWork;
 using FeriaVirtual.Domain.SeedWork.Helpers.Security;
@@ -11,7 +10,7 @@ namespace FeriaVirtual.Domain.Models.Users
     public class Credential
         : EntityBase
     {
-        private string _oldPassword;
+        private readonly string _oldPassword;
 
         public Guid CredentialId { get; protected set; }
         public string Username { get; protected set; }
@@ -23,8 +22,8 @@ namespace FeriaVirtual.Domain.Models.Users
 
         internal Credential() { }
 
-        public Credential(
-            string username, string password, string email)
+        public Credential
+            (string username, string password, string email)
         {
             _oldPassword = password;
             InitializeVars(GuidGenerator.NewSequentialGuid(),
@@ -33,19 +32,19 @@ namespace FeriaVirtual.Domain.Models.Users
             CheckRule(BusinessRulesValidator<Credential>.BuildValidator(credentialRule, this));
         }
 
-        public Credential(
-            Guid id, string username, string password,
+        public Credential
+            (Guid id, string username, string password,
             string email, int isActive)
         {
-            _oldPassword = string.Empty;
+            _oldPassword = password;
             InitializeVars(id, username, password,
                 email, isActive);
             var credentialRule = new UpdateCredentialRules();
             CheckRule(BusinessRulesValidator<Credential>.BuildValidator(credentialRule, this));
         }
 
-        private void InitializeVars(
-            Guid id, string username, string password,
+        private void InitializeVars
+            (Guid id, string username, string password,
             string email, int isActive)
         {
             CredentialId = id;
@@ -64,19 +63,6 @@ namespace FeriaVirtual.Domain.Models.Users
             IEncriptor encryptor = EncriptSha1.CreateEncriptor(_oldPassword);
             return encryptor.GetEncriptedPassword();
         }
-
-        public void ChangeUsername(string newUsername) =>
-            Username = newUsername ?? throw new InvalidUserArgumentException("Debe especificar un nombre de usuario.");
-
-        public void ChangePassword(string newPassword)
-        {
-            _oldPassword = newPassword ?? throw new InvalidCredentialArgumentException("Debe especificar una password.");
-            Password = newPassword;
-            EncryptedPassword = EncryptPassword();
-        }
-
-        public void ChangeEmail(string newEmail) =>
-            Email = newEmail ?? throw new InvalidCredentialArgumentException("Debe especificar un email.");
 
         public void EnableCredential() =>
             IsActive = 1;

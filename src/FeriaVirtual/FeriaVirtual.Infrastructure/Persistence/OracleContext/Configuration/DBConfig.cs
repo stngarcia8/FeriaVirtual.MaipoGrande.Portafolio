@@ -16,9 +16,9 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration
         protected DBConfig()
         {
             var config = LoadConfiguration.Load().GetConfiguration;
-            _relational = config["ConnectionStrings: RelationalSchema"];
-            _dimensional = config["ConnectionStrings: DimensionalSchema"];
-            _eventStore = config["ConnectionStrings: EventstoreSchema"];
+            _relational = config["ConnectionStrings:RelationalSchema"];
+            _dimensional = config["ConnectionStrings:DimensionalSchema"];
+            _eventStore = config["ConnectionStrings:EventstoreSchema"];
         }
 
 

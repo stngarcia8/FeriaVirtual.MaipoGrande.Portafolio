@@ -1,40 +1,52 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using FeriaVirtual.Domain.SeedWork;
+using Oracle.ManagedDataAccess.Client;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 {
-    public class QueryManager
+    sealed class QueryManager
     {
-        private readonly IDBContext _dbContext;
+        private  readonly OracleConnection _connection;
+        private  readonly OracleTransaction _transaction;
+        private  OracleCommand _command;
 
-        private QueryManager(IDBContext dbContext) =>
-            _dbContext = dbContext;
 
-        public static QueryManager BuildManager(IDBContext dbContext) =>
-            new QueryManager(dbContext);
-
-        public void ExecuteStoredProcedure<TEntity>(string storedProcedureName, TEntity entity)
-            where TEntity : EntityBase
+        private QueryManager(OracleConnection connection, OracleTransaction transaction)
         {
-            var query = StoredProcedureQuery.BuildQuery(_dbContext);
-            if (entity.GetPrimitives() != null) {
-                foreach (var primitive in entity.GetPrimitives())
-                    query.AddParameter($"p{primitive.Key}", primitive.Value, GetFieldDbType(primitive.Value));
-            }
-            query.Execute(storedProcedureName);
+            _connection= connection;
+            _transaction= transaction;
+            ConfigureCommand();
         }
 
-        private DbType GetFieldDbType(object value)
+        private void ConfigureCommand()
         {
-            Type obj = value.GetType();
-            return obj.Name switch {
-                "Datetime" => DbType.Date,
-                "float" => DbType.Double,
-                "Int32" => DbType.Int32,
-                _ => DbType.String,
-            };
+            _command = _connection.CreateCommand();
+            _command.Transaction = _transaction;
+            _command.BindByName = true;
         }
+
+        public static QueryManager BuildManager(OracleConnection connection, OracleTransaction transaction) =>
+            new QueryManager(connection, transaction);
+
+        public void ExecuteStoredProcedure<TEntity>
+            (string spName, TEntity entity)
+            where TEntity:EntityBase
+        {
+            var spExcecutor = StoredProcedureQuery.BuildQuery(_command);
+            spExcecutor.Excecute(spName, entity);
+        }
+
+        public void ExecuteStoredProcedure
+            (string spName, Dictionary<string, object> parameters=null)
+        {
+            var spExcecutor = StoredProcedureQuery.BuildQuery(_command);
+            spExcecutor.Excecute(spName, parameters);
+        }
+
+
 
 
 
