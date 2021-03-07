@@ -17,7 +17,7 @@
             Port = int.Parse(config["RabbitMQ:Port"]);
         }
 
-        public static RabbitMQParameters GetParameters() =>
+        public static RabbitMQParameters Value() =>
             new RabbitMQParameters();
 
 

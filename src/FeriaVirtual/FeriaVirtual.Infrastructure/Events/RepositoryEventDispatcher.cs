@@ -4,14 +4,14 @@ using FeriaVirtual.Infrastructure.Persistence;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 
-namespace FeriaVirtual.Infrastructure.Events.DBEventStore
+namespace FeriaVirtual.Infrastructure.Events
 {
-    public class RepositoryEventStore
-        : IEventSuscriber
+    public class RepositoryEventDispatcher
+        : IEventDispatcher
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public RepositoryEventStore() =>
+        public RepositoryEventDispatcher() =>
             _unitOfWork = new UnitOfWork(ContextManager.BuildContext(EventStoreConfig.Build()));
 
         public void Dispatch(DomainEventBase domainEvent)

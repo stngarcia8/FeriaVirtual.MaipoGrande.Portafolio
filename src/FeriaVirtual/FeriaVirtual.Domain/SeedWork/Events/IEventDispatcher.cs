@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FeriaVirtual.Domain.SeedWork.Events
 {
-    public interface  IEventSuscriber
+    public interface  IEventDispatcher
     {
         void Dispatch(DomainEventBase domainEvent);
 

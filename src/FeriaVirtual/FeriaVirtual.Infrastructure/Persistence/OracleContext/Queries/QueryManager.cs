@@ -9,15 +9,15 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 {
     sealed class QueryManager
     {
-        private  readonly OracleConnection _connection;
-        private  readonly OracleTransaction _transaction;
-        private  OracleCommand _command;
+        private readonly OracleConnection _connection;
+        private readonly OracleTransaction _transaction;
+        private OracleCommand _command;
 
 
         private QueryManager(OracleConnection connection, OracleTransaction transaction)
         {
-            _connection= connection;
-            _transaction= transaction;
+            _connection = connection;
+            _transaction = transaction;
             ConfigureCommand();
         }
 
@@ -33,19 +33,26 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 
         public void ExecuteStoredProcedure<TEntity>
             (string spName, TEntity entity)
-            where TEntity:EntityBase
+            where TEntity : EntityBase
         {
             var spExcecutor = StoredProcedureQuery.BuildQuery(_command);
             spExcecutor.Excecute(spName, entity);
         }
 
         public void ExecuteStoredProcedure
-            (string spName, Dictionary<string, object> parameters=null)
+            (string spName, Dictionary<string, object> parameters = null)
         {
             var spExcecutor = StoredProcedureQuery.BuildQuery(_command);
             spExcecutor.Excecute(spName, parameters);
         }
 
+        public IList<TViewModel> ExecuteQuery<TViewModel>
+            (string sqlStatement, Dictionary<string, object> parameters = null)
+            where TViewModel:IViewModelBase
+        {
+            var queryExcecutor = SelectionQuery.BuildQuery(_command);
+            return queryExcecutor.ExecuteQuery<TViewModel>(sqlStatement, parameters);
+        }
 
 
 

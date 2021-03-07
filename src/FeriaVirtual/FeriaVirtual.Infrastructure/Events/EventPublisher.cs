@@ -1,19 +1,17 @@
 ﻿using System.Collections.Generic;
 using FeriaVirtual.Domain.SeedWork.Events;
-using FeriaVirtual.Infrastructure.Events.DBEventStore;
-using FeriaVirtual.Infrastructure.Events.RabbitMQ;
 
 namespace FeriaVirtual.Infrastructure.Events
 {
     public class EventPublisher
         : IEventPublisher
     {
-        private readonly IList<IEventSuscriber> _suscribers;
+        private readonly IList<IEventDispatcher> _suscribers;
 
         public EventPublisher() =>
-            _suscribers = new List<IEventSuscriber> {
-                new RepositoryEventStore(),
-                new RabbitMQEventStore()
+            _suscribers = new List<IEventDispatcher> {
+                new RepositoryEventDispatcher()
+                // new RabbitMQEventDispatcher()
             };
 
 

@@ -13,6 +13,7 @@ namespace FeriaVirtual.IOC.Extension.DependencyInjection
             services.AddScoped<ICreateUserService, CreateUserService>();
             services.AddScoped<IUpdateUserService, UpdateUserService>();
             services.AddScoped<IEnableOrDisableUserService, EnableOrDisableUserService>();
+            services.AddScoped<IQueryUserService, QueryUserService>();
             return services;
         }
 

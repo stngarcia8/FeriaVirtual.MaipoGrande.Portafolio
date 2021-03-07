@@ -1,40 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 namespace FeriaVirtual.Infrastructure.Events.RabbitMQ
 {
-    class RabbitMQConfiguration
+    sealed class RabbitMQConfiguration
     {
-        public ConnectionFactory ConnectionFactory { get; }
-        private static IConnection _connection { get; set; }
-        private static IModel _channel { get; set; }
+        private ConnectionFactory  _connectionFactory;
 
-        public RabbitMQConfiguration()
+
+        public RabbitMQConfiguration() =>
+            ConfigureConnectionFactory();
+
+        private void ConfigureConnectionFactory()
         {
-            var parameters = RabbitMQParameters.GetParameters();
-            ConnectionFactory =  new ConnectionFactory { 
+            var parameters = RabbitMQParameters.Value();
+            _connectionFactory = new ConnectionFactory {
                 HostName = parameters.HostName,
-                UserName= parameters.UserName,
-                Password= parameters.Password,
-                Port= parameters.Port
+                UserName = parameters.UserName,
+                Password = parameters.Password
             };
         }
 
-        public IConnection Connection()
-        {
-            if(_connection==null) _connection= ConnectionFactory.CreateConnection();
-            return _connection;
-        }
-
-        public IModel Channel()
-        {
-            if(_channel is null) _channel= Connection().CreateModel();
-            return _channel;
-        }
-
-
-        
+        public IConnectionFactory GetConnection() => 
+            _connectionFactory;
 
 
     }

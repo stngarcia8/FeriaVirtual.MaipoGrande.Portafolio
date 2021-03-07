@@ -49,10 +49,18 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
         }
 
         public void SaveByStoredProcedure
-            (string storedProcedureName, Dictionary<string, object> parameters=null)
+            (string storedProcedureName, Dictionary<string, object> parameters = null)
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
             qm.ExecuteStoredProcedure(storedProcedureName, parameters);
+        }
+
+        public IList<TViewModel> Select<TViewModel>
+            (string sqlStatement, Dictionary<string, object> parameters = null)
+            where TViewModel : IViewModelBase
+        {
+            var qm = QueryManager.BuildManager(_connection, _transaction);
+            return qm.ExecuteQuery<TViewModel>(sqlStatement, parameters);
         }
 
         public void CommitInContext()
