@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FeriaVirtual.IOC.Extension.DependencyInjection;
+﻿using FeriaVirtual.IOC.Extension.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FeriaVirtual.IOC

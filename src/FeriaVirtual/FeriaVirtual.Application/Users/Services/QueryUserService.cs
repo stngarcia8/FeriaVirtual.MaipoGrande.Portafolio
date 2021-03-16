@@ -20,10 +20,25 @@ namespace FeriaVirtual.Application.Users.Services
             return _repository.SearchById<UserViewModel>(userGuid);
         }
 
-        public IList<UserViewModel> SearchAll(int pageNumber)
+        public IList<UserViewModel> SearchAll(int pageNumber=0) =>
+            _repository.SearchAll<UserViewModel>(pageNumber);
+
+
+        public IList<UserViewModel> SearchByCriteria(string filter)
         {
-            return _repository.SearchAll<UserViewModel>(pageNumber);
+            Func<UserViewModel, bool> criteria = (UserViewModel x) => x.LastName.ToLower().Contains(filter.ToLower());
+            return _repository.SearchByCriteria <UserViewModel>(criteria);
         }
+
+        public int CountAllUsers() =>
+            _repository.CountAllUsers();
+
+        public int CountEnabledUser() =>
+            _repository.CountEnabledUsers();
+
+        public int CountDisabledUser() =>
+            _repository.CountDisabledUsers();
+
 
     }
 }

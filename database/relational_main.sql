@@ -22,8 +22,14 @@ prompt;
 -- Excecute relational tablespace script
 @/script_files/relational/relational_init.sql;
 
+-- Excecute common script
+@/script_files/relational/common/common_tables.sql;
+@/script_files/relational/comon/common_procedures.sql;
+@/script_files/relational/common/common_populate.sql;
+
 -- user module objects.;
 @/script_files/relational/user_module/usermodule_tables.sql;
+@/script_files/relational/user_module/usermodule_views.sql;
 @/script_files/relational/user_module/usermodule_procedures.sql;
 @/script_files/relational/user_module/usermodule_populate.sql;
 

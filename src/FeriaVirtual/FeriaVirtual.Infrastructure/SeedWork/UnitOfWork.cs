@@ -1,7 +1,6 @@
 ﻿using System;
-using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 
-namespace FeriaVirtual.Infrastructure.Persistence
+namespace FeriaVirtual.Infrastructure.SeedWork
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -28,7 +27,7 @@ namespace FeriaVirtual.Infrastructure.Persistence
         public void Dispose(bool disposing)
         {
             if (_disposed) return;
-            if (disposing)  Context.CloseContext();
+            if (disposing) Context.CloseContext();
             _disposed = true;
         }
 
@@ -37,5 +36,5 @@ namespace FeriaVirtual.Infrastructure.Persistence
             Dispose(false);
         }
 
-}
+    }
 }

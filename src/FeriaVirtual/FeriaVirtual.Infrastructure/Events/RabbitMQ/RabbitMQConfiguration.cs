@@ -3,7 +3,7 @@ namespace FeriaVirtual.Infrastructure.Events.RabbitMQ
 {
     sealed class RabbitMQConfiguration
     {
-        private ConnectionFactory  _connectionFactory;
+        private ConnectionFactory _connectionFactory;
 
 
         public RabbitMQConfiguration() =>
@@ -19,7 +19,7 @@ namespace FeriaVirtual.Infrastructure.Events.RabbitMQ
             };
         }
 
-        public IConnectionFactory GetConnection() => 
+        public IConnectionFactory GetConnection() =>
             _connectionFactory;
 
 

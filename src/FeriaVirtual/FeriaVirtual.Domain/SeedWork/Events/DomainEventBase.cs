@@ -27,7 +27,7 @@ namespace FeriaVirtual.Domain.SeedWork.Events
 
         public abstract string EventName();
 
-        public string Serialize() => 
+        public string Serialize() =>
             JsonConvert.SerializeObject(Body);
 
         public override string ToString() =>

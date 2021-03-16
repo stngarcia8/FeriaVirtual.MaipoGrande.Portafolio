@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FeriaVirtual.Application.Users.Services
+namespace FeriaVirtual.Application.Users.Exceptions
 {
     public class InvalidUserServiceException
         : Exception

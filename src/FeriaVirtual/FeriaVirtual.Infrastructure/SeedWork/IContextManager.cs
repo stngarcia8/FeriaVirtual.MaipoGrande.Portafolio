@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FeriaVirtual.Domain.SeedWork;
 
-namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
+namespace FeriaVirtual.Infrastructure.SeedWork
 {
     public interface IContextManager
     {
@@ -14,9 +14,11 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
         void SaveByStoredProcedure
             (string storedProcedureName, Dictionary<string, object> parameters);
 
-        IList<TViewModel> Select<TViewModel>
+        IEnumerable<TViewModel> Select<TViewModel>
             (string sqlStatement, Dictionary<string, object> parameters = null)
             where TViewModel : IViewModelBase;
+
+        int Count(string sqlStatement);
 
         void CommitInContext();
 

@@ -16,6 +16,7 @@ namespace FeriaVirtual.IOC.Extension.DependencyInjection
 
             // events
             services.AddScoped<IEventPublisher, EventPublisher>();
+            services.AddScoped<ISessionRepository, SessionRepository>(); 
             return services;
         }
 

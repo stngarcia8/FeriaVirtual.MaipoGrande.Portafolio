@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using FeriaVirtual.Domain.SeedWork.Events;
-using FeriaVirtual.Infrastructure.Persistence;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
+using FeriaVirtual.Infrastructure.SeedWork;
 
 namespace FeriaVirtual.Infrastructure.Events
 {

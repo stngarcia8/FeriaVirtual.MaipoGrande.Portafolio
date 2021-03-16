@@ -1,4 +1,5 @@
 ﻿using FeriaVirtual.Application.Users.Dto;
+using FeriaVirtual.Application.Users.Exceptions;
 using FeriaVirtual.Application.Users.Interfaces;
 using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.Models.Users.Interfaces;

@@ -1,10 +1,9 @@
 ﻿using System;
-using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 
-namespace FeriaVirtual.Infrastructure.Persistence
+namespace FeriaVirtual.Infrastructure.SeedWork
 {
     public interface IUnitOfWork
-        :IDisposable
+        : IDisposable
     {
         IContextManager Context { get; }
 

@@ -22,7 +22,7 @@ namespace FeriaVirtual.Domain.SeedWork
         {
             var domainEvents = _events;
             _events = new List<DomainEventBase>();
-            return  domainEvents;
+            return domainEvents;
         }
 
 
@@ -33,5 +33,7 @@ namespace FeriaVirtual.Domain.SeedWork
             if (!rule.IsFailed()) return;
             throw new BusinessRuleValidationException(rule);
         }
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using FeriaVirtual.Domain.SeedWork;
 
 namespace FeriaVirtual.Domain.Models.Users.Interfaces
@@ -13,9 +14,24 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
 
         TViewModel SearchById<TViewModel>(Guid userId)
             where TViewModel : IViewModelBase;
-        IList<TViewModel> SearchAll<TViewModel>(int pageNumber)
+
+        IList<TViewModel> SearchAll<TViewModel>(int pageNumber = 1)
             where TViewModel : IViewModelBase;
 
+        IList<TViewModel> SearchEnableUsers<TViewModel>(int pageNumber = 1)
+            where TViewModel : IViewModelBase;
+
+        IList<TViewModel> SearchDisableUsers<TViewModel>(int pageNumber = 0)
+            where TViewModel : IViewModelBase;
+
+        IList<TViewModel> SearchByCriteria<TViewModel>
+            (Func<TViewModel, bool> filters = null)
+            where TViewModel : IViewModelBase;
+
+
+        int CountAllUsers();
+        int CountEnabledUsers();
+        int CountDisabledUsers();
 
     }
 }

@@ -5,26 +5,26 @@ using FluentValidation.Results;
 
 namespace FeriaVirtual.Domain.SeedWork.Validations
 {
-    public class BusinessRulesValidator<TEntity>
+    public class BusinessRulesValidator<TObject>
         : IBusinessRule
-        where TEntity : EntityBase
+        where TObject : class
     {
-        private readonly TEntity _entity;
-        private readonly AbstractValidator<TEntity> _rule;
+        private readonly TObject _entity;
+        private readonly AbstractValidator<TObject> _rule;
 
         public string Message { get; protected set; }
 
 
-        private BusinessRulesValidator(AbstractValidator<TEntity> rule, TEntity entity)
+        private BusinessRulesValidator(AbstractValidator<TObject> rule, TObject entity)
         {
             _rule = rule;
             _entity = entity;
             Message = string.Empty;
         }
 
-        public static BusinessRulesValidator<TEntity> BuildValidator
-            (AbstractValidator<TEntity> rule, TEntity entity) =>
-            new BusinessRulesValidator<TEntity>(rule, entity);
+        public static BusinessRulesValidator<TObject> BuildValidator
+            (AbstractValidator<TObject> rule, TObject entity) =>
+            new BusinessRulesValidator<TObject>(rule, entity);
 
         public bool IsFailed()
         {

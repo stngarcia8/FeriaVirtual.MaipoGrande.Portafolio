@@ -6,7 +6,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
         : Exception
     {
         public DBContextFailedException(string message)
-            :base(message){ }
+            : base(message) { }
 
 
     }

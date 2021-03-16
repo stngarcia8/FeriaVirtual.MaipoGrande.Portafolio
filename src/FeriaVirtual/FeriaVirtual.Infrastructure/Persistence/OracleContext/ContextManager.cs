@@ -4,6 +4,7 @@ using FeriaVirtual.Domain.SeedWork;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.RegionalInfo;
+using FeriaVirtual.Infrastructure.SeedWork;
 using Oracle.ManagedDataAccess.Client;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
@@ -55,12 +56,18 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
             qm.ExecuteStoredProcedure(storedProcedureName, parameters);
         }
 
-        public IList<TViewModel> Select<TViewModel>
+        public IEnumerable<TViewModel> Select<TViewModel>
             (string sqlStatement, Dictionary<string, object> parameters = null)
             where TViewModel : IViewModelBase
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
             return qm.ExecuteQuery<TViewModel>(sqlStatement, parameters);
+        }
+
+        public int Count(string sqlStatement)
+        {
+            var qm = QueryManager.BuildManager(_connection, _transaction);
+            return qm.ExecuteQuery<int>(sqlStatement);
         }
 
         public void CommitInContext()

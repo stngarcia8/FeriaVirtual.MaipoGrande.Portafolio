@@ -6,7 +6,11 @@ namespace FeriaVirtual.Application.Users.Interfaces
     public interface IQueryUserService
     {
         UserViewModel SearchById(string userId);
-        IList<UserViewModel> SearchAll(int pageNumber);
+        IList<UserViewModel> SearchAll(int pageNumber = 0);
+        IList<UserViewModel> SearchByCriteria(string filter);
+        int CountAllUsers();
+        int CountEnabledUser();
+        int CountDisabledUser();
 
 
     }

@@ -23,7 +23,7 @@ BEGIN
     FROM fv_user.setting;
 
     vStartValue := trunc(
-        ((pPageNumber * vRowsPerPage) - vRowsPerPage) + 1
+        ((pPageNumber * vRowsPerPage) - vRowsPerPage)
         );
 
     RETURN vStartValue;

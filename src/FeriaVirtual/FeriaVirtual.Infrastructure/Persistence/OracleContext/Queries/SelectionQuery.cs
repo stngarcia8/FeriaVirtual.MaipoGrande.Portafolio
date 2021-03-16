@@ -17,7 +17,24 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         public static SelectionQuery BuildQuery(OracleCommand command) =>
             new SelectionQuery(command);
 
-        public IList<TViewModel> ExecuteQuery<TViewModel>
+        public TResult ExecuteQuery<TResult>(string spName)
+        {
+            try {
+                if (string.IsNullOrWhiteSpace(spName)) {
+                    throw new QueryExecutorFailedException("No ha especificado una consulta de selección para ejecutar.");
+                }
+                ConfigureCommand(spName);
+                AddResultsParameter();
+                return (TResult)Convert.ChangeType(_command.ExecuteScalar(), typeof(TResult));
+
+            } catch (Exception ex) {
+                string message = $"Error en consulta de selección, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
+                throw new QueryExecutorFailedException(message);
+            }
+        }
+
+
+        public IEnumerable<TViewModel> ExecuteQuery<TViewModel>
             (string sqlStatement, Dictionary<string, object> parameters = null)
             where TViewModel : IViewModelBase
         {
@@ -90,13 +107,5 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         }
 
 
-
-
-
-
-
-
-
-
-    }
+   }
 }

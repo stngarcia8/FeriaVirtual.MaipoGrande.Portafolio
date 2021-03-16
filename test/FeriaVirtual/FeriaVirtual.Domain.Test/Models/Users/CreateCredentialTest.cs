@@ -1,9 +1,6 @@
-﻿using System;
-using Xunit;
-using FeriaVirtual.Domain.Models.Users;
-using System.Collections.Generic;
-using System.Text;
+﻿using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.SeedWork.Validations;
+using Xunit;
 
 namespace FeriaVirtual.Domain.Test.Models.Users
 {

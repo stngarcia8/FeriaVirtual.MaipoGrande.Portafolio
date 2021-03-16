@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Data;
-using Oracle.ManagedDataAccess.Client;
 using System.Collections.Generic;
-using System.Text;
+using System.Data;
 using FeriaVirtual.Domain.SeedWork;
+using Oracle.ManagedDataAccess.Client;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 {
@@ -27,7 +26,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         {
             _command.Parameters.Add(new OracleParameter {
                 ParameterName = "pResults",
-                OracleDbType= OracleDbType.RefCursor,
+                OracleDbType = OracleDbType.RefCursor,
                 Direction = ParameterDirection.Output
             });
         }
@@ -35,7 +34,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         protected void ClearParameters() =>
             _command.Parameters.Clear();
 
-        public  void CreateStoredProcedureParameters<TEntity>(TEntity entity)
+        public void CreateStoredProcedureParameters<TEntity>(TEntity entity)
             where TEntity : EntityBase
         {
             foreach (KeyValuePair<string, object> primitive in entity.GetPrimitives()) {

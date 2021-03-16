@@ -1,6 +1,7 @@
 ﻿using System;
+using FeriaVirtual.Application.Users.Dto;
 using FeriaVirtual.Application.Users.Interfaces;
-using FeriaVirtual.ConsoleApp.Users;
+using FeriaVirtual.Application.Users.ViewModels;
 using FeriaVirtual.IOC;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -43,15 +44,34 @@ namespace FeriaVirtual.ConsoleApp
                 var pageNumber = 1;
                 while (ciclo) {
                     var usuarios = queryUserService.SearchAll(pageNumber);
-                    if(!usuarios.Count.Equals(0)) {
-                        Console.WriteLine($"Pagina :{pageNumber.ToString()}");
+                    if (!usuarios.Count.Equals(0)) {
+                        Console.WriteLine($"Pagina :{pageNumber}");
                         foreach (var usuario in usuarios)
                             Console.WriteLine(usuario);
                         pageNumber++;
                     } else {
-                        ciclo= false;
+                        ciclo = false;
                     }
                 }
+
+                Console.WriteLine($"Usuarios registrados: {queryUserService.CountAllUsers()}");
+                Console.WriteLine($"Usuarios habilitados: {queryUserService.CountEnabledUser()}");
+                Console.WriteLine($"Usuarios deshabilitados: {queryUserService.CountDisabledUser()}");
+
+
+                Console.WriteLine();
+                Console.WriteLine();
+                var misUsuarios = queryUserService.SearchByCriteria("Asathor");
+                foreach (var miUsuario in misUsuarios)
+                    Console.WriteLine(miUsuario);
+
+                var signinService =  serviceProvider.GetService<ISignInUserService>();
+                var signinData = new SignInUserDto { 
+                Username="d.garcial", Password="@Admin.8475@"};
+                UserSignInViewModel userLogged = signinService.SignIn(signinData);
+                Console.WriteLine($"Usuario loggeado: {userLogged}");
+
+
                 Console.WriteLine("Termine!!!!");
 
 

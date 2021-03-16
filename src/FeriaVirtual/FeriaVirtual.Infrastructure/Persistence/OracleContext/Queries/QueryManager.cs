@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using FeriaVirtual.Domain.SeedWork;
 using Oracle.ManagedDataAccess.Client;
 
@@ -46,9 +43,16 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
             spExcecutor.Excecute(spName, parameters);
         }
 
-        public IList<TViewModel> ExecuteQuery<TViewModel>
+        public TResult ExecuteQuery<TResult>
+            (string sqlStatement)
+        {
+            var queryExcecutor = SelectionQuery.BuildQuery(_command);
+            return queryExcecutor.ExecuteQuery<TResult>(sqlStatement);
+        }
+
+        public IEnumerable<TViewModel> ExecuteQuery<TViewModel>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel:IViewModelBase
+            where TViewModel : IViewModelBase
         {
             var queryExcecutor = SelectionQuery.BuildQuery(_command);
             return queryExcecutor.ExecuteQuery<TViewModel>(sqlStatement, parameters);

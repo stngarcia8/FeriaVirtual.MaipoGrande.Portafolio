@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace FeriaVirtual.Infrastructure
 {
-    public class LoadConfiguration 
+    public class LoadConfiguration
         : ILoadConfiguration
     {
         private IConfigurationRoot _configurationRoot;

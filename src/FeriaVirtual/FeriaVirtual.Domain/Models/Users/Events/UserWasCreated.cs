@@ -12,7 +12,7 @@ namespace FeriaVirtual.Domain.Models.Users.Events
         public UserWasCreated(Guid eventId, object content)
             : base(eventId, content) { }
 
-        public override string EventName() => 
+        public override string EventName() =>
             "User.UserWasCreated";
 
     }

@@ -7,7 +7,7 @@ namespace FeriaVirtual.Domain.Test.Models.Users
 {
     public class UpdateUserTest
     {
-        Guid  id = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
         const string firstname = "Firstname";
         const string lastname = "Lastname";
         const string dni = "12345678-9";
