@@ -157,13 +157,17 @@ BEGIN
         vEnd := fn_end_pagination(pPageNumber);
 
         OPEN pResults FOR
-            SELECT *
+            SELECT UserId,
+                   FirstName || ' ' || LastName AS FullName,
+                Dni, ProfileName, Username, Email, UserStatus
             FROM fv_user.vw_users
             OFFSET vStart ROWS FETCH NEXT vEnd ROWS ONLY;
     ELSE
 
         OPEN pResults FOR
-            SELECT *
+            SELECT UserId,
+                   FirstName || ' ' || LastName AS FullName,
+                   Dni, ProfileName, Username, Email, UserStatus
             FROM fv_user.vw_users;
 
     END IF;

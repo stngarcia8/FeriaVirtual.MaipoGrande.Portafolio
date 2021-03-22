@@ -24,7 +24,7 @@ prompt;
 
 -- Excecute common script
 @/script_files/relational/common/common_tables.sql;
-@/script_files/relational/comon/common_procedures.sql;
+@/script_files/relational/common/common_procedures.sql;
 @/script_files/relational/common/common_populate.sql;
 
 -- user module objects.;
