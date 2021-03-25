@@ -6,7 +6,7 @@ using System;
 
 namespace FeriaVirtual.Api.Local.Controllers.Users
 {
-    [Route("api/[controller]")]
+
     [ApiController]
     public class CreateUserController
         : ControllerBase
@@ -19,6 +19,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
 
 
         [HttpPost]
+        [Route("api/users/create")]
         public IActionResult Post([FromBody] CreateUserDto userDto)
         {
             try {

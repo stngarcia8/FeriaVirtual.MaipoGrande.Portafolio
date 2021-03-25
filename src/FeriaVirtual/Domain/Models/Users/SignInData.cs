@@ -17,7 +17,6 @@ namespace FeriaVirtual.Domain.Models.Users
             Username = username;
             Password = password;
             ValidateVars();
-            EncriptPassword();
         }
 
         private void ValidateVars()
@@ -26,11 +25,6 @@ namespace FeriaVirtual.Domain.Models.Users
             CheckRule(BusinessRulesValidator<SignInData>.BuildValidator(signinRule, this));
         }
 
-        private void EncriptPassword()
-        {
-            IEncriptor encryptor = EncriptSha1.CreateEncriptor(Password);
-            Password = encryptor.GetEncriptedPassword();
-        }
 
         protected  override IEnumerable<object> GetAtomicValues()
         {

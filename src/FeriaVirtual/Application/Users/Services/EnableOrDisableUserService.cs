@@ -22,21 +22,23 @@ namespace FeriaVirtual.Application.Users.Services
         }
 
 
-        public void EnableUser(EnableOrDisableUserDto userDto)
+        public void EnableUser(string userId)
         {
-            if (userDto is null) {
-                throw new InvalidUserServiceException("Datos de usuario nulos.");
+            if (string.IsNullOrWhiteSpace(userId)) {
+                throw new InvalidUserServiceException("Identificador de usuario inválido.");
             }
-            _repository.EnableUser(userDto.UserId);
+            var newUserId = new Guid(userId);
+            _repository.EnableUser(newUserId);
         }
 
 
-        public void DisableUser(EnableOrDisableUserDto userDto)
+        public void DisableUser(string userId)
         {
-            if (userDto is null) {
-                throw new InvalidUserServiceException("Datos de usuario nulos.");
+            if (string.IsNullOrWhiteSpace(userId)) {
+                throw new InvalidUserServiceException("Identificador de usuario inválido.");
             }
-            _repository.DisableUser(userDto.UserId);
+            var newUserId = new Guid(userId);
+            _repository.DisableUser(newUserId);
         }
 
 

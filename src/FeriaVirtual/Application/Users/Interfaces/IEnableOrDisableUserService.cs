@@ -4,8 +4,8 @@ namespace FeriaVirtual.Application.Users.Interfaces
 {
     public interface IEnableOrDisableUserService
     {
-        void EnableUser(EnableOrDisableUserDto userDto);
-        void DisableUser(EnableOrDisableUserDto userDto);
+        void EnableUser(string userId);
+        void DisableUser(string userId);
 
 
     }

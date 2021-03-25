@@ -6,18 +6,19 @@ using System;
 namespace FeriaVirtual.Api.Local.Controllers.Users
 {
 
-    [Route("api/[controller]")]
     [ApiController]
     public class UpdateUserController
         : ControllerBase
     {
         private readonly IUpdateUserService _updateService;
 
+
         public UpdateUserController(IUpdateUserService updateService) =>
             _updateService = updateService;
 
 
         [HttpPut]
+        [Route("api/users/update")]
         public IActionResult Put([FromBody] UpdateUserDto userDto)
         {
             try {

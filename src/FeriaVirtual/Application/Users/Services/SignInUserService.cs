@@ -13,7 +13,7 @@ namespace FeriaVirtual.Application.Users.Services
         private readonly ISessionRepository _repository;
 
 
-        public  SignInUserService(ISessionRepository repository)
+        public SignInUserService(ISessionRepository repository)
         {
             _repository = repository;
         }

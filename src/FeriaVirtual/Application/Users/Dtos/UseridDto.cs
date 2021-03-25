@@ -2,12 +2,12 @@
 
 namespace FeriaVirtual.Application.Users.Dtos
 {
-    public class EnableOrDisableUserDto
+    public class UseridDto
     {
         public Guid UserId { get; protected set; }
 
 
-        public EnableOrDisableUserDto(string userId) =>
+        public UseridDto(string userId) =>
             UserId = new Guid(userId);
 
 
