@@ -1,5 +1,7 @@
 ﻿using FeriaVirtual.Application.Users.Dtos;
 using FeriaVirtual.Application.Users.Interfaces;
+using FeriaVirtual.Application.Users.Services.Create;
+using FeriaVirtual.Domain.SeedWork.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -11,11 +13,11 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
     public class CreateUserController
         : ControllerBase
     {
-        private readonly ICreateUserService _createUserService;
+        private readonly ICommandBus _commandBus;
 
 
-        public CreateUserController(ICreateUserService createUserService) =>
-            _createUserService = createUserService;
+        public CreateUserController(ICommandBus commandBus) =>
+            _commandBus = commandBus;
 
 
         [HttpPost]
@@ -23,7 +25,16 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult Post([FromBody] CreateUserDto userDto)
         {
             try {
-                _createUserService.Create(userDto);
+                var userCommand = CreateUserCommandBuilder.GetInstance()
+                    .Firstname(userDto.Firstname)
+                    .Lastname(userDto.Lastname)
+                    .Dni(userDto.Dni)
+                    .ProfileId(userDto.ProfileId)
+                    .Username(userDto.Username)
+                    .Password(userDto.Password)
+                    .Email(userDto.Email)
+                    .Build();
+                _commandBus.Dispatch(userCommand);
                 return StatusCode(201, $"Usuario {userDto.Firstname} {userDto.Lastname} creado correctamente.");
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);

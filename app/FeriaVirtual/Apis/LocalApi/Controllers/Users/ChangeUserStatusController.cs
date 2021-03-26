@@ -1,5 +1,7 @@
-﻿using FeriaVirtual.Application.Users.Dtos;
+﻿using FeriaVirtual.Application.Users.Commands.ChangeStatus;
+using FeriaVirtual.Application.Users.Dtos;
 using FeriaVirtual.Application.Users.Interfaces;
+using FeriaVirtual.Domain.SeedWork.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -9,11 +11,11 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
     public class ChangeUserStatusController
         : ControllerBase
     {
-        private readonly IEnableOrDisableUserService _userService;
+        private readonly ICommandBus _commandBus;
 
 
-        public ChangeUserStatusController(IEnableOrDisableUserService userService) =>
-            _userService = userService;
+        public ChangeUserStatusController(ICommandBus commandBus) =>
+            _commandBus= commandBus;
 
 
         [HttpPatch]
@@ -21,7 +23,8 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult Patch(string userid)
         {
             try {
-                _userService.EnableUser(userid);
+                var command= new ChangeUserStatusCommand(userid, 1);
+                _commandBus.Dispatch(command);
                 return StatusCode(201, "El usuario fue habilitado.");
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);
@@ -34,7 +37,8 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult DisableUser(string userid)
         {
             try {
-                _userService.DisableUser(userid);
+                var command = new ChangeUserStatusCommand(userid, 0);
+                _commandBus.Dispatch(command);
                 return StatusCode(201, "El usuario fue inhabilitado.");
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);

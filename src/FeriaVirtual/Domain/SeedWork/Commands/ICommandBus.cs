@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-
-namespace FeriaVirtual.Domain.SeedWork.Commands
+﻿namespace FeriaVirtual.Domain.SeedWork.Commands
 {
     public interface ICommandBus
     {
-        void  Dispatch(Command command);
+        void Dispatch(Command command);
 
 
     }
