@@ -4,7 +4,7 @@ namespace FeriaVirtual.Domain.SeedWork.Events
 {
     public interface IEventBus
     {
-        void Publish(IList<DomainEventBase> eventCollection);
+        void Publish(DomainEventCollection eventCollection);
 
 
     }

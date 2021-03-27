@@ -20,11 +20,7 @@ namespace FeriaVirtual.Domain.SeedWork.Events
         public void ClearEvents() =>
             _events.Clear();
 
-        public void Publish(IEventBus eventBus)
-        {
-            eventBus.Publish(_events);
-            _events.Clear();
-        }
+
 
     }
 }
