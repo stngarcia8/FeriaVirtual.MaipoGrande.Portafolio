@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.Domain.SeedWork;
+﻿using FeriaVirtual.Domain.SeedWork.Query;
 
 namespace FeriaVirtual.Domain.Models.Users.Interfaces
 {
@@ -6,7 +6,7 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
     {
         TViewModel SignIn<TViewModel>
             (string username, string password)
-            where TViewModel : IViewModelBase;
+            where TViewModel : IQueryResponseBase;
 
 
     }

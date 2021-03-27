@@ -1,5 +1,4 @@
 ﻿using FeriaVirtual.Application.Users.Dtos;
-using FeriaVirtual.Application.Users.Interfaces;
 using FeriaVirtual.Application.Users.Services.Create;
 using FeriaVirtual.Domain.SeedWork.Commands;
 using Microsoft.AspNetCore.Mvc;

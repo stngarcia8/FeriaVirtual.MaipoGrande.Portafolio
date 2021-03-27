@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.Domain.SeedWork;
+﻿using FeriaVirtual.Domain.SeedWork.Query;
 using System;
 using System.Collections.Generic;
 
@@ -12,20 +12,20 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
         void DisableUser(Guid userId);
 
         TViewModel SearchById<TViewModel>(Guid userId)
-            where TViewModel : IViewModelBase;
+            where TViewModel : IQueryResponseBase;
 
-        IList<TViewModel> SearchAll<TViewModel>(int pageNumber = 1)
-            where TViewModel : IViewModelBase;
+        IEnumerable<TViewModel> SearchAll<TViewModel>(int pageNumber = 1)
+            where TViewModel : IQueryResponseBase;
 
         IList<TViewModel> SearchEnableUsers<TViewModel>(int pageNumber = 1)
-            where TViewModel : IViewModelBase;
+            where TViewModel : IQueryResponseBase;
 
         IList<TViewModel> SearchDisableUsers<TViewModel>(int pageNumber = 0)
-            where TViewModel : IViewModelBase;
+            where TViewModel : IQueryResponseBase;
 
         IList<TViewModel> SearchByCriteria<TViewModel>
             (Func<TViewModel, bool> filters = null)
-            where TViewModel : IViewModelBase;
+            where TViewModel : IQueryResponseBase;
 
         int CountAllUsers();
         int CountEnabledUsers();

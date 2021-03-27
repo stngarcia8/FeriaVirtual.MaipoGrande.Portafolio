@@ -223,7 +223,7 @@ CREATE OR REPLACE PROCEDURE fv_user.sp_count_allusers(
 ) AS
 BEGIN
     OPEN pResults FOR
-        SELECT COUNT(*)
+        SELECT COUNT(*) AS Total
         FROM fv_user.user_registration;
 END sp_count_allusers;
 /

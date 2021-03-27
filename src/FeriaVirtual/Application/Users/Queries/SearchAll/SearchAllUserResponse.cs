@@ -1,9 +1,9 @@
-﻿using FeriaVirtual.Domain.SeedWork;
+﻿using FeriaVirtual.Domain.SeedWork.Query;
 
-namespace FeriaVirtual.Application.Users.ViewModels
+namespace FeriaVirtual.Application.Users.Queries.SearchAll
 {
-    public class UserListViewModel
-        : IViewModelBase
+    public class SearchAllUserResponse
+        :IQueryResponseBase
     {
         public string UserId { get; set; }
         public string FullName { get; set; }
@@ -14,11 +14,7 @@ namespace FeriaVirtual.Application.Users.ViewModels
         public string UserStatus { get; set; }
 
 
-        public UserListViewModel() { }
-
-
-        public override string ToString() =>
-            FullName;
+        public SearchAllUserResponse() { }
 
 
     }

@@ -1,4 +1,5 @@
 ﻿using FeriaVirtual.Domain.SeedWork;
+using FeriaVirtual.Domain.SeedWork.Query;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.RegionalInfo;
@@ -58,7 +59,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
 
         public IEnumerable<TViewModel> Select<TViewModel>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel : IViewModelBase
+            where TViewModel : IQueryResponseBase
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
             return qm.ExecuteQuery<TViewModel>(sqlStatement, parameters);

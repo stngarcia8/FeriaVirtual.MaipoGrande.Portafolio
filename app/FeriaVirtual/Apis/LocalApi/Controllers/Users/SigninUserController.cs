@@ -1,5 +1,6 @@
 ﻿using FeriaVirtual.Application.Users.Dtos;
-using FeriaVirtual.Application.Users.Interfaces;
+using FeriaVirtual.Application.Users.Queries.Signin;
+using FeriaVirtual.Domain.SeedWork.Query;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -9,11 +10,11 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
     public class SigninUserController
         : ControllerBase
     {
-        private readonly ISignInUserService _userService;
+        private readonly IQueryBus _queryBus;
 
 
-        public SigninUserController(ISignInUserService userService) =>
-            _userService = userService;
+        public SigninUserController(IQueryBus queryBus) =>
+            _queryBus = queryBus;
 
 
         [HttpPost]
@@ -21,7 +22,8 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult SignIn([FromBody] SignInUserDto userDto)
         {
             try {
-                var result = _userService.SignIn(userDto);
+                var userQuery = new UserSigninQuery(userDto.Username, userDto.Password);
+                var result = _queryBus.Ask<UserSigninResponse>(userQuery);
                 return StatusCode(200, result);
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);

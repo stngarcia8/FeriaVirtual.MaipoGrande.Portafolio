@@ -1,4 +1,5 @@
 ﻿using FeriaVirtual.Domain.SeedWork;
+using FeriaVirtual.Domain.SeedWork.Query;
 using Oracle.ManagedDataAccess.Client;
 using System.Collections.Generic;
 
@@ -55,7 +56,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 
         public IEnumerable<TViewModel> ExecuteQuery<TViewModel>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel : IViewModelBase
+            where TViewModel : IQueryResponseBase
         {
             var queryExcecutor = SelectionQuery.BuildQuery(_command);
             return queryExcecutor.ExecuteQuery<TViewModel>(sqlStatement, parameters);

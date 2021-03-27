@@ -1,5 +1,5 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
-using FeriaVirtual.Domain.SeedWork;
+using FeriaVirtual.Domain.SeedWork.Query;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 using FeriaVirtual.Infrastructure.SeedWork;
@@ -24,12 +24,13 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 
         public TViewModel SignIn<TViewModel>
             (string username, string password)
-            where TViewModel : IViewModelBase
+            where TViewModel : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("Username", username);
             _parameters.Add("Password", password);
-            return _unitOfWork.Context.Select<TViewModel>("sp_signin_user", _parameters).FirstOrDefault();
+            var result = _unitOfWork.Context.Select<TViewModel>("sp_signin_user", _parameters).FirstOrDefault();
+            return result;
         }
 
 

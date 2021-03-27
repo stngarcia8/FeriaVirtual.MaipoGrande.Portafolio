@@ -1,9 +1,9 @@
-﻿using FeriaVirtual.Application.Users.Interfaces;
+﻿using FeriaVirtual.Application.Users.Queries.Counter;
+using FeriaVirtual.Application.Users.Queries.SearchAll;
+using FeriaVirtual.Application.Users.Queries.SearchById;
+using FeriaVirtual.Domain.SeedWork.Query;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +13,11 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
     public class QueryUserController
         : ControllerBase
     {
-        private readonly IQueryUserService _userService;
+        private readonly IQueryBus _queryBus;
 
 
-        public QueryUserController(IQueryUserService userService) =>
-            _userService = userService;
+        public QueryUserController(IQueryBus queryBus) =>
+            _queryBus = queryBus;
 
 
         [HttpGet]
@@ -25,7 +25,8 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult GetById(string userid)
         {
             try {
-                var result = _userService.SearchById(userid);
+                var query = new SearchUserByIdQuery(userid);
+                var result = _queryBus.Ask<SearchUserByIdResponse>(query);
                 return StatusCode(200, result);
 
             } catch (Exception ex) {
@@ -39,9 +40,10 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult GetAll(int pageNumber = 0)
         {
             try {
-                var results = _userService.SearchAll(pageNumber);
-                return StatusCode(200, results);
-            } catch(Exception ex) {
+                var query = new SearchAllUserQuery(pageNumber);
+                SearchAllUsersResponse results = _queryBus.Ask<SearchAllUsersResponse>(query);
+                return StatusCode(200, results.AllUsers);
+            } catch (Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }
@@ -52,7 +54,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult GetCount()
         {
             try {
-                var results = _userService.Count();
+                var results = _queryBus.Ask<UserCounterResponse>(new UserCounterQuery());
                 return StatusCode(200, results);
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);

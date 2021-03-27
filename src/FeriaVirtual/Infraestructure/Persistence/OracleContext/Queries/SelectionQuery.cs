@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.Domain.SeedWork;
+﻿using FeriaVirtual.Domain.SeedWork.Query;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 
         public IEnumerable<TViewModel> ExecuteQuery<TViewModel>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel : IViewModelBase
+            where TViewModel : IQueryResponseBase
         {
             if (string.IsNullOrWhiteSpace(sqlStatement)) {
                 throw new QueryExecutorFailedException("No ha especificado una consulta de selección para ejecutar.");
@@ -63,7 +63,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 
         private IList<TViewModel> ExtractNativeTypes<TViewModel>
             (IList<TViewModel> results)
-            where TViewModel : IViewModelBase
+            where TViewModel : IQueryResponseBase
         {
             try {
                 var dataReader = _command.ExecuteReader();
@@ -80,7 +80,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 
         private IList<TViewModel> ExtractCustomTypes<TViewModel>
             (IList<TViewModel> results)
-            where TViewModel : IViewModelBase
+            where TViewModel : IQueryResponseBase
         {
             try {
                 PropertyInfo[] properties = typeof(TViewModel).GetProperties();

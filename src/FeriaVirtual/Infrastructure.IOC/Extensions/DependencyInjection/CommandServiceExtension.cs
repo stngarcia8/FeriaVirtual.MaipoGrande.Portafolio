@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace FeriaVirtual.Infrastructure.IOC.Extensions.DependencyInjection
 {
-    public static class CommandServices
+    public static class CommandServiceExtension
     {
         public static IServiceCollection AddCommandServices
             (this IServiceCollection services, Assembly assembly)

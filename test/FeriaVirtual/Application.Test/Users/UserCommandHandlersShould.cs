@@ -3,6 +3,7 @@ using FeriaVirtual.Application.Users.Commands.Update;
 using FeriaVirtual.Application.Users.Exceptions;
 using FeriaVirtual.Application.Users.Services.Create;
 using FeriaVirtual.Domain.Models.Users;
+using FeriaVirtual.Domain.Models.Users.Interfaces;
 using Moq;
 using System;
 using Xunit;
@@ -10,11 +11,12 @@ using Xunit;
 namespace Application.Test.Users
 {
     public class UserCommandHandlersShould
-        : UserModuleTestCase
     {
+        private  readonly Mock<IUserRepository> _repository;
 
-        public UserCommandHandlersShould()
-            : base() { }
+
+        public UserCommandHandlersShould() =>
+            _repository = new Mock<IUserRepository>();
 
 
         [Fact]

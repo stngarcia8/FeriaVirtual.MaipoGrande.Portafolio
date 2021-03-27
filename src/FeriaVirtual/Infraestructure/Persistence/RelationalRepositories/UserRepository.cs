@@ -1,6 +1,6 @@
 ﻿using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.Models.Users.Interfaces;
-using FeriaVirtual.Domain.SeedWork;
+using FeriaVirtual.Domain.SeedWork.Query;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 using FeriaVirtual.Infrastructure.SeedWork;
@@ -58,7 +58,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 
         public TViewModel SearchById<TViewModel>
             (Guid userId)
-            where TViewModel : IViewModelBase
+            where TViewModel : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("UserId", userId.ToString());
@@ -66,8 +66,8 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         }
 
 
-        public IList<TViewModel> SearchAll<TViewModel>(int pageNumber = 0)
-            where TViewModel : IViewModelBase
+        public IEnumerable<TViewModel> SearchAll<TViewModel>(int pageNumber = 0)
+            where TViewModel : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("PageNumber", pageNumber);
@@ -77,19 +77,19 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 
 
         public IList<TViewModel> SearchEnableUsers<TViewModel>(int pageNumber = 1)
-            where TViewModel : IViewModelBase =>
+            where TViewModel : IQueryResponseBase =>
             _unitOfWork.Context.Select<TViewModel>("sp_get_enableusers", _parameters)
             .ToList();
 
 
         public IList<TViewModel> SearchDisableUsers<TViewModel>(int pageNumber = 1)
-            where TViewModel : IViewModelBase =>
+            where TViewModel : IQueryResponseBase =>
             _unitOfWork.Context.Select<TViewModel>("sp_get_disableusers", _parameters)
             .ToList();
 
         public IList<TViewModel> SearchByCriteria<TViewModel>
             (Func<TViewModel, bool> filters = null)
-        where TViewModel : IViewModelBase
+        where TViewModel : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("PageNumber", 0);
@@ -101,6 +101,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 
         public int CountAllUsers() =>
             _unitOfWork.Context.Count("sp_count_allusers");
+
 
         public int CountEnabledUsers() =>
             _unitOfWork.Context.Count("sp_count_enabledusers");

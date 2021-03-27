@@ -1,6 +1,4 @@
 ﻿using FeriaVirtual.Application.Users.Commands.ChangeStatus;
-using FeriaVirtual.Application.Users.Dtos;
-using FeriaVirtual.Application.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,7 +13,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
 
 
         public ChangeUserStatusController(ICommandBus commandBus) =>
-            _commandBus= commandBus;
+            _commandBus = commandBus;
 
 
         [HttpPatch]
@@ -23,7 +21,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult Patch(string userid)
         {
             try {
-                var command= new ChangeUserStatusCommand(userid, 1);
+                var command = new ChangeUserStatusCommand(userid, 1);
                 _commandBus.Dispatch(command);
                 return StatusCode(201, "El usuario fue habilitado.");
             } catch (Exception ex) {

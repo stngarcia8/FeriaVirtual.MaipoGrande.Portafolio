@@ -1,4 +1,5 @@
 ﻿using FeriaVirtual.Domain.SeedWork;
+using FeriaVirtual.Domain.SeedWork.Query;
 using System.Collections.Generic;
 
 namespace FeriaVirtual.Infrastructure.SeedWork
@@ -16,7 +17,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork
 
         IEnumerable<TViewModel> Select<TViewModel>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel : IViewModelBase;
+            where TViewModel : IQueryResponseBase;
 
         int Count(string sqlStatement);
 
