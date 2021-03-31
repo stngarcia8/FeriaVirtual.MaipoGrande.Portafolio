@@ -175,48 +175,6 @@ END sp_get_allusers;
 /
 
 
-prompt   - sp_get_enableusers;
-CREATE OR REPLACE PROCEDURE fv_user.sp_get_enableusers(
-    pPageNumber  NUMBER,
-    pResults OUT SYS_REFCURSOR
-) AS
-    vStart NUMBER;
-    vEnd   NUMBER;
-BEGIN
-
-    vStart := fn_start_pagination(pPageNumber);
-    vEnd := fn_end_pagination(pPageNumber);
-
-    OPEN pResults FOR
-        SELECT *
-        FROM fv_user.vw_users
-        WHERE IsActive = 1
-        OFFSET vStart ROWS FETCH NEXT vEnd ROWS ONLY;
-END sp_get_enableusers;
-/
-
-
-prompt   - sp_get_disableusers;
-CREATE OR REPLACE PROCEDURE fv_user.sp_get_disableusers(
-    pPageNumber  NUMBER,
-    pResults OUT SYS_REFCURSOR
-) AS
-    vStart NUMBER;
-    vEnd   NUMBER;
-BEGIN
-
-    vStart := fn_start_pagination(pPageNumber);
-    vEnd := fn_end_pagination(pPageNumber);
-
-    OPEN pResults FOR
-        SELECT *
-        FROM fv_user.vw_users
-        WHERE IsActive = 0
-        OFFSET vStart ROWS FETCH NEXT vEnd ROWS ONLY;
-END sp_get_disableusers;
-/
-
-
 prompt   - sp_count_allusers;
 CREATE OR REPLACE PROCEDURE fv_user.sp_count_allusers(
     pResults OUT SYS_REFCURSOR
@@ -224,35 +182,68 @@ CREATE OR REPLACE PROCEDURE fv_user.sp_count_allusers(
 BEGIN
     OPEN pResults FOR
         SELECT COUNT(*) AS Total
-        FROM fv_user.user_registration;
+        FROM fv_user.user_registration
+        WHERE ProfileId > 2;
 END sp_count_allusers;
 /
 
-prompt   - sp_count_enabledusers;
-CREATE OR REPLACE PROCEDURE fv_user.sp_count_enabledusers(
+
+prompt   - sp_get_employee;
+CREATE OR REPLACE PROCEDURE fv_user.sp_get_employee(
+    pUserId      VARCHAR2,
     pResults OUT SYS_REFCURSOR
-) AS
+) IS
 BEGIN
     OPEN pResults FOR
-        SELECT COUNT(usr.CredentialId)
-        FROM fv_user.user_registration        usr
-                 JOIN fv_user.user_credential cre ON usr.CredentialId = cre.CredentialId
-        WHERE cre.IsActive = 1;
-END sp_count_enabledusers;
+        SELECT *
+        FROM fv_user.vw_employees
+        WHERE UserId = pUserId;
+END sp_get_employee;
 /
 
 
-prompt   - sp_count_disabledusers;
-CREATE OR REPLACE PROCEDURE fv_user.sp_count_disabledusers(
+prompt   - sp_get_allemployees;
+CREATE OR REPLACE PROCEDURE fv_user.sp_get_allemployees(
+    pPageNumber  NUMBER DEFAULT 0,
+    pResults OUT SYS_REFCURSOR
+) AS
+    vStart NUMBER;
+    vEnd   NUMBER;
+BEGIN
+    IF pPageNumber > 0 THEN
+
+        vStart := fn_start_pagination(pPageNumber);
+        vEnd := fn_end_pagination(pPageNumber);
+
+        OPEN pResults FOR
+            SELECT UserId,
+                   FirstName || ' ' || LastName AS FullName,
+                   Dni, ProfileName, Username, Email, UserStatus
+            FROM fv_user.vw_employees
+            OFFSET vStart ROWS FETCH NEXT vEnd ROWS ONLY;
+    ELSE
+
+        OPEN pResults FOR
+            SELECT UserId,
+                   FirstName || ' ' || LastName AS FullName,
+                   Dni, ProfileName, Username, Email, UserStatus
+            FROM fv_user.vw_employees;
+
+    END IF;
+END sp_get_allemployees;
+/
+
+
+prompt   - sp_count_allemployees;
+CREATE OR REPLACE PROCEDURE fv_user.sp_count_allemployees(
     pResults OUT SYS_REFCURSOR
 ) AS
 BEGIN
     OPEN pResults FOR
-        SELECT COUNT(usr.CredentialId)
-        FROM fv_user.user_registration        usr
-                 JOIN fv_user.user_credential cre ON usr.CredentialId = cre.CredentialId
-        WHERE cre.IsActive = 0;
-END sp_count_disabledusers;
+        SELECT COUNT(*) AS Total
+        FROM fv_user.user_registration
+        WHERE ProfileId < 3;
+END sp_count_allemployees;
 /
 
 
@@ -268,10 +259,9 @@ BEGIN
                Dni, Email, ProfileId, IsActive
         FROM fv_user.vw_users
         WHERE Username = pUsername AND
-              Password = pPassword;
+                Password = pPassword;
 END sp_signin_user;
 /
-
 
 
 prompt User modules stored PROCEDURE was created.;

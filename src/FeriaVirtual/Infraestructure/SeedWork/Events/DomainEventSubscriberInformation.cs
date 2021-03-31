@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FeriaVirtual.Domain.SeedWork;
+using System;
 
 namespace FeriaVirtual.Infrastructure.SeedWork.Events
 {
@@ -37,6 +38,10 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events
             SubscribedEvent = subscribedEvent;
             _subscriberClass = subscriberClass;
         }
+
+
+        public string FormatRabbitMqQueueName() =>
+            $"feria_virtual.{ContextName.ToSnake()}.{ModuleName.ToSnake()}.{ClassName.ToSnake()}";
 
 
     }

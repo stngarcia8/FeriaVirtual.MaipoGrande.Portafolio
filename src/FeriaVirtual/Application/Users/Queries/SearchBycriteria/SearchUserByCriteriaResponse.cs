@@ -1,9 +1,9 @@
 ﻿using FeriaVirtual.Domain.SeedWork.Query;
 
-namespace FeriaVirtual.Application.Users.Queries.SearchAll
+namespace FeriaVirtual.Application.Users.Queries.SearchBycriteria
 {
-    public class SearchAllUserResponse
-        :IQueryResponseBase
+    public class SearchUserByCriteriaResponse
+        : IQueryResponseBase
     {
         public string UserId { get; set; }
         public string FullName { get; set; }
@@ -14,7 +14,7 @@ namespace FeriaVirtual.Application.Users.Queries.SearchAll
         public string UserStatus { get; set; }
 
 
-        public SearchAllUserResponse() { }
+        public SearchUserByCriteriaResponse() { }
 
 
     }

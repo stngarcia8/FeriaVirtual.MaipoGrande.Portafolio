@@ -56,44 +56,22 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         }
 
 
-        public TViewModel SearchById<TViewModel>
-            (Guid userId)
-            where TViewModel : IQueryResponseBase
+        public TResponse SearchById<TResponse>(Guid userId)
+            where TResponse : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("UserId", userId.ToString());
-            return _unitOfWork.Context.Select<TViewModel>("sp_get_user", _parameters).FirstOrDefault();
+            return _unitOfWork.Context.Select<TResponse>("sp_get_user", _parameters).FirstOrDefault();
         }
 
 
-        public IEnumerable<TViewModel> SearchAll<TViewModel>(int pageNumber = 0)
-            where TViewModel : IQueryResponseBase
+        public IEnumerable<TResponse> SearchByCriteria<TResponse>
+             (Func<TResponse, bool> filters = null, int pageNumber=0)
+         where TResponse : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("PageNumber", pageNumber);
-            return _unitOfWork.Context.Select<TViewModel>("sp_get_allusers", _parameters)
-                .ToList();
-        }
-
-
-        public IList<TViewModel> SearchEnableUsers<TViewModel>(int pageNumber = 1)
-            where TViewModel : IQueryResponseBase =>
-            _unitOfWork.Context.Select<TViewModel>("sp_get_enableusers", _parameters)
-            .ToList();
-
-
-        public IList<TViewModel> SearchDisableUsers<TViewModel>(int pageNumber = 1)
-            where TViewModel : IQueryResponseBase =>
-            _unitOfWork.Context.Select<TViewModel>("sp_get_disableusers", _parameters)
-            .ToList();
-
-        public IList<TViewModel> SearchByCriteria<TViewModel>
-            (Func<TViewModel, bool> filters = null)
-        where TViewModel : IQueryResponseBase
-        {
-            _parameters.Clear();
-            _parameters.Add("PageNumber", 0);
-            IEnumerable<TViewModel> results = _unitOfWork.Context.Select<TViewModel>("sp_get_allusers", _parameters);
+            IEnumerable<TResponse> results = _unitOfWork.Context.Select<TResponse>("sp_get_allusers", _parameters);
             if (filters != null)
                 results = results.Where(filters);
             return results.ToList();
@@ -101,13 +79,6 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 
         public int CountAllUsers() =>
             _unitOfWork.Context.Count("sp_count_allusers");
-
-
-        public int CountEnabledUsers() =>
-            _unitOfWork.Context.Count("sp_count_enabledusers");
-
-        public int CountDisabledUsers() =>
-            _unitOfWork.Context.Count("sp_count_disabledusers");
 
 
     }

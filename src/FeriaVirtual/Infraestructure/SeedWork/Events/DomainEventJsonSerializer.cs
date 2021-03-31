@@ -12,19 +12,21 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events
                 return "";
             }
             var attributes = domainEvent.ToPrimitives();
-            attributes.Add("id", domainEvent.EventId.ToString());
+            //attributes.Add("id", domainEvent.EventId.ToString());
             return JsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object>>
             {
                 {
                     "data", new Dictionary<string, object>
                     {
-                        {"id", domainEvent.EventId},
+                        {"id", domainEvent.EventId.ToString()},
                         {"type", domainEvent.EventName()},
                         {"occurred_on", domainEvent.OcurredOn},
                         {"attributes", attributes}
                     }
                 },
-                {"meta", new Dictionary<string, object>()}
+                {"meta", new Dictionary<string, object>
+                    { {"eventId", domainEvent.EventId.ToString() } }
+                }
             });
         }
 

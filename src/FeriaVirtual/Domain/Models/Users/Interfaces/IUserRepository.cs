@@ -11,25 +11,15 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
         void EnableUser(Guid userId);
         void DisableUser(Guid userId);
 
-        TViewModel SearchById<TViewModel>(Guid userId)
-            where TViewModel : IQueryResponseBase;
+        TResponse SearchById<TResponse>(Guid userId)
+            where TResponse : IQueryResponseBase;
 
-        IEnumerable<TViewModel> SearchAll<TViewModel>(int pageNumber = 1)
-            where TViewModel : IQueryResponseBase;
-
-        IList<TViewModel> SearchEnableUsers<TViewModel>(int pageNumber = 1)
-            where TViewModel : IQueryResponseBase;
-
-        IList<TViewModel> SearchDisableUsers<TViewModel>(int pageNumber = 0)
-            where TViewModel : IQueryResponseBase;
-
-        IList<TViewModel> SearchByCriteria<TViewModel>
-            (Func<TViewModel, bool> filters = null)
-            where TViewModel : IQueryResponseBase;
+        IEnumerable<TResponse> SearchByCriteria<TResponse>
+            (Func<TResponse, bool> filters = null, int pageNumber = 0)
+            where TResponse : IQueryResponseBase;
 
         int CountAllUsers();
-        int CountEnabledUsers();
-        int CountDisabledUsers();
+
 
 
     }

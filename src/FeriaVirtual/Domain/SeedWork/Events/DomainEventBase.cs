@@ -28,12 +28,22 @@ namespace FeriaVirtual.Domain.SeedWork.Events
 
         public abstract string EventName();
 
-        public abstract Dictionary<string, string> ToPrimitives();
-
-        public abstract DomainEventBase FromPrimitives(DomainEventId eventId, Dictionary<string, object> body);
 
         public override string ToString() =>
             EventName();
+
+
+        public Dictionary<string, string> ToPrimitives()
+        {
+            Dictionary<string, string> values = new();
+            if (Body is null) return values;
+            foreach (KeyValuePair<string, object> item in Body)
+                values.Add(item.Key, item.Value.ToString());
+            return values;
+        }
+
+        public abstract DomainEventBase FromPrimitives
+            (DomainEventId eventId, Dictionary<string, object> body);
 
 
     }

@@ -3,5 +3,9 @@
     public interface IDBConfig
     {
         string GetConnectionString { get; }
+        string GetDatabaseName { get; }
+
+
+
     }
 }

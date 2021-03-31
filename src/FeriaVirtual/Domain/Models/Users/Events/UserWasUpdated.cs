@@ -16,20 +16,11 @@ namespace FeriaVirtual.Domain.Models.Users.Events
 
 
         public override string EventName() =>
-            "User.UserWasUpdated";
+            "User.Updated";
 
-        public override Dictionary<string, string> ToPrimitives()
-        {
-            Dictionary<string, string> values = new();
-            foreach (var item in Body)
-                values.Add(item.Key, item.Value.ToString());
-            return values;
-        }
-
-
-        public override UserWasUpdated FromPrimitives
-            (DomainEventId eventId, Dictionary<string, object> body) =>
-            new(eventId, body);
+        public override DomainEventBase FromPrimitives
+            (DomainEventId eventId, Dictionary<string, object> body) => 
+            new UserWasUpdated(eventId, body);
 
 
 

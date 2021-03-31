@@ -19,14 +19,16 @@ namespace FeriaVirtual.Domain.Models.Users
         public Credential GetCredential { get; protected set; }
 
 
-        internal User() { }
+        public User(Guid id) =>
+            UserId = id;
+
 
         public User
-            (string firstName, string lastName, string dni, int profileId)
+            (string firstName, string lastName, string dni, int profileId,
+            string username, string password, string email)
         {
-            InitializeVars(GuidGenerator.NewSequentialGuid(),
-                firstName, lastName, dni, profileId);
-            GetCredential = null;
+            InitializeVars(GuidGenerator.NewSequentialGuid(), firstName, lastName, dni, profileId);
+            CreateCredentials(username, password, email);
             var userRule = new CreateUserRules();
             var eventId = new DomainEventId(UserId);
             CheckRule(BusinessRulesValidator<User>.BuildValidator(userRule, this));
@@ -35,15 +37,17 @@ namespace FeriaVirtual.Domain.Models.Users
 
 
         public User
-            (Guid id, string firstName, string lastName, string dni, int profileId)
+            (Guid id, string firstName, string lastName, string dni, int profileId,
+            Guid credentialId, string username, string password, string email, int isActive)
         {
-            InitializeVars(id, firstName, lastName,
-                dni, profileId);
+            InitializeVars(id, firstName, lastName, dni, profileId);
+            GenerateCredentials(credentialId, username, password, email, isActive);
             var userRule = new UpdateUserRules();
             var eventId = new DomainEventId(GuidGenerator.NewSequentialGuid());
             CheckRule(BusinessRulesValidator<User>.BuildValidator(userRule, this));
             this.Record(new UserWasUpdated(eventId, this.GetPrimitives()));
         }
+
 
         private void InitializeVars(
             Guid id, string firstName, string lastName,
@@ -57,48 +61,53 @@ namespace FeriaVirtual.Domain.Models.Users
         }
 
 
-        public void CreateCredentials
+        private void CreateCredentials
             (string username, string password, string email) =>
             GetCredential = new Credential(username, password, email);
 
 
-        public void GenerateCredentials
+        private void GenerateCredentials
             (Guid id, string username, string password, string email, int isActive) =>
             GetCredential = new Credential(id, username, password, email, isActive);
 
 
         public void EnableUser()
         {
-            GetCredential.EnableCredential();
+            Dictionary<string, object> values = new() {
+                { "userId", UserId.ToString() },
+                { "type", "Enable user" },
+                { "value", 1 }
+            };
             var eventId = new DomainEventId(UserId);
-            this.Record(new UserWasEnabled(eventId, this.GetPrimitives()));
+            this.Record(new UserWasEnabled(eventId, values));
         }
 
 
         public void DisableUser()
         {
-            GetCredential.DisableCredential();
+            Dictionary<string, object> values = new() {
+                { "userId", UserId.ToString() },
+                { "type", "Disable user" },
+                { "value", 0 }
+            };
             var eventId = new DomainEventId(UserId);
-            this.Record(new UserWasDisabled(eventId, this.GetPrimitives()));
+            this.Record(new UserWasDisabled(eventId, values));
         }
 
 
         public override Dictionary<string, object> GetPrimitives() =>
-            GetCredential == null ? null
-                : new Dictionary<string, object> {
-                { "UserId", UserId.ToString()},
-                {"CredentialId", GetCredential.CredentialId.ToString() },
-                {"ProfileId", ProfileId },
-                {"FirstName", FirstName },
-                {"LastName", LastName },
-                {"Dni", Dni }
+            new() {
+                { "UserId", UserId.ToString() },
+                { "CredentialId", GetCredential is null ? string.Empty : GetCredential.CredentialId.ToString() },
+                { "ProfileId", ProfileId },
+                { "FirstName", FirstName },
+                { "LastName", LastName },
+                { "Dni", Dni }
             };
 
 
-        public override string ToString()
-        {
-            return $"{FirstName} {LastName}";
-        }
+        public override string ToString() =>
+            $"{FirstName} {LastName}";
 
 
     }

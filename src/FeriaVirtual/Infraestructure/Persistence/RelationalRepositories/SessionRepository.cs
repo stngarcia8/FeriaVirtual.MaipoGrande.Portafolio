@@ -22,14 +22,14 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         }
 
 
-        public TViewModel SignIn<TViewModel>
+        public TResponse SignIn<TResponse>
             (string username, string password)
-            where TViewModel : IQueryResponseBase
+            where TResponse : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("Username", username);
             _parameters.Add("Password", password);
-            var result = _unitOfWork.Context.Select<TViewModel>("sp_signin_user", _parameters).FirstOrDefault();
+            var result = _unitOfWork.Context.Select<TResponse>("sp_signin_user", _parameters).FirstOrDefault();
             return result;
         }
 

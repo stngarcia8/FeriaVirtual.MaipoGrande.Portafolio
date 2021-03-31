@@ -24,6 +24,25 @@ SELECT usr.UserId, usr.FirstName, usr.LastName, usr.Dni,
 FROM fv_user.user_registration        usr
          JOIN fv_user.user_credential cre ON usr.CredentialId = cre.CredentialId
          JOIN fv_user.user_profile    pro ON usr.ProfileId = pro.ProfileId
+WHERE usr.ProfileId > 2
+ORDER BY usr.LastName, usr.FirstName;
+/
+
+
+prompt   - vw_employeess;
+CREATE OR REPLACE VIEW fv_user.vw_employees
+AS
+SELECT usr.UserId, usr.FirstName, usr.LastName, usr.Dni,
+       pro.ProfileId, pro.ProfileName,
+       cre.CredentialId, cre.Username, cre.Password, cre.Email, cre.IsActive,
+       CASE cre.IsActive
+           WHEN 1 THEN 'Activo'
+           ELSE 'Inactivo'
+           END AS UserStatus
+FROM fv_user.user_registration        usr
+         JOIN fv_user.user_credential cre ON usr.CredentialId = cre.CredentialId
+         JOIN fv_user.user_profile    pro ON usr.ProfileId = pro.ProfileId
+WHERE usr.ProfileId < 3
 ORDER BY usr.LastName, usr.FirstName;
 /
 

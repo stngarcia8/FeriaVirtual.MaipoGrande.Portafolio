@@ -1,23 +1,23 @@
 ﻿using FeriaVirtual.Application.Users.Exceptions;
+using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FeriaVirtual.Domain.SeedWork.Events;
 
 namespace FeriaVirtual.Application.Users.Commands.ChangeStatus
 {
     public class ChangeUserStatusCommandHandler
-        :ICommandHandler<ChangeUserStatusCommand>
+        : ICommandHandler<ChangeUserStatusCommand>
     {
         private readonly IUserRepository _repository;
+        private readonly IEventBus _eventBus;
 
 
-        public ChangeUserStatusCommandHandler(IUserRepository repository)
+        public ChangeUserStatusCommandHandler
+            (IUserRepository repository, IEventBus eventBus)
         {
             _repository = repository;
+            _eventBus = eventBus;
         }
 
 
@@ -26,13 +26,18 @@ namespace FeriaVirtual.Application.Users.Commands.ChangeStatus
             if (command is null) {
                 throw new InvalidUserServiceException("Datos de usuario inválidos.");
             }
-            if (command.IsActive<0 || command.IsActive > 1) {
+            if (command.IsActive < 0 || command.IsActive > 1) {
                 throw new InvalidUserServiceException("Estado de usuario inválido.");
             }
-            if(command.IsActive.Equals(1))
-                _repository.EnableUser(command.UserId);
-            else
-                _repository.DisableUser(command.UserId);
+            var user = new User(command.UserId);
+            if (command.IsActive.Equals(1)) {
+                user.EnableUser();
+                _repository.EnableUser(user.UserId);
+            } else {
+                user.DisableUser();
+                _repository.DisableUser(user.UserId);
+            }
+            _eventBus.Publish(user.PullDomainEvents());
         }
 
 

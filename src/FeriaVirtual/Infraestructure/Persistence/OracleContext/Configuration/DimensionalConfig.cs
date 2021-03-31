@@ -4,11 +4,16 @@
         : DBConfig, IDBConfig
     {
         public string GetConnectionString { get; }
+        public string GetDatabaseName { get; }
 
 
         private DimensionalConfig()
-            : base() =>
+            : base()
+        {
             GetConnectionString = GetDimensionalConnectionString;
+            GetDatabaseName = this.GetType().Name;
+        }
+            
 
         public static IDBConfig Build() =>
             new DimensionalConfig();

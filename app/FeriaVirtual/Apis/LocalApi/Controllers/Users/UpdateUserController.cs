@@ -1,5 +1,5 @@
-﻿using FeriaVirtual.Application.Users.Commands.Update;
-using FeriaVirtual.Application.Users.Dtos;
+﻿using FeriaVirtual.Api.Local.Models.Dto;
+using FeriaVirtual.Application.Users.Commands.Update;
 using FeriaVirtual.Domain.SeedWork.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System;

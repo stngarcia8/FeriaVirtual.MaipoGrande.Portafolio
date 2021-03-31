@@ -4,11 +4,17 @@
         : DBConfig, IDBConfig
     {
         public string GetConnectionString { get; }
+        public string GetDatabaseName { get; }
 
 
         private EventStoreConfig()
-            : base() =>
+            : base()
+        {
             GetConnectionString = GetEventStoreConnectionString;
+            GetDatabaseName = this.GetType().Name;
+        }
+
+
 
         public static IDBConfig Build() =>
             new EventStoreConfig();

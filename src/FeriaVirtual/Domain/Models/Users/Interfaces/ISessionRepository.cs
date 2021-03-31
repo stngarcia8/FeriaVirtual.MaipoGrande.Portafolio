@@ -4,9 +4,9 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
 {
     public interface ISessionRepository
     {
-        TViewModel SignIn<TViewModel>
+        TResponse SignIn<TResponse>
             (string username, string password)
-            where TViewModel : IQueryResponseBase;
+            where TResponse : IQueryResponseBase;
 
 
     }

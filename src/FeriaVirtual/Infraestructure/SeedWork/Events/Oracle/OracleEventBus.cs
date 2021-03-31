@@ -25,12 +25,11 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.Oracle
         private void Publish(DomainEventBase domainEvent)
         {
             Dictionary<string, object> parameters = new() {
-                { "EventId", domainEvent.EventId.ToString() },
+                { "EventId", domainEvent.EventId.Value.ToString() },
                 { "Name", domainEvent.EventName() },
-                { "Body", domainEvent.ToPrimitives() },
-                { "OcurredOn", domainEvent.OcurredOn.ToString() }
+                { "Body", DomainEventJsonSerializer .Serialize(domainEvent) },
+                { "OcurredOn", domainEvent.OcurredOn }
             };
-
             _unitOfWork.Context.SaveByStoredProcedure("sp_add_event", parameters);
             _unitOfWork.SaveChanges();
         }

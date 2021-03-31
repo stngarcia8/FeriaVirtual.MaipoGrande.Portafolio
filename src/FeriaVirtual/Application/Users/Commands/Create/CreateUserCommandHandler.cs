@@ -2,6 +2,7 @@
 using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Commands;
+using FeriaVirtual.Domain.SeedWork.Events;
 
 namespace FeriaVirtual.Application.Users.Services.Create
 {
@@ -9,11 +10,14 @@ namespace FeriaVirtual.Application.Users.Services.Create
         : ICommandHandler<CreateUserCommand>
     {
         private readonly IUserRepository _repository;
+        private readonly IEventBus _eventBus;
 
 
-        public CreateUserCommandHandler(IUserRepository repository)
+        public CreateUserCommandHandler
+            (IUserRepository repository, IEventBus eventBus)
         {
             _repository = repository;
+            _eventBus = eventBus;
         }
 
 
@@ -24,10 +28,9 @@ namespace FeriaVirtual.Application.Users.Services.Create
             }
             var newUser = new User(
                 command.Firstname, command.Lastname,
-                command.Dni, command.ProfileId);
-            newUser.CreateCredentials(command.Username,
-                command.Password, command.Email);
+                command.Dni, command.ProfileId, command.Username, command.Password, command.Email);
             _repository.Create(newUser);
+            _eventBus.Publish(newUser.PullDomainEvents());
         }
 
 

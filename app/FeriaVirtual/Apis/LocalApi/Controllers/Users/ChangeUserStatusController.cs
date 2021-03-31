@@ -21,9 +21,9 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult Patch(string userid)
         {
             try {
-                var command = new ChangeUserStatusCommand(userid, 1);
-                _commandBus.Dispatch(command);
+                _commandBus.Dispatch(new ChangeUserStatusCommand(userid, 1));
                 return StatusCode(201, "El usuario fue habilitado.");
+
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);
             }
@@ -35,9 +35,9 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
         public IActionResult DisableUser(string userid)
         {
             try {
-                var command = new ChangeUserStatusCommand(userid, 0);
-                _commandBus.Dispatch(command);
+                _commandBus.Dispatch(new ChangeUserStatusCommand(userid, 0));
                 return StatusCode(201, "El usuario fue inhabilitado.");
+
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);
             }

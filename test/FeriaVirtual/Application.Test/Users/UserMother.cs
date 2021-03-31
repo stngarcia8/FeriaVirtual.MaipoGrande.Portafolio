@@ -11,11 +11,11 @@ namespace Application.Test.Users
     {
         public static User GetAValidUser()
         {
-            var validUser = new User("Juanito", "Perez Pereira", "12345678-9", 1);
-            validUser.CreateCredentials("j.perezp", "@Password.1234@", "j.perezp@email.com");
+            var validUser = new User("Juanito", "Perez Pereira", "12345678-9", 1,
+            "j.perezp", "@Password.1234@", "j.perezp@email.com");
             return validUser;
-
         }
+
 
         public static CreateUserCommand GetValidCreateUserCommand() =>
             CreateUserCommandBuilder.GetInstance()
@@ -33,7 +33,7 @@ namespace Application.Test.Users
             null;
 
         public static UpdateUserCommand GetValidUpdateUserCommand() =>
-            UpdateUserCommandBuilder .GetInstance()
+            UpdateUserCommandBuilder.GetInstance()
                 .UserId(Guid.NewGuid().ToString())
                 .Firstname("Juanito")
                 .Lastname("Perez Pereira")

@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.Application.Users.Dtos;
+﻿using FeriaVirtual.Api.Local.Models.Dto;
 using FeriaVirtual.Application.Users.Queries.Signin;
 using FeriaVirtual.Domain.SeedWork.Query;
 using Microsoft.AspNetCore.Mvc;

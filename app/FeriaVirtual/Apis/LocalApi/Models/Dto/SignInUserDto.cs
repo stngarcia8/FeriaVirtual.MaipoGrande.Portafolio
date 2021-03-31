@@ -1,4 +1,4 @@
-﻿namespace FeriaVirtual.Application.Users.Dtos
+﻿namespace FeriaVirtual.Api.Local.Models.Dto
 {
     public class SignInUserDto
     {

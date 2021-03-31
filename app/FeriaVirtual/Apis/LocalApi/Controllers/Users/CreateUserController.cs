@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.Application.Users.Dtos;
+﻿using FeriaVirtual.Api.Local.Models.Dto;
 using FeriaVirtual.Application.Users.Services.Create;
 using FeriaVirtual.Domain.SeedWork.Commands;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +35,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
                     .Build();
                 _commandBus.Dispatch(userCommand);
                 return StatusCode(201, $"Usuario {userDto.Firstname} {userDto.Lastname} creado correctamente.");
+
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);
             }

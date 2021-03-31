@@ -36,7 +36,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
                     _transaction = _connection.BeginTransaction();
                 }
             } catch (Exception ex) {
-                string message = $"No ha sido posible establecer conexión con el servidor de base de datos, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
+                string message = $"No ha sido posible establecer conexión con el servidor de base de datos ({_dbConfig.GetDatabaseName}), comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
                 throw new DBContextFailedException(message);
             }
         }

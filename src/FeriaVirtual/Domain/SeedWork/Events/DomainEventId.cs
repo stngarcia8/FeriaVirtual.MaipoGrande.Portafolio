@@ -15,5 +15,13 @@ namespace FeriaVirtual.Domain.SeedWork.Events
             _id = id;
 
 
+        public DomainEventId(string id) =>
+            _id = new Guid(id);
+
+
+        public override string ToString() => 
+            Value.ToString();
+
+
     }
 }

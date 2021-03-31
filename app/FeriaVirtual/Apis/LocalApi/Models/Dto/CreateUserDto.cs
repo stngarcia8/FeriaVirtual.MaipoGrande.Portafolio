@@ -1,6 +1,5 @@
-﻿namespace FeriaVirtual.Application.Users.Dtos
+﻿namespace FeriaVirtual.Api.Local.Models.Dto
 {
-
     public class CreateUserDto
     {
         public string Firstname { get; set; }
@@ -13,6 +12,8 @@
 
 
         public CreateUserDto() { }
-    }
 
+
+
+    }
 }

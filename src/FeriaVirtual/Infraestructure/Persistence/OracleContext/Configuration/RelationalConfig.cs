@@ -4,10 +4,14 @@
         : DBConfig, IDBConfig
     {
         public string GetConnectionString { get; }
+        public string GetDatabaseName { get; }
 
         private RelationalConfig()
-            : base() => 
+            : base()
+        {
             GetConnectionString = GetRelationalConnectionString;
+            GetDatabaseName = this.GetType().Name;
+        }
 
         public static IDBConfig Build() =>
             new RelationalConfig();
