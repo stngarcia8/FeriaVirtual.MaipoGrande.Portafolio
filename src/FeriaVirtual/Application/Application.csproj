@@ -10,9 +10,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Employees\Queries\SearchByCriteria\" />
-    <Folder Include="Employees\Queries\SearchById\" />
-  </ItemGroup>
-
 </Project>

@@ -1,5 +1,5 @@
-﻿using FeriaVirtual.Application.Users.Exceptions;
-using FeriaVirtual.Application.Users.Queries.Signin;
+﻿using FeriaVirtual.Application.Services.Signin;
+using FeriaVirtual.Application.Services.Signin.Queries;
 using FeriaVirtual.Domain.Models.Users.Interfaces;
 using Moq;
 using Xunit;
@@ -20,10 +20,10 @@ namespace Application.Test.Users
         {
             var signinQueryMother = SigninMother.GetValidSigninQuery();
             _repository
-                .Setup(x => x.SignIn<UserSigninResponse>(signinQueryMother.Username, signinQueryMother.Password))
+                .Setup(x => x.SignIn<SigninResponse>(signinQueryMother.Username, signinQueryMother.Password))
                 .Verifiable();
-            var _handler = new UserSigninQueryHandler(_repository.Object);
-            Assert.Throws<InvalidUserSigninServiceException>(
+            var _handler = new SigninQueryHandler(_repository.Object);
+            Assert.Throws<InvalidSigninServiceException>(
                 () => _handler.Handle(signinQueryMother)
                 );
         }

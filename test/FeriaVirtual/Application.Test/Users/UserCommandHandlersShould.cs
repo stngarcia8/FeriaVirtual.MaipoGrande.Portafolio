@@ -1,7 +1,7 @@
-﻿using FeriaVirtual.Application.Users.Commands.ChangeStatus;
-using FeriaVirtual.Application.Users.Commands.Update;
-using FeriaVirtual.Application.Users.Exceptions;
-using FeriaVirtual.Application.Users.Services.Create;
+﻿using FeriaVirtual.Application.Services.Users;
+using FeriaVirtual.Application.Services.Users.Commands.ChangeStatus;
+using FeriaVirtual.Application.Services.Users.Commands.Update;
+using FeriaVirtual.Application.Services.Users.Create;
 using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Events;

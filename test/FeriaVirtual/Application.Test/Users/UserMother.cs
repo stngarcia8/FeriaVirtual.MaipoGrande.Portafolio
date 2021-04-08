@@ -1,6 +1,6 @@
-﻿using FeriaVirtual.Application.Users.Commands.ChangeStatus;
-using FeriaVirtual.Application.Users.Commands.Update;
-using FeriaVirtual.Application.Users.Services.Create;
+﻿using FeriaVirtual.Application.Services.Users.Commands.Update;
+using FeriaVirtual.Application.Services.Users.Create;
+using FeriaVirtual.Application.Users.Commands.ChangeStatus;
 using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.SeedWork;
 using System;
@@ -31,6 +31,7 @@ namespace Application.Test.Users
 
         public static object GetNullCommand() =>
             null;
+
 
         public static UpdateUserCommand GetValidUpdateUserCommand() =>
             UpdateUserCommandBuilder.GetInstance()

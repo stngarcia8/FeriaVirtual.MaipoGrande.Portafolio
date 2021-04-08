@@ -183,7 +183,7 @@ BEGIN
     OPEN pResults FOR
         SELECT COUNT(*) AS Total
         FROM fv_user.user_registration
-        WHERE ProfileId > 2;
+        WHERE ProfileId in (3, 4, 5, 6);
 END sp_count_allusers;
 /
 
@@ -242,7 +242,7 @@ BEGIN
     OPEN pResults FOR
         SELECT COUNT(*) AS Total
         FROM fv_user.user_registration
-        WHERE ProfileId < 3;
+        WHERE ProfileId IN (1, 2);
 END sp_count_allemployees;
 /
 
@@ -257,7 +257,7 @@ BEGIN
     OPEN pResults FOR
         SELECT FirstName || ' ' || LastName AS FullName,
                Dni, Email, ProfileId, IsActive
-        FROM fv_user.vw_users
+        FROM fv_user.vw_allusers
         WHERE Username = pUsername AND
                 Password = pPassword;
 END sp_signin_user;

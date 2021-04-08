@@ -2,3 +2,9 @@
 
 # CA1822: Marcar miembros como static
 dotnet_diagnostic.CA1822.severity = none
+
+# IDE0059: Asignación innecesaria de un valor
+dotnet_diagnostic.IDE0059.severity = none
+
+# IDE0060: Quitar el parámetro no utilizado
+dotnet_diagnostic.IDE0060.severity = none

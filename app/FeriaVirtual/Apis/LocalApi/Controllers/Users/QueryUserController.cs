@@ -1,12 +1,10 @@
-﻿using FeriaVirtual.Api.Local.Models.Dto;
-using FeriaVirtual.Application.Users.Queries.Counter;
-using FeriaVirtual.Application.Users.Queries.SearchBycriteria;
-using FeriaVirtual.Application.Users.Queries.SearchById;
+﻿using FeriaVirtual.Application.Services.Users.Queries.Counter;
+using FeriaVirtual.Application.Services.Users.Queries.SearchBycriteria;
+using FeriaVirtual.Application.Services.Users.Queries.SearchById;
 using FeriaVirtual.Domain.SeedWork.Query;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FeriaVirtual.Api.Local.Controllers.Users
 {
@@ -52,7 +50,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
 
         [HttpGet]
         [Route("api/users/searchbycriteria/{searchtype}/{searchvalue}/{pagenumber}")]
-        public IActionResult GetByCriteria(string  searchtype, string searchvalue, int pagenumber)
+        public IActionResult GetByCriteria(string searchtype, string searchvalue, int pagenumber)
         {
             try {
                 SearchUserByCriteriaQuery query = new(searchtype, searchvalue, pagenumber);

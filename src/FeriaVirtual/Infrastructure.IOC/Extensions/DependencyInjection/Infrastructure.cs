@@ -18,6 +18,7 @@ namespace FeriaVirtual.Infrastructure.IOC.Extensions.DependencyInjection
             (this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ISessionRepository, SessionRepository>();
 
             services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
