@@ -1,6 +1,5 @@
 ﻿using FeriaVirtual.App.Desktop.Extensions.DependencyInjection;
 using FeriaVirtual.App.Desktop.Forms.MainForms;
-using FeriaVirtual.App.Desktop.Forms.SignIn;
 using System;
 
 namespace FeriaVirtual.App.Desktop

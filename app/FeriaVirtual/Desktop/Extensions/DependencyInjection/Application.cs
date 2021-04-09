@@ -1,4 +1,5 @@
-﻿using FeriaVirtual.App.Desktop.Services.SignIn;
+﻿using FeriaVirtual.App.Desktop.Services.Employees;
+using FeriaVirtual.App.Desktop.Services.SignIn;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FeriaVirtual.App.Desktop.Extensions.DependencyInjection
@@ -9,7 +10,9 @@ namespace FeriaVirtual.App.Desktop.Extensions.DependencyInjection
             (this IServiceCollection services)
         {
             services.AddHttpClient<ISigninService, SigninService>();
+            services.AddHttpClient<IEmployeeService, EmployeeService>();
             services.AddScoped<ISigninService, SigninService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             return services;
         }
 

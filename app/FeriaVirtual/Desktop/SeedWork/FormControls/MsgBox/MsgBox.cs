@@ -88,8 +88,8 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
         }
 
         private static MsgBoxControl AdjustDialogScreen
-            (string message, string title, MessageBoxButtons buttons, 
-            MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, int height, 
+            (string message, string title, MessageBoxButtons buttons,
+            MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, int height,
             Form ownerForm)
         {
             var msgboxControl = new MsgBoxControl {
