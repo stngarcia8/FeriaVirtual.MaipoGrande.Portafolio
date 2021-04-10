@@ -1,5 +1,6 @@
 ﻿using FeriaVirtual.App.Desktop.Extensions.DependencyInjection;
 using FeriaVirtual.App.Desktop.SeedWork.FormControls;
+using FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox;
 using FeriaVirtual.App.Desktop.SeedWork.Helpers.Utils;
 using FeriaVirtual.App.Desktop.Services.Employees;
 using MetroFramework;
@@ -15,6 +16,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
     public partial class EmployeeMainForm : MetroForm
     {
         private readonly IEmployeeService _employeeService;
+        private EmployeeFilter _filters;
         private readonly ThemeManager _themeManager;
         private bool _menuIsOpened;
 
@@ -48,11 +50,9 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
 
         private void ConfigureFilters()
         {
-            IList<string> filters = new List<string>()
-            {"Todos los empleados", "Solo administradores", "Solo consultores",
-            "Empleados habilitados", "Empleados inhabilitados", "Filtrar por nombre"};
+            _filters = EmployeeFilter.CreateFilter();
             var configurator = ComboboxConfigurator.Configure(this.FilterComboBox);
-            configurator.AddStringList(filters);
+            configurator.AddStringList(_filters.GetFilters);
             FilterTextBox.Text = string.Empty;
         }
 
@@ -121,9 +121,13 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
 
         private async void LoadRecords()
         {
-            var e = await _employeeService.GetAllEmployees(int.Parse(ListPageComboBox.Text));
-            EmployeeGrid.DataSource = null;
-            EmployeeGrid.DataSource = e;
+            try {
+                var e = await _employeeService.GetAllEmployees(int.Parse(ListPageComboBox.Text));
+                EmployeeGrid.DataSource = null;
+                EmployeeGrid.DataSource = e;
+            } catch (Exception ex) {
+                MsgBox.Show(this, ex.Message, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  localapi:
+    image: ${DOCKER_REGISTRY-}localapi
+    build:
+      context: .
+      dockerfile: Presentation/Apis/LocalApi/Dockerfile

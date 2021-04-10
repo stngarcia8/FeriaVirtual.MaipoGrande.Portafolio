@@ -12,7 +12,7 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
         : IEmployeeService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _remoteServiceBaseUrl = "https://localhost:44315";
+        private readonly string _remoteServiceBaseUrl = "https://localhost:56252";
         private readonly Uri _uri;
 
 

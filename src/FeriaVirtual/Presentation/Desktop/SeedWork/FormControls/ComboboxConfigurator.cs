@@ -34,9 +34,10 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls
         public void AddNumbers
             (int startValue, int endValue)
         {
+            var stopValue = endValue < startValue ? startValue : endValue;
             _combobox.BeginUpdate();
             ClearCombobox();
-            for (int value = startValue; value <= endValue; value++)
+            for (int value = startValue; value <= stopValue; value++)
                 _combobox.Items.Add(value.ToString());
             _combobox.SelectedIndex = 0;
             _combobox.EndUpdate();

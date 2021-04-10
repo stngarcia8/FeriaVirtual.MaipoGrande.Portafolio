@@ -345,3 +345,6 @@ oracle*.rpm
 
 # intelij configuration folder.
 .idea/
+
+# Application image files folder
+images/
