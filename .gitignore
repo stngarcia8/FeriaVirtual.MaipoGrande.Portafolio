@@ -348,5 +348,3 @@ oracle*.rpm
 
 # Application image files folder
 images/
-images/flatIcon/
-images/ico/
