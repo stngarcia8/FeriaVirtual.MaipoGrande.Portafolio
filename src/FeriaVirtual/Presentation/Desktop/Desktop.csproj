@@ -130,8 +130,9 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SeedWork\Filters\Filter.cs" />
+    <Compile Include="SeedWork\Filters\Criteria.cs" />
     <Compile Include="SeedWork\FormControls\ComboboxConfigurator.cs" />
+    <Compile Include="SeedWork\FormControls\DataGridViewConfigurator.cs" />
     <Compile Include="SeedWork\FormControls\MsgBox\MsgBox.cs" />
     <Compile Include="SeedWork\FormControls\MsgBox\MsgBoxControl.cs">
       <SubType>Form</SubType>

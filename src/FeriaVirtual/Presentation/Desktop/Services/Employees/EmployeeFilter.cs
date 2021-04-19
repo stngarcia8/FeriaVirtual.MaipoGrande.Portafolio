@@ -6,10 +6,10 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
     public class EmployeeFilter
     {
         private IList<string> _filters;
-        private IList<Filter> _criteria;
+        private IList<Criteria> _criteriaCollection;
 
         public IList<string> GetFilters => _filters;
-        public IList<Filter> GetCriteria => _criteria;
+        public IList<Criteria> GetCriteriaCollection => _criteriaCollection;
 
 
         private EmployeeFilter()
@@ -21,7 +21,6 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
 
         public static EmployeeFilter CreateFilter() =>
             new EmployeeFilter();
-
 
 
         private void DefineFilterNames() =>
@@ -37,31 +36,19 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
 
 
         private void DefineFilterCriteria() =>
-            _criteria = new List<Filter> {
-                new Filter("search_all", "", 0),
-                new Filter("search_by_profile", "Administrador", 0),
-                new Filter("search_by_profile", "Consultor", 0),
-                new Filter("search_by_status", "Habilitado", 0),
-                new Filter("search_by_status", "Inhabilitado", 0),
-                new Filter("search_by_name", "", 0),
-                new Filter("search_by_dni", "", 0)
+            _criteriaCollection = new List<Criteria> {
+                new Criteria("search_all", "", 1, false),
+                new Criteria("search_by_profile", "Administrador", 0, false),
+                new Criteria("search_by_profile", "Consultor", 0, false),
+                new Criteria("search_by_status", "Activo", 0, false),
+                new Criteria("search_by_status", "Inactivo", 0, false),
+                new Criteria("search_by_name", "", 0, true),
+                new Criteria("search_by_dni", "", 0, true)
             };
 
 
-        public void ChangeFilterValue(int index, string newValue)
-        {
-            var filter = _criteria[index];
-            filter.FilterValue = newValue;
-            _criteria[index] = filter;
-        }
-
-
-        public void ChangePageNumber(int index, int newPageNumber)
-        {
-            var filter = _criteria[index];
-            filter.PageNumber = newPageNumber;
-            _criteria[index] = filter;
-        }
+        public Criteria GetCriteriaByIndex(int criteriaIndex) =>
+            _criteriaCollection[criteriaIndex];
 
 
     }

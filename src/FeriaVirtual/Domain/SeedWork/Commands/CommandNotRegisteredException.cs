@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace FeriaVirtual.Domain.SeedWork.Commands
+﻿namespace FeriaVirtual.Domain.SeedWork.Commands
 {
     public class CommandNotRegisteredException
-        : Exception
+        : System.Exception
     {
         public CommandNotRegisteredException(Command command)
             : base($"Comando {command} no registrado.") { }

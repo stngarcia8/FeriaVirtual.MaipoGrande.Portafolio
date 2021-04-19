@@ -1,9 +1,9 @@
 {
-    "ConnectionStrings": {
-        "RelationalSchema": "Data Source=localhost/xe;User Id=fv_user;Password=fv_pwd;Load Balancing=false;HA Events = false;",
-        "DimensionalSchema": "Data Source=localhost/xe;User Id=fv_dimuser;Password=fv_dimpwd;Load Balancing=false;HA Events = false;",
-        "EventstoreSchema": "Data Source=localhost/xe;User Id=fv_eventuser;Password=fv_eventpwd;Load Balancing=false;HA Events = false;"
-    },
+  "ConnectionStrings": {
+    "RelationalSchema": "Data Source=localhost/xe;User ID=fv_user;Password=fv_pwd;Load Balancing=false;HA Events = false;",
+    "DimensionalSchema": "Data Source=localhost/xe;User Id=fv_dimuser;Password=fv_dimpwd;Load Balancing=false;HA Events = false;",
+    "EventstoreSchema": "Data Source=localhost/xe;User Id=fv_eventuser;Password=fv_eventpwd;Load Balancing=false;HA Events = false;"
+  },
     "RabbitMQ": {
         "Username": "fv_user",
         "Password": "fv_pwd",

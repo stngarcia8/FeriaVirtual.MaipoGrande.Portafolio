@@ -286,8 +286,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.EmployeeGrid.AllowUserToAddRows = false;
             this.EmployeeGrid.AllowUserToDeleteRows = false;
             this.EmployeeGrid.AllowUserToResizeRows = false;
-            this.EmployeeGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
-            this.EmployeeGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.EmployeeGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.EmployeeGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.EmployeeGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.EmployeeGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -428,6 +427,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ListPageComboBox.Size = new System.Drawing.Size(79, 29);
             this.ListPageComboBox.TabIndex = 7;
             this.ListPageComboBox.UseSelectable = true;
+            this.ListPageComboBox.SelectedIndexChanged += new System.EventHandler(this.ListPageComboBox_SelectedIndexChanged);
             // 
             // ListResultLabel
             // 

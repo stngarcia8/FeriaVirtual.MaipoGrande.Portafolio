@@ -1,6 +1,6 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Query;
-using System;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Users.Queries.SearchBycriteria
 {
@@ -14,13 +14,13 @@ namespace FeriaVirtual.Application.Services.Users.Queries.SearchBycriteria
             _repository = repository;
 
 
-        public SearchUsersByCriteriaResponse Handle(SearchUserByCriteriaQuery query) =>
+        public async Task<SearchUsersByCriteriaResponse> Handle(SearchUserByCriteriaQuery query) =>
             query is null
                 ? throw new InvalidUserServiceException("Parametros de consulta inválidos.")
-                : new SearchUsersByCriteriaResponse(_repository.SearchByCriteria(GetCriteria(query.SearchType, query.SearchValue), query.PageNumber));
+                : new SearchUsersByCriteriaResponse(await _repository.SearchByCriteria(GetCriteria(query.SearchType, query.SearchValue), query.PageNumber));
 
 
-        private Func<SearchUserByCriteriaResponse, bool> GetCriteria
+        private System.Func<SearchUserByCriteriaResponse, bool> GetCriteria
             (string field, object filter = null) =>
             field.Trim().ToLower() switch {
                 "search_by_name" => (SearchUserByCriteriaResponse x) => x.FullName.ToLower().Contains(filter.ToString().ToLower()),

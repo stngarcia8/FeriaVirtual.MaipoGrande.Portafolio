@@ -1,9 +1,11 @@
-﻿namespace FeriaVirtual.Domain.SeedWork.Query
+﻿using System.Threading.Tasks;
+
+namespace FeriaVirtual.Domain.SeedWork.Query
 {
     public interface IQueryHandler<TQuery, TResponse>
         where TQuery : Query
     {
-        TResponse Handle(TQuery query);
+        Task<TResponse> Handle(TQuery query);
 
 
     }

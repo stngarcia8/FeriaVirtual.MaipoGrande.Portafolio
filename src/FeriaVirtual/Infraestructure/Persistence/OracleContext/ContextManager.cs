@@ -5,13 +5,13 @@ using FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.RegionalInfo;
 using FeriaVirtual.Infrastructure.SeedWork;
 using Oracle.ManagedDataAccess.Client;
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
 {
     public sealed class ContextManager
-        : IDisposable, IContextManager
+        : System.IDisposable, IContextManager
     {
         private bool _disposed;
         private readonly IDBConfig _dbConfig;
@@ -22,72 +22,72 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
         private ContextManager(IDBConfig dbConfig) =>
             _dbConfig = dbConfig;
 
+
         public static ContextManager BuildContext(IDBConfig dbConfig) =>
             new(dbConfig);
 
-        public void OpenContext()
+
+        public async Task OpenContextAsync()
         {
-            try {
-                _connection = new OracleConnection(_dbConfig.GetConnectionString);
-                if (_connection.State != System.Data.ConnectionState.Open) _connection.Open();
-                if (_connection.State == System.Data.ConnectionState.Open) {
-                    var regionalInfo = DBContextRegionalInfo.BuildRegionalInfo(_connection.GetSessionInfo());
-                    _connection.SetSessionInfo(regionalInfo.GetConfigurationInfo);
-                    _transaction = _connection.BeginTransaction();
-                }
-            } catch (Exception ex) {
-                string message = $"No ha sido posible establecer conexión con el servidor de base de datos ({_dbConfig.GetDatabaseName}), comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
-                throw new DBContextFailedException(message);
+            _connection = new OracleConnection(_dbConfig.GetConnectionString);
+            await _connection.OpenAsync();
+            _transaction = await Task.Run(() => _connection.BeginTransaction());
+            if(_connection.State == System.Data.ConnectionState.Open) {
+                var regionalInfo = DBContextRegionalInfo.BuildRegionalInfo(_connection.GetSessionInfo());
+                _connection.SetSessionInfo(regionalInfo.GetConfigurationInfo);
             }
+
         }
 
 
-        public void SaveByStoredProcedure<TEntity>
+        public async Task SaveByStoredProcedure<TEntity>
             (string storedProcedureName, TEntity entity)
             where TEntity : EntityBase
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
-            qm.ExecuteStoredProcedure<TEntity>(storedProcedureName, entity);
+            await qm.ExecuteStoredProcedureAsync<TEntity>(storedProcedureName, entity);
         }
 
-        public void SaveByStoredProcedure
+        public async Task SaveByStoredProcedure
             (string storedProcedureName, Dictionary<string, object> parameters = null)
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
-            qm.ExecuteStoredProcedure(storedProcedureName, parameters);
+            await qm.ExecuteStoredProcedureAsync(storedProcedureName, parameters);
         }
 
-        public IEnumerable<TViewModel> Select<TViewModel>
+        public async Task<IEnumerable<TResponse>> Select<TResponse>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel : IQueryResponseBase
+            where TResponse : IQueryResponseBase
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
-            return qm.ExecuteQuery<TViewModel>(sqlStatement, parameters);
+            return (IEnumerable<TResponse>)await qm.ExecuteQueryAsync<TResponse>(sqlStatement, parameters);
         }
 
-        public int Count(string sqlStatement)
+        public async Task<int> Count(string sqlStatement)
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
-            return qm.ExecuteQuery<int>(sqlStatement);
+            return await qm.ExecuteQueryAsync<int>(sqlStatement);
         }
 
-        public void CommitInContext()
+
+        public async Task CommitInContextAsync()
         {
-            if (_connection.State == System.Data.ConnectionState.Open)
-                _transaction.Commit();
+            if(_connection.State == System.Data.ConnectionState.Open)
+                await _transaction.CommitAsync();
         }
 
-        public void RollbackInContext()
+
+        public async Task RollbackInContextAsync()
         {
-            if (_connection.State == System.Data.ConnectionState.Open)
-                _transaction.Rollback();
+            if(_connection.State == System.Data.ConnectionState.Open)
+                await _transaction.RollbackAsync();
         }
 
-        public void CloseContext()
+        public async Task CloseContextAsync()
         {
-            if (_connection.State == System.Data.ConnectionState.Open) {
-                _transaction.Dispose();
-                _connection.Close();
+            if(_connection.State == System.Data.ConnectionState.Open) {
+                await _transaction.DisposeAsync();
+                await _connection.CloseAsync();
             }
         }
 
@@ -95,23 +95,23 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            DisposeAsync(true);
+            System.GC.SuppressFinalize(this);
         }
 
-        public void Dispose(bool disposing)
+        public async void DisposeAsync(bool disposing)
         {
-            if (_disposed) return;
-            if (disposing) {
-                //CloseContextTransaction();
-                //CloseContext();
+            if(_disposed)
+                return;
+            if(disposing) {
+                await CloseContextAsync();
             }
             _disposed = true;
         }
 
         ~ContextManager()
         {
-            Dispose(false);
+            DisposeAsync(false);
         }
 
 

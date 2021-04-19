@@ -1,19 +1,15 @@
-version: '2'
+version: '3.0'
 
 services:
   rabbitmq:
-    image: 'docker.io/bitnami/rabbitmq:3.8-debian-10'
+    image: 'rabbitmq:3.7-management'
     container_name: rabbitmq
+    restart: unless-stopped
     ports:
       - '4369:4369'
       - '5672:5672'
       - '25672:25672'
       - '15672:15672'
     environment:
-      - RABBITMQ_USERNAME=fv_user
-      - RABBITMQ_PASSWORD=fv_pwd
-    volumes:
-      - 'rabbitmq_data:/bitnami'
-volumes:
-  rabbitmq_data:
-    driver: local
+      - RABBITMQ_DEFAULT_USER=fv_user
+      - RABBITMQ_DEFAULT_PASS=aVaras_08

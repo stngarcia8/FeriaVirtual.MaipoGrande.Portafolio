@@ -1,8 +1,10 @@
-﻿namespace FeriaVirtual.Domain.SeedWork.Query
+﻿using System.Threading.Tasks;
+
+namespace FeriaVirtual.Domain.SeedWork.Query
 {
     public interface IQueryBus
     {
-        TResponse Ask<TResponse>(Query request);
+        Task<TResponse> Ask<TResponse>(Query request);
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Query;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Signin.Queries
 {
@@ -15,18 +16,18 @@ namespace FeriaVirtual.Application.Services.Signin.Queries
         }
 
 
-        public SigninResponse Handle(SigninQuery query)
+        public async Task<SigninResponse> Handle(SigninQuery query)
         {
             if (query is null) {
                 throw new InvalidSigninServiceException("Credenciales de usuario inválidas.");
             }
-            return ValidateResult(query);
+            return await ValidateResult(query);
         }
 
 
-        private SigninResponse ValidateResult(SigninQuery userQuery)
+        private async Task<SigninResponse> ValidateResult(SigninQuery userQuery)
         {
-            var result = _repository.SignIn<SigninResponse>(userQuery.Username, userQuery.Password);
+            var result = await _repository.SignIn<SigninResponse>(userQuery.Username, userQuery.Password);
             if (result is null)
                 throw new InvalidSigninServiceException("Usuario no esta registrado en Feria virtual.");
             if (result.IsActive < 0 || result.IsActive > 2)

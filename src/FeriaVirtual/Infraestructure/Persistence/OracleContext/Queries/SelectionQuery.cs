@@ -1,10 +1,8 @@
 ﻿using FeriaVirtual.Domain.SeedWork.Query;
 using Oracle.ManagedDataAccess.Client;
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 {
@@ -14,96 +12,85 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         private SelectionQuery(OracleCommand command)
             : base(command) { }
 
+
         public static SelectionQuery BuildQuery(OracleCommand command) =>
             new(command);
 
-        public TResult ExecuteQuery<TResult>(string spName)
-        {
-            try {
-                if (string.IsNullOrWhiteSpace(spName)) {
-                    throw new QueryExecutorFailedException("No ha especificado una consulta de selección para ejecutar.");
-                }
-                ConfigureCommand(spName);
-                AddResultsParameter();
-                return (TResult)Convert.ChangeType(_command.ExecuteScalar(), typeof(TResult));
 
-            } catch (Exception ex) {
-                string message = $"Error en consulta de selección, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
-                throw new QueryExecutorFailedException(message);
+        public async Task<TResponse> ExecuteQueryAsync<TResponse>(string spName)
+        {
+            if(string.IsNullOrWhiteSpace(spName)) {
+                throw new QueryExecutorFailedException("No ha especificado una consulta de selección para ejecutar.");
             }
+            ConfigureCommand(spName);
+            AddResultsParameter();
+            return (TResponse)System.Convert.ChangeType(await _command.ExecuteScalarAsync(), typeof(TResponse));
         }
 
 
-        public IEnumerable<TViewModel> ExecuteQuery<TViewModel>
+        public async Task<IEnumerable<TResponse>> ExecuteQueryAsync<TResponse>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel : IQueryResponseBase
+            where TResponse : IQueryResponseBase
         {
-            if (string.IsNullOrWhiteSpace(sqlStatement)) {
+            if(string.IsNullOrWhiteSpace(sqlStatement)) {
                 throw new QueryExecutorFailedException("No ha especificado una consulta de selección para ejecutar.");
             }
             ConfigureCommand(sqlStatement);
-            if (parameters != null) CreateQueryParameters(parameters);
+            if(parameters != null)
+                CreateQueryParameters(parameters);
             AddResultsParameter();
-
-            var resultType = typeof(TViewModel);
-            IList<TViewModel> results = new List<TViewModel>();
-            if (resultType.FullName.StartsWith("System."))
-                results = ExtractNativeTypes(results);
+            var resultType = typeof(TResponse);
+            IList<TResponse> responses = new List<TResponse>();
+            if(resultType.FullName.StartsWith("System."))
+                responses = (IList<TResponse>)await ExtractNativeTypesAsync(new List<TResponse>());
             else
-                results = ExtractCustomTypes(results);
-            return results;
+                responses = (IList<TResponse>)await ExtractCustomTypesAsync(new List<TResponse>());
+            return responses;
         }
+
 
         private void ConfigureCommand(string sqlStatement)
         {
             ClearParameters();
-            _command.CommandType = CommandType.StoredProcedure;
+            _command.CommandType = System.Data.CommandType.StoredProcedure;
             _command.CommandText = sqlStatement;
         }
 
-        private IList<TViewModel> ExtractNativeTypes<TViewModel>
-            (IList<TViewModel> results)
-            where TViewModel : IQueryResponseBase
+
+        private async Task<IEnumerable<TResponse>> ExtractNativeTypesAsync<TResponse>
+            (IList<TResponse> responses)
+            where TResponse : IQueryResponseBase
         {
-            try {
-                var dataReader = _command.ExecuteReader();
-                while (dataReader.Read()) {
-                    object objectValue = dataReader.GetValue(0);
-                    results.Add((TViewModel)(objectValue != DBNull.Value ? objectValue : null));
-                }
-                return results;
-            } catch (Exception ex) {
-                string message = $"Error en consulta de selección, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
-                throw new QueryExecutorFailedException(message);
+            var dataReader = await _command.ExecuteReaderAsync();
+            while(await dataReader.ReadAsync()) {
+                object objectValue = dataReader.GetValue(0);
+                responses.Add((TResponse)(objectValue != System.DBNull.Value ? objectValue : null));
             }
+            return responses;
         }
 
-        private IList<TViewModel> ExtractCustomTypes<TViewModel>
-            (IList<TViewModel> results)
-            where TViewModel : IQueryResponseBase
+
+        private async Task<IEnumerable<TResponse>> ExtractCustomTypesAsync<TResponse>
+            (IList<TResponse> responses)
+            where TResponse : IQueryResponseBase
         {
-            try {
-                PropertyInfo[] properties = typeof(TViewModel).GetProperties();
-                var dataReader = _command.ExecuteReader();
-                IList<string> columns = Enumerable
-                    .Range(0, dataReader.FieldCount)
-                    .Select(dataReader.GetName)
-                    .ToList();
-                while (dataReader.Read()) {
-                    TViewModel viewModel = Activator.CreateInstance<TViewModel>();
-                    foreach (var property in properties) {
-                        if (columns.Contains(property.Name.ToUpper())) {
-                            object propertyName = dataReader[property.Name];
-                            property.SetValue(viewModel, propertyName != DBNull.Value ? Convert.ChangeType(propertyName, property.PropertyType) : null, null);
-                        }
+            System.Reflection.PropertyInfo[] properties = typeof(TResponse).GetProperties();
+            var dataReader = await _command.ExecuteReaderAsync();
+            IList<string> columns = Enumerable
+                .Range(0, dataReader.FieldCount)
+                .Select(dataReader.GetName)
+                .ToList();
+            while(await dataReader.ReadAsync()) {
+                TResponse response = System.Activator.CreateInstance<TResponse>();
+                foreach(System.Reflection.PropertyInfo property in properties) {
+                    if(columns.Contains(property.Name.ToUpper())) {
+                        object propertyName = dataReader[property.Name];
+                        property.SetValue(response, propertyName != System.DBNull.Value ? System.Convert.ChangeType(propertyName, property.PropertyType) : null, null);
                     }
-                    results.Add(viewModel);
                 }
-                return results;
-            } catch (Exception ex) {
-                string message = $"Error en consulta de selección, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
-                throw new QueryExecutorFailedException(message);
+                responses.Add(response);
             }
+            return responses;
         }
 
 

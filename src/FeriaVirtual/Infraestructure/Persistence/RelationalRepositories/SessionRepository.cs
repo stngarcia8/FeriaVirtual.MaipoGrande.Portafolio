@@ -5,6 +5,7 @@ using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 using FeriaVirtual.Infrastructure.SeedWork;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 {
@@ -22,15 +23,17 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         }
 
 
-        public TResponse SignIn<TResponse>
+        public async Task<TResponse> SignIn<TResponse>
             (string username, string password)
             where TResponse : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("Username", username);
             _parameters.Add("Password", password);
-            var result = _unitOfWork.Context.Select<TResponse>("sp_signin_user", _parameters).FirstOrDefault();
-            return result;
+
+            await _unitOfWork.Context.OpenContextAsync();
+            IEnumerable<TResponse> response= await _unitOfWork.Context.Select<TResponse>("sp_signin_user", _parameters);
+            return response.FirstOrDefault();
         }
 
 

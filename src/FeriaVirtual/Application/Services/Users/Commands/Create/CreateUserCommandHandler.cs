@@ -2,6 +2,7 @@
 using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Commands;
 using FeriaVirtual.Domain.SeedWork.Events;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Users.Create
 {
@@ -20,7 +21,7 @@ namespace FeriaVirtual.Application.Services.Users.Create
         }
 
 
-        public void Handle(CreateUserCommand command)
+        public async Task Handle(CreateUserCommand command)
         {
             if (command is null) {
                 throw new InvalidUserServiceException("Datos de usuario nulos.");
@@ -28,8 +29,12 @@ namespace FeriaVirtual.Application.Services.Users.Create
             var newUser = new User(
                 command.Firstname, command.Lastname,
                 command.Dni, command.ProfileId, command.Username, command.Password, command.Email);
-            _repository.Create(newUser);
-            _eventBus.Publish(newUser.PullDomainEvents());
+
+            var tasks = Task.WhenAll(
+                _repository.Create(newUser),
+                _eventBus.PublishAsync(newUser.PullDomainEvents())
+                );
+            await tasks;
         }
 
 

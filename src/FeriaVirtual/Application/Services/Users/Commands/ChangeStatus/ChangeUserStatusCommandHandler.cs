@@ -3,6 +3,7 @@ using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Commands;
 using FeriaVirtual.Domain.SeedWork.Events;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Users.Commands.ChangeStatus
 {
@@ -21,23 +22,31 @@ namespace FeriaVirtual.Application.Services.Users.Commands.ChangeStatus
         }
 
 
-        public void Handle(ChangeUserStatusCommand command)
+        public async Task Handle(ChangeUserStatusCommand command)
         {
-            if (command is null) {
+            if(command is null) {
                 throw new InvalidUserServiceException("Datos de usuario inválidos.");
             }
-            if (command.IsActive < 0 || command.IsActive > 1) {
+            if(command.IsActive < 0 || command.IsActive > 1) {
                 throw new InvalidUserServiceException("Estado de usuario inválido.");
             }
             var user = new User(command.UserId);
-            if (command.IsActive.Equals(1)) {
+            Task tasks;
+
+            if(command.IsActive.Equals(1)) {
                 user.EnableUser();
-                _repository.EnableUser(user.UserId);
+                tasks = Task.WhenAll(
+                    _repository.EnableUser(user.UserId),
+                    _eventBus.PublishAsync(user.PullDomainEvents())
+                    );
             } else {
                 user.DisableUser();
-                _repository.DisableUser(user.UserId);
+                tasks = Task.WhenAll(
+                    _repository.DisableUser(user.UserId),
+                    _eventBus.PublishAsync(user.PullDomainEvents())
+                    );
             }
-            _eventBus.Publish(user.PullDomainEvents());
+            await tasks;
         }
 
 

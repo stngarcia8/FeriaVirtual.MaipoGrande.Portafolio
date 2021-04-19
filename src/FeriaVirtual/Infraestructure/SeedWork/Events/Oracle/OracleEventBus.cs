@@ -2,6 +2,7 @@
 using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.SeedWork.Events.Oracle
 {
@@ -15,14 +16,14 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.Oracle
             _unitOfWork = new UnitOfWork(ContextManager.BuildContext(EventStoreConfig.Build()));
 
 
-        public void Publish(DomainEventCollection evenCollection)
+        public async  Task PublishAsync(DomainEventCollection evenCollection)
         {
             foreach (var domainEvent in evenCollection.GetEvents)
-                Publish(domainEvent);
+                await PublishAsync(domainEvent);
         }
 
 
-        private void Publish(DomainEventBase domainEvent)
+        private async Task PublishAsync(DomainEventBase domainEvent)
         {
             Dictionary<string, object> parameters = new() {
                 { "EventId", domainEvent.EventId.Value.ToString() },
@@ -30,10 +31,14 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.Oracle
                 { "Body", DomainEventJsonSerializer .Serialize(domainEvent) },
                 { "OcurredOn", domainEvent.OcurredOn }
             };
-            _unitOfWork.Context.SaveByStoredProcedure("sp_add_event", parameters);
-            _unitOfWork.SaveChanges();
-        }
 
+            var tasks = Task.WhenAll(
+                _unitOfWork.Context.OpenContextAsync(),
+                _unitOfWork.Context.SaveByStoredProcedure("sp_add_event", parameters),
+                _unitOfWork.SaveChangesAsync()
+                );
+            await tasks;
+        }
 
 
     }

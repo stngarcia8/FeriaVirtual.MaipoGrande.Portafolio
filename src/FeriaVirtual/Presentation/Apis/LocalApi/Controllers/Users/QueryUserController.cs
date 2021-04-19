@@ -4,7 +4,7 @@ using FeriaVirtual.Application.Services.Users.Queries.SearchById;
 using FeriaVirtual.Domain.SeedWork.Query;
 using Microsoft.AspNetCore.Mvc;
 using System;
-
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Api.Local.Controllers.Users
 {
@@ -35,11 +35,11 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
 
         [HttpGet]
         [Route("api/users/all/{pageNumber}")]
-        public IActionResult GetAll(int pageNumber = 0)
+        public async Task<IActionResult> GetAll(int pageNumber = 0)
         {
             try {
                 SearchUserByCriteriaQuery query = new("search_all", "", pageNumber);
-                SearchUsersByCriteriaResponse results = _queryBus.Ask<SearchUsersByCriteriaResponse>(query);
+                SearchUsersByCriteriaResponse results = await _queryBus.Ask<SearchUsersByCriteriaResponse>(query);
                 return StatusCode(200, results.UsersResponse);
 
             } catch (Exception ex) {
@@ -55,7 +55,8 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
             try {
                 SearchUserByCriteriaQuery query = new(searchtype, searchvalue, pagenumber);
                 var results = _queryBus.Ask<SearchUsersByCriteriaResponse>(query);
-                return StatusCode(200, results.UsersResponse);
+                var value = results.Result;
+                return StatusCode(200, value.UsersResponse);
 
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);

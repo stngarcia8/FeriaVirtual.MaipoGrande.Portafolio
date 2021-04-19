@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.SeedWork.Queries
 {
@@ -17,12 +18,12 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Queries
             _provider = provider;
 
 
-        public TResponse Ask<TResponse>(Query query)
+        public async Task<TResponse> Ask<TResponse>(Query query)
         {
             var handler = GetWrappedHandlers<TResponse>(query);
             return handler is null
                 ? throw new QueryNotRegisteredException(query)
-                : handler.Handle(query, _provider);
+                : await handler.Handle(query, _provider);
         }
 
 

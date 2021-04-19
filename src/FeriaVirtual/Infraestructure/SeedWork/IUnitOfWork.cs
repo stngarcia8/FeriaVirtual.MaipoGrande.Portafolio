@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.SeedWork
 {
@@ -7,7 +8,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork
     {
         IContextManager Context { get; }
 
-        void SaveChanges();
+        Task SaveChangesAsync();
 
 
     }

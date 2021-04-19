@@ -33,7 +33,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
                     .Password(userDto.Password)
                     .Email(userDto.Email)
                     .Build();
-                _commandBus.Dispatch(userCommand);
+                _commandBus.DispatchAsync(userCommand);
                 return StatusCode(201, $"Usuario {userDto.Firstname} {userDto.Lastname} creado correctamente.");
 
             } catch (Exception ex) {

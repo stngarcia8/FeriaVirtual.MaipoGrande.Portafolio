@@ -35,7 +35,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
                     .Email(userDto.Email)
                     .IsActive(userDto.IsActive)
                     .Build();
-                _commandBus.Dispatch(command);
+                _commandBus.DispatchAsync(command);
                 return StatusCode(200, $"El usuario {userDto.Firstname} {userDto.Lastname} fue actualizado correctamente");
             } catch (Exception ex) {
                 return StatusCode(400, ex.Message);

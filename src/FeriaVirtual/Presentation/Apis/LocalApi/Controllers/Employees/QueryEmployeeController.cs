@@ -4,6 +4,7 @@ using FeriaVirtual.Application.Services.Employees.Queries.SearchById;
 using FeriaVirtual.Domain.SeedWork.Query;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Api.Local.Controllers.Employees
 {
@@ -20,13 +21,13 @@ namespace FeriaVirtual.Api.Local.Controllers.Employees
 
         [HttpGet]
         [Route("api/employees/{employeeid}")]
-        public IActionResult GetById(string employeeid)
+        public async Task<IActionResult> GetById(string employeeid)
         {
             try {
-                var result = _queryBus.Ask<SearchEmployeeByIdResponse>(new SearchEmployeeByIdQuery(employeeid));
+                var queryEmployee = new SearchEmployeeByIdQuery(employeeid);
+                SearchEmployeeByIdResponse result = await _queryBus.Ask<SearchEmployeeByIdResponse>(queryEmployee);
                 return StatusCode(200, result);
-
-            } catch (Exception ex) {
+            } catch(Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }
@@ -34,14 +35,13 @@ namespace FeriaVirtual.Api.Local.Controllers.Employees
 
         [HttpGet]
         [Route("api/employees/all/{pageNumber}")]
-        public IActionResult GetAll(int pageNumber = 0)
+        public async Task<IActionResult> GetAll(int pageNumber = 0)
         {
             try {
                 SearchEmployeeByCriteriaQuery query = new("search_all", "", pageNumber);
-                SearchEmployeesByCriteriaResponse results = _queryBus.Ask<SearchEmployeesByCriteriaResponse>(query);
+                SearchEmployeesByCriteriaResponse results = await _queryBus.Ask<SearchEmployeesByCriteriaResponse>(query);
                 return StatusCode(200, results.EmployeesResponse);
-
-            } catch (Exception ex) {
+            } catch(Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }
@@ -49,14 +49,15 @@ namespace FeriaVirtual.Api.Local.Controllers.Employees
 
         [HttpGet]
         [Route("api/employees/searchbycriteria/{searchtype}/{searchvalue}/{pagenumber}")]
-        public IActionResult GetByCriteria(string searchtype, string searchvalue, int pagenumber)
+        public async Task<IActionResult>
+            GetByCriteria(string searchtype, string searchvalue, int pagenumber)
         {
             try {
                 SearchEmployeeByCriteriaQuery query = new(searchtype, searchvalue, pagenumber);
-                var results = _queryBus.Ask<SearchEmployeesByCriteriaResponse>(query);
+                var results = await _queryBus.Ask<SearchEmployeesByCriteriaResponse>(query);
                 return StatusCode(200, results.EmployeesResponse);
 
-            } catch (Exception ex) {
+            } catch(Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }
@@ -64,12 +65,11 @@ namespace FeriaVirtual.Api.Local.Controllers.Employees
 
         [HttpGet]
         [Route("api/employees/count")]
-        public IActionResult GetCount()
+        public async Task<IActionResult> GetCount()
         {
             try {
-                return base.StatusCode(200, _queryBus.Ask<EmployeeCounterResponse>(new EmployeeCounterQuery()));
-
-            } catch (Exception ex) {
+                return base.StatusCode(200, await _queryBus.Ask<EmployeeCounterResponse>(new EmployeeCounterQuery()));
+            } catch(Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FeriaVirtual.App.Desktop.SeedWork.Filters;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FeriaVirtual.App.Desktop.Services.Employees
@@ -8,5 +9,7 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
         Task<EmployeeCounterViewModel> GetNumberOfEmployees();
 
         Task<List<EmployeesViewModel>> GetAllEmployees(int pageNumber);
+
+        Task<List<EmployeesViewModel>> GetEmployeesByCriteria(Criteria criteria);
     }
 }

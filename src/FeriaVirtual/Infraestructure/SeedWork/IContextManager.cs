@@ -1,31 +1,32 @@
 ﻿using FeriaVirtual.Domain.SeedWork;
 using FeriaVirtual.Domain.SeedWork.Query;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.SeedWork
 {
     public interface IContextManager
     {
-        void OpenContext();
+        Task OpenContextAsync();
 
-        void SaveByStoredProcedure<TEntity>
+        Task SaveByStoredProcedure<TEntity>
             (string storedProcedureName, TEntity entity)
             where TEntity : EntityBase;
 
-        void SaveByStoredProcedure
+        Task SaveByStoredProcedure
             (string storedProcedureName, Dictionary<string, object> parameters);
 
-        IEnumerable<TViewModel> Select<TViewModel>
+        Task<IEnumerable<TResponse>> Select<TResponse>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel : IQueryResponseBase;
+            where TResponse : IQueryResponseBase;
 
-        int Count(string sqlStatement);
+        Task<int> Count(string sqlStatement);
 
-        void CommitInContext();
+        Task CommitInContextAsync();
 
-        void RollbackInContext();
+        Task RollbackInContextAsync();
 
-        void CloseContext();
+        Task CloseContextAsync();
 
 
     }

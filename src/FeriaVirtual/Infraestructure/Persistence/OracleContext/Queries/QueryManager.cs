@@ -2,6 +2,7 @@
 using FeriaVirtual.Domain.SeedWork.Query;
 using Oracle.ManagedDataAccess.Client;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 {
@@ -23,48 +24,51 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 
         private void ConfigureCommand()
         {
+            if(_connection.State != System.Data.ConnectionState.Open)
+                throw new DBContextFailedException("No ha sido posible conectarse a la base de datos");
             _command = _connection.CreateCommand();
             _command.Transaction = _transaction;
             _command.BindByName = true;
         }
 
+
         public static QueryManager BuildManager
             (OracleConnection connection, OracleTransaction transaction) =>
             new(connection, transaction);
 
-        public void ExecuteStoredProcedure<TEntity>
+
+        public async Task ExecuteStoredProcedureAsync<TEntity>
             (string spName, TEntity entity)
             where TEntity : EntityBase
         {
             var spExcecutor = StoredProcedureQuery.BuildQuery(_command);
-            spExcecutor.Excecute(spName, entity);
+            await spExcecutor.ExcecuteAsync(spName, entity);
         }
 
-        public void ExecuteStoredProcedure
+
+        public async Task ExecuteStoredProcedureAsync
             (string spName, Dictionary<string, object> parameters = null)
         {
             var spExcecutor = StoredProcedureQuery.BuildQuery(_command);
-            spExcecutor.Excecute(spName, parameters);
+            await spExcecutor.ExcecuteAsync(spName, parameters);
         }
 
-        public TResult ExecuteQuery<TResult>
+
+        public async Task<TResponse> ExecuteQueryAsync<TResponse>
             (string sqlStatement)
         {
             var queryExcecutor = SelectionQuery.BuildQuery(_command);
-            return queryExcecutor.ExecuteQuery<TResult>(sqlStatement);
+            return await queryExcecutor.ExecuteQueryAsync<TResponse>(sqlStatement);
         }
 
-        public IEnumerable<TViewModel> ExecuteQuery<TViewModel>
+
+        public async Task<IEnumerable<TResponse>> ExecuteQueryAsync<TResponse>
             (string sqlStatement, Dictionary<string, object> parameters = null)
-            where TViewModel : IQueryResponseBase
+            where TResponse : IQueryResponseBase
         {
             var queryExcecutor = SelectionQuery.BuildQuery(_command);
-            return queryExcecutor.ExecuteQuery<TViewModel>(sqlStatement, parameters);
+            return await queryExcecutor.ExecuteQueryAsync<TResponse>(sqlStatement, parameters);
         }
-
-
-
-
 
 
     }

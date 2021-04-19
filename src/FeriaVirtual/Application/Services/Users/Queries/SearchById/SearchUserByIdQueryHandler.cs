@@ -1,5 +1,6 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Query;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Users.Queries.SearchById
 {
@@ -13,14 +14,14 @@ namespace FeriaVirtual.Application.Services.Users.Queries.SearchById
             _repository = repository;
 
 
-        public SearchUserByIdResponse Handle(SearchUserByIdQuery query)
+        public async Task<SearchUserByIdResponse> Handle(SearchUserByIdQuery query)
         {
             if (query is null)
                 throw new InvalidUserServiceException("Identificador de usuario inválido.");
-            var result = _repository.SearchById<SearchUserByIdResponse>(query.Id);
-            if (result is null)
+            var response = await _repository.SearchById<SearchUserByIdResponse>(query.Id);
+            if (response is null)
                 throw new InvalidUserServiceException("El Usuario solicitado no existe.");
-            return result;
+            return response;
         }
 
 

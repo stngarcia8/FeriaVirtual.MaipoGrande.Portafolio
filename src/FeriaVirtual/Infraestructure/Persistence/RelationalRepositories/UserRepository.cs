@@ -4,9 +4,9 @@ using FeriaVirtual.Domain.SeedWork.Query;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
 using FeriaVirtual.Infrastructure.SeedWork;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 {
@@ -24,61 +24,90 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         }
 
 
-        public void Create(User user)
+        public async Task Create(User user)
         {
-            _unitOfWork.Context.SaveByStoredProcedure<Credential>("sp_add_credential", user.GetCredential);
-            _unitOfWork.Context.SaveByStoredProcedure<User>("sp_add_user", user);
-            _unitOfWork.SaveChanges();
+            var tasks = Task.WhenAll(
+                _unitOfWork.Context.OpenContextAsync(),
+                _unitOfWork.Context.SaveByStoredProcedure<Credential>("sp_add_credential", user.GetCredential),
+                _unitOfWork.Context.SaveByStoredProcedure<User>("sp_add_user", user),
+                _unitOfWork.SaveChangesAsync()
+                );
+            await tasks;
         }
 
 
-        public void Update(User user)
+        public async Task Update(User user)
         {
-            _unitOfWork.Context.SaveByStoredProcedure<Credential>("sp_update_credential", user.GetCredential);
-            _unitOfWork.Context.SaveByStoredProcedure<User>("sp_update_user", user);
-            _unitOfWork.SaveChanges();
+            var tasks = Task.WhenAll(
+                _unitOfWork.Context.OpenContextAsync(),
+                _unitOfWork.Context.SaveByStoredProcedure<Credential>("sp_update_credential", user.GetCredential),
+                _unitOfWork.Context.SaveByStoredProcedure<User>("sp_update_user", user),
+                _unitOfWork.SaveChangesAsync()
+                );
+            await tasks;
         }
 
 
-        public void EnableUser(Guid userId)
+        public async Task EnableUser(System.Guid userId)
         {
             _parameters.Add("UserId", userId.ToString());
-            _unitOfWork.Context.SaveByStoredProcedure("sp_enable_user", _parameters);
-            _unitOfWork.SaveChanges();
+
+            var tasks = Task.WhenAll(
+                _unitOfWork.Context.OpenContextAsync(),
+                _unitOfWork.Context.SaveByStoredProcedure("sp_enable_user", _parameters),
+                _unitOfWork.SaveChangesAsync()
+                );
+            await tasks;
         }
 
 
-        public void DisableUser(Guid userId)
+        public async Task DisableUser(System.Guid userId)
         {
             _parameters.Add("UserId", userId.ToString());
-            _unitOfWork.Context.SaveByStoredProcedure("sp_disable_user", _parameters);
-            _unitOfWork.SaveChanges();
+
+            var tasks = Task.WhenAll(
+                _unitOfWork.Context.OpenContextAsync(),
+                _unitOfWork.Context.SaveByStoredProcedure("sp_disable_user", _parameters),
+                _unitOfWork.SaveChangesAsync()
+                );
+            await tasks;
         }
 
 
-        public TResponse SearchById<TResponse>(Guid userId)
+        public async Task<TResponse> SearchById<TResponse>(System.Guid userId)
             where TResponse : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("UserId", userId.ToString());
-            return _unitOfWork.Context.Select<TResponse>("sp_get_user", _parameters).FirstOrDefault();
+
+            await _unitOfWork.Context.OpenContextAsync();
+            var response = await _unitOfWork.Context.Select<TResponse>("sp_get_user", _parameters);
+            return response.FirstOrDefault();
         }
 
 
-        public IEnumerable<TResponse> SearchByCriteria<TResponse>
-             (Func<TResponse, bool> filters = null, int pageNumber=0)
+        public async Task<IEnumerable<TResponse>> SearchByCriteria<TResponse>
+             (System.Func<TResponse, bool> filters = null, int pageNumber = 0)
          where TResponse : IQueryResponseBase
         {
             _parameters.Clear();
             _parameters.Add("PageNumber", pageNumber);
-            IEnumerable<TResponse> results = _unitOfWork.Context.Select<TResponse>("sp_get_allusers", _parameters);
-            if (filters != null)
-                results = results.Where(filters);
-            return results.ToList();
+
+            await _unitOfWork.Context.OpenContextAsync();
+            var responses= await _unitOfWork.Context.Select<TResponse>("sp_get_allusers", _parameters);
+
+            if(filters is not null)
+                responses = responses.Where(filters);
+            return responses.ToList();
         }
 
-        public int CountAllUsers() =>
-            _unitOfWork.Context.Count("sp_count_allusers");
+
+        public async Task<int> CountAllUsers()
+        {
+            await _unitOfWork.Context.OpenContextAsync();
+            var response = await _unitOfWork.Context.Count("sp_count_allusers");
+            return response;
+        }
 
 
     }

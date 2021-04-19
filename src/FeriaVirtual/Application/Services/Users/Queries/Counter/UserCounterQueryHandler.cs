@@ -1,5 +1,6 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Query;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Users.Queries.Counter
 {
@@ -13,9 +14,9 @@ namespace FeriaVirtual.Application.Services.Users.Queries.Counter
             _repository = repository;
 
 
-        public UserCounterResponse Handle(UserCounterQuery query) =>
+        public async Task<UserCounterResponse> Handle(UserCounterQuery query) =>
             new() {
-                Total = _repository.CountAllUsers()
+                Total = await _repository.CountAllUsers()
             };
 
 

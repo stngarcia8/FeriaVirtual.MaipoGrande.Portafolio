@@ -23,7 +23,7 @@ namespace Application.Test.Users
                 .Setup(x => x.SignIn<SigninResponse>(signinQueryMother.Username, signinQueryMother.Password))
                 .Verifiable();
             var _handler = new SigninQueryHandler(_repository.Object);
-            Assert.Throws<InvalidSigninServiceException>(
+            Assert.ThrowsAsync<InvalidSigninServiceException>(
                 () => _handler.Handle(signinQueryMother)
                 );
         }

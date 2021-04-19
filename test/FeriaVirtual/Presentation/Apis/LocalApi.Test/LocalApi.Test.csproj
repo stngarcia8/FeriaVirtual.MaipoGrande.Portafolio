@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\app\FeriaVirtual\Apis\LocalApi\LocalApi.csproj" />
+    <ProjectReference Include="..\..\..\..\..\src\FeriaVirtual\Presentation\Apis\LocalApi\LocalApi.csproj" />
   </ItemGroup>
 
 </Project>

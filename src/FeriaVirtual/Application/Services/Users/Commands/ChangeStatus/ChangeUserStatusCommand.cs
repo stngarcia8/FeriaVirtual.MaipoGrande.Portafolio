@@ -1,21 +1,21 @@
 ﻿using FeriaVirtual.Domain.SeedWork.Commands;
-using System;
+
 
 namespace FeriaVirtual.Application.Users.Commands.ChangeStatus
 {
     public class ChangeUserStatusCommand
         : Command
     {
-        public Guid UserId { get; protected set; }
+        public System.Guid UserId { get; protected set; }
         public int IsActive { get; protected set; }
 
 
         public ChangeUserStatusCommand(string userId, int isActive)
         {
-            UserId = new Guid(userId);
+            UserId = new System.Guid(userId);
             IsActive = isActive;
         }
-            
+
 
 
     }

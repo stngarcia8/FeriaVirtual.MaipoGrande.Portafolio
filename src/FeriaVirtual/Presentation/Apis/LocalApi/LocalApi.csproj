@@ -4,10 +4,14 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>FeriaVirtual.Api.Local</RootNamespace>
     <AssemblyName>LocalApi</AssemblyName>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
     <UserSecretsId>c370e3ec-88b0-481b-918a-bdb323007f9e</UserSecretsId>
-    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <ApplicationIcon>mg-logo.ico</ApplicationIcon>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <ActiveDebugProfile>Debug</ActiveDebugProfile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>

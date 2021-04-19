@@ -1,6 +1,7 @@
 ﻿using FeriaVirtual.Domain.SeedWork.Events;
 using RabbitMQ.Client.Exceptions;
 using System;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.SeedWork.Events.RabbitMQ
 {
@@ -19,18 +20,18 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.RabbitMQ
         }
 
 
-        public void Publish(DomainEventCollection eventCollection)
+        public async Task PublishAsync(DomainEventCollection eventCollection)
         {
             foreach (var e in eventCollection.GetEvents)
-                Publish(e);
+                await Publish(e);
         }
 
 
-        private void Publish(DomainEventBase domainEvent)
+        private async Task  Publish(DomainEventBase domainEvent)
         {
             try {
                 var serializedDomainEvent = DomainEventJsonSerializer.Serialize(domainEvent);
-                _rabbitMqPublisher.Publish(_exchangeName, domainEvent.EventName(), serializedDomainEvent);
+                await Task.Run(() => _rabbitMqPublisher.Publish(_exchangeName, domainEvent.EventName(), serializedDomainEvent));
             } catch (RabbitMQClientException ex) {
                 throw new Exception(ex.Message);
             }

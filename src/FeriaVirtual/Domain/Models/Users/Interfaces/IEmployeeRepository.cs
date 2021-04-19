@@ -1,19 +1,20 @@
 ﻿using FeriaVirtual.Domain.SeedWork.Query;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Domain.Models.Users.Interfaces
 {
     public interface IEmployeeRepository
     {
-        TResponse SearchById<TResponse>(Guid userId)
+        Task<TResponse> SearchById<TResponse>(Guid userId)
             where TResponse : IQueryResponseBase;
 
-        IEnumerable<TResponse> SearchByCriteria<TResponse>
+        Task<IEnumerable<TResponse>> SearchByCriteria<TResponse>
             (Func<TResponse, bool> filters = null, int pageNumber = 0)
             where TResponse : IQueryResponseBase;
 
-        int CountAllEmployees();
+        Task<int> CountAllEmployees();
 
 
 

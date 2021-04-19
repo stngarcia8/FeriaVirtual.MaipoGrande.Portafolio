@@ -1,7 +1,7 @@
 ﻿using FeriaVirtual.Domain.SeedWork;
 using Oracle.ManagedDataAccess.Client;
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 {
@@ -11,41 +11,37 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         private StoredProcedureQuery(OracleCommand command)
             : base(command) { }
 
+
         public static StoredProcedureQuery BuildQuery(OracleCommand command) =>
             new(command);
 
-        public void Excecute<TEntity>
+
+        public async Task ExcecuteAsync<TEntity>
             (string spName, TEntity entity)
             where TEntity : EntityBase
         {
-            try {
-                if (string.IsNullOrWhiteSpace(spName)) {
-                    throw new QueryExecutorFailedException("No ha especificado un nombre de procedimiento almacenado para ejecutar.");
-                }
-                ConfigureCommand(spName);
-                if (entity.GetPrimitives() != null) CreateStoredProcedureParameters(entity);
-                _command.ExecuteNonQuery();
-            } catch (Exception ex) {
-                string message = $"Error al intentar ejecutar procedimiento almacenado {spName}, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
-                throw new QueryExecutorFailedException(message);
+            if(string.IsNullOrWhiteSpace(spName)) {
+                throw new QueryExecutorFailedException("No ha especificado un nombre de procedimiento almacenado para ejecutar.");
             }
+            ConfigureCommand(spName);
+            if(entity.GetPrimitives() != null)
+                CreateStoredProcedureParameters(entity);
+            await _command.ExecuteNonQueryAsync();
         }
 
-        public void Excecute
+
+        public async Task ExcecuteAsync
             (string spName, Dictionary<string, object> parameters = null)
         {
-            try {
-                if (string.IsNullOrWhiteSpace(spName)) {
-                    throw new QueryExecutorFailedException("No ha especificado un nombre de procedimiento almacenado para ejecutar.");
-                }
-                ConfigureCommand(spName);
-                if (parameters != null) CreateQueryParameters(parameters);
-                _command.ExecuteNonQuery();
-            } catch (Exception ex) {
-                string message = $"Error al intentar ejecutar procedimiento almacenado {spName}, comunique este problema al administrador del sistema.{Environment.NewLine}Error: {ex.Message}";
-                throw new QueryExecutorFailedException(message);
+            if(string.IsNullOrWhiteSpace(spName)) {
+                throw new QueryExecutorFailedException("No ha especificado un nombre de procedimiento almacenado para ejecutar.");
             }
+            ConfigureCommand(spName);
+            if(parameters != null)
+                CreateQueryParameters(parameters);
+            await _command.ExecuteNonQueryAsync();
         }
+
 
         private void ConfigureCommand(string spName)
         {

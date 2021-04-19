@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 
 namespace FeriaVirtual.Domain.SeedWork.Events
 {
     public interface IEventBus
     {
-        void Publish(DomainEventCollection eventCollection);
+        Task PublishAsync(DomainEventCollection eventCollection);
 
 
     }

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Domain.SeedWork.Query
 {
     public abstract class QueryHandlerWrapper<TResponse>
     {
-        public abstract TResponse Handle(Query query, IServiceProvider provider);
+        public abstract Task<TResponse> Handle(Query query, IServiceProvider provider);
 
 
     }
@@ -14,10 +15,11 @@ namespace FeriaVirtual.Domain.SeedWork.Query
         : QueryHandlerWrapper<TResponse>
         where TQuery : Query
     {
-        public override TResponse Handle(Query query, IServiceProvider provider)
+        public override async Task<TResponse> Handle(Query query, IServiceProvider provider)
         {
-            var handler = (IQueryHandler<TQuery, TResponse>)provider.GetService(typeof(IQueryHandler<TQuery, TResponse>));
-            return handler.Handle((TQuery)query);
+            var handler =
+                (IQueryHandler<TQuery, TResponse>)provider.GetService(typeof(IQueryHandler<TQuery, TResponse>));
+            return await handler.Handle((TQuery)query);
         }
 
 

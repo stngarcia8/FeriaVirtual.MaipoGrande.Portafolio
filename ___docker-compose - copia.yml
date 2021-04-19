@@ -1,0 +1,67 @@
+version: '3.0'
+
+services:
+  sqlserver2019:
+    image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+    container_name: sqlserver
+    hostname: sqlserver
+    networks:
+        - mgfv_net
+    expose:
+        - 1433
+    ports:
+        - 1433:1433
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=aVaras_08
+        - TZ=America/Santiago
+        - MSSQL_AGENT_ENABLED=true
+        - MSSQL_ENABLE_HADR=1
+        - MSSQL_MEMORY_LIMIT_MB=4096
+    volumes:
+        - d:/containers/volumenes/back_files:/back_files
+        - d:/containers/volumenes/script/sqlServer:/script_files
+        - mssql_data:/var/opt/mssql
+
+  rabbitmq:
+    image: 'rabbitmq:3.7-management'
+    container_name: rabbitmq
+    restart: unless-stopped
+    networks:
+      - mgfv_net
+    ports:
+      - '4369:4369'
+      - '5672:5672'
+      - '25672:25672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=fv_user
+      - RABBITMQ_DEFAULT_PASS=aVaras_08
+
+  oraclexe:
+    image: oracle/database:18.4.0-xe
+    container_name: oraclexe
+    networks:
+      - mgfv_net
+    expose:
+      - 1521
+      - 5500
+    ports:
+      - 1521:1521
+      - 5500:5500
+    environment:
+      - ORACLE_PWD=aVaras_08
+      - ORACLE_CHARACTERSET=AL32UTF8
+    volumes:
+      - d:/containers/volumenes/script/oracle:/script_files
+      - oracl_data:/opt/oracle/oradata
+
+
+networks:
+  mgfv_net:
+
+volumes:
+  mssql_data:
+  oracl_data:
+
+

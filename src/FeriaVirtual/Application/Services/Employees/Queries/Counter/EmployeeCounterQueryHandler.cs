@@ -1,5 +1,6 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Query;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Employees.Queries.Counter
 {
@@ -13,9 +14,9 @@ namespace FeriaVirtual.Application.Services.Employees.Queries.Counter
             _repository = repository;
 
 
-        public EmployeeCounterResponse Handle(EmployeeCounterQuery query) =>
+        public async Task<EmployeeCounterResponse> Handle(EmployeeCounterQuery query) =>
             new() {
-                Total = _repository.CountAllEmployees()
+                Total = await _repository.CountAllEmployees()
             };
 
 

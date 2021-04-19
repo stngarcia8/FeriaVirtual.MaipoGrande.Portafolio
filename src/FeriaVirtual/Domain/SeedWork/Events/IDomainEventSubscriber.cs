@@ -1,18 +1,20 @@
-﻿namespace FeriaVirtual.Domain.SeedWork.Events
+﻿using System.Threading.Tasks;
+
+namespace FeriaVirtual.Domain.SeedWork.Events
 {
     public interface IDomainEventSubscriber<TDomain>
         : IDomainEventSubscriberBase
         where TDomain : DomainEventBase
     {
-        void IDomainEventSubscriberBase.On(DomainEventBase @event)
+        async Task IDomainEventSubscriberBase.On(DomainEventBase @event)
         {
             var msg = @event as TDomain;
-            if (msg is null)
-                On(msg);
+            if(msg is null)
+                await On(msg);
         }
 
 
-        void On(TDomain domainEvent);
+        Task On(TDomain domainEvent);
 
 
     }

@@ -3,6 +3,7 @@ using FeriaVirtual.Domain.SeedWork.Commands;
 using FeriaVirtual.Domain.SeedWork.Events;
 using FeriaVirtual.Domain.SeedWork.Query;
 using FeriaVirtual.Infrastructure.Persistence.RelationalRepositories;
+using FeriaVirtual.Infrastructure.SeedWork;
 using FeriaVirtual.Infrastructure.SeedWork.Commands;
 using FeriaVirtual.Infrastructure.SeedWork.Events;
 using FeriaVirtual.Infrastructure.SeedWork.Events.Oracle;

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.SeedWork.Events
 {
@@ -15,7 +16,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events
             _serviceProvider = serviceProvider;
 
 
-        public void Publish(DomainEventCollection  eventCollection)
+        public async Task  PublishAsync(DomainEventCollection  eventCollection)
         {
             if (eventCollection is null) {
                 return;
@@ -23,7 +24,8 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events
             using var scope = _serviceProvider.CreateScope();
             foreach (var @event in eventCollection.GetEvents) {
                 var subscribers = GetSubscribers(@event, scope);
-                foreach (var subscriber in subscribers) ((IDomainEventSubscriberBase)subscriber).On(@event);
+                foreach (var subscriber in subscribers) 
+                    await ((IDomainEventSubscriberBase)subscriber).On(@event);
             }
         }
 
@@ -33,5 +35,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events
             var subscriberType = typeof(IDomainEventSubscriber<>).MakeGenericType(eventType);
             return scope.ServiceProvider.GetServices(subscriberType);
         }
+
+
     }
 }

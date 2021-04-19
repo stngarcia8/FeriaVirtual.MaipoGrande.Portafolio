@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.SeedWork
 {
@@ -11,33 +11,31 @@ namespace FeriaVirtual.Infrastructure.SeedWork
         public UnitOfWork(IContextManager context)
         {
             Context = context;
-            Context.OpenContext();
+            //Context.OpenContextAsync();
         }
 
 
-        public void SaveChanges() =>
-            Context.CommitInContext();
+        public async Task  SaveChangesAsync() =>
+            await Context.CommitInContextAsync();
 
 
-        public void Dispose()
+        public async void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            await Dispose(true);
+            System.GC.SuppressFinalize(this);
         }
 
 
-        public void Dispose(bool disposing)
+        public async Task  Dispose(bool disposing)
         {
             if (_disposed) return;
-            if (disposing) Context.CloseContext();
+            if (disposing) await Context.CloseContextAsync();
             _disposed = true;
         }
 
 
-        ~UnitOfWork()
-        {
-            Dispose(false);
-        }
+        ~UnitOfWork() =>
+            Dispose(false).GetAwaiter();
 
 
     }

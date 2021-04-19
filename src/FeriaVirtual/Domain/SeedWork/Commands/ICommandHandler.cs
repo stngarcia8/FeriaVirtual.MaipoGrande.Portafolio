@@ -1,9 +1,11 @@
-﻿namespace FeriaVirtual.Domain.SeedWork.Commands
+﻿using System.Threading.Tasks;
+
+namespace FeriaVirtual.Domain.SeedWork.Commands
 {
     public interface ICommandHandler<TCommand>
         where TCommand : Command
     {
-        void Handle(TCommand command);
+        Task Handle(TCommand command);
 
 
     }

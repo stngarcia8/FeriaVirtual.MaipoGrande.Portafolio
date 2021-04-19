@@ -1,6 +1,7 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Query;
 using System;
+using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Employees.Queries.SearchByCriteria
 {
@@ -14,10 +15,10 @@ namespace FeriaVirtual.Application.Services.Employees.Queries.SearchByCriteria
             _repository = repository;
 
 
-        public SearchEmployeesByCriteriaResponse Handle(SearchEmployeeByCriteriaQuery query) =>
+        public async Task<SearchEmployeesByCriteriaResponse> Handle(SearchEmployeeByCriteriaQuery query) =>
             query is null
                 ? throw new InvalidEmployeeServiceException("Parametros de consulta inválidos.")
-                : new SearchEmployeesByCriteriaResponse(_repository.SearchByCriteria(GetCriteria(query.SearchType, query.SearchValue), query.PageNumber));
+                : new SearchEmployeesByCriteriaResponse(await _repository.SearchByCriteria(GetCriteria(query.SearchType, query.SearchValue), query.PageNumber));
 
 
         private Func<SearchEmployeeByCriteriaResponse, bool> GetCriteria

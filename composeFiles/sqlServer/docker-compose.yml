@@ -1,0 +1,25 @@
+version: '3.0'
+
+services:
+  sqlserver2019:
+    image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+    container_name: sqlserver
+    hostname: sqlserver
+    expose:
+        - 1433
+    ports:
+        - 1433:1433
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=aVaras_08
+        - TZ=America/Santiago
+        - MSSQL_AGENT_ENABLED=true
+        - MSSQL_ENABLE_HADR=1
+        - MSSQL_MEMORY_LIMIT_MB=4096
+    volumes:
+        - d:/containers/volumenes/back_files:/back_files
+        - d:/containers/volumenes/script/sqlServer:/script_files
+        - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:
