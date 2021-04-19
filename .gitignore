@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 
+images/
+
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -346,7 +349,5 @@ oracle*.rpm
 # intelij configuration folder.
 .idea/
 
-# Application image files folder
-images/
 
 
