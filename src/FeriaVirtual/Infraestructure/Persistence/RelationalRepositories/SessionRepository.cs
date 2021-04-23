@@ -32,7 +32,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
             _parameters.Add("Password", password);
 
             await _unitOfWork.Context.OpenContextAsync();
-            IEnumerable<TResponse> response= await _unitOfWork.Context.Select<TResponse>("sp_signin_user", _parameters);
+            IEnumerable<TResponse> response= await _unitOfWork.Context.SelectAsync<TResponse>("sp_signin_user", _parameters);
             return response.FirstOrDefault();
         }
 

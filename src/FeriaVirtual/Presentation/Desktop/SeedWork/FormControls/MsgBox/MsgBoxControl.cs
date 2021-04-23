@@ -1,17 +1,15 @@
 ﻿using MetroFramework.Controls;
-using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
 {
     public partial class MsgBoxControl : Form
     {
-        private readonly Color _defaultColor = Color.FromArgb(124, 65, 153);
-        private readonly Color _errorColor = Color.FromArgb(210, 50, 45);
-        private readonly Color _warningColor = Color.FromArgb(237, 156, 40);
-        //private readonly Color _successColor = Color.FromArgb(71, 164, 71);
-        private readonly Color _questionColor = Color.FromArgb(71, 164, 71);
+        private readonly System.Drawing.Color _defaultColor = System.Drawing.Color.FromArgb(124, 65, 153);
+        private readonly System.Drawing.Color _errorColor = System.Drawing.Color.FromArgb(210, 50, 45);
+        private readonly System.Drawing.Color _warningColor = System.Drawing.Color.FromArgb(237, 156, 40);
+        //private readonly System.Drawing.Color _successColor = Color.FromArgb(71, 164, 71);
+        private readonly System.Drawing.Color _questionColor = System.Drawing.Color.FromArgb(71, 164, 71);
         private readonly MsgBoxProperties _properties = null;
         private DialogResult _result = DialogResult.None;
 
@@ -28,27 +26,27 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
             SetEventToButton(metroButton1);
             SetEventToButton(metroButton2);
             SetEventToButton(metroButton3);
-            metroButton1.Click += new EventHandler(Button_Click);
-            metroButton2.Click += new EventHandler(Button_Click);
-            metroButton3.Click += new EventHandler(Button_Click);
+            metroButton1.Click += new System.EventHandler(Button_Click);
+            metroButton2.Click += new System.EventHandler(Button_Click);
+            metroButton3.Click += new System.EventHandler(Button_Click);
         }
 
 
         private void Button_MouseEnter
-            (object sender, EventArgs e) =>
+            (object sender, System.EventArgs e) =>
             SetEventToButton((MetroButton)sender, true);
 
 
         private void Button_MouseLeave
-            (object sender, EventArgs e) =>
+            (object sender, System.EventArgs e) =>
             SetEventToButton((MetroButton)sender);
 
 
         private void Button_Click
-            (object sender, EventArgs e)
+            (object sender, System.EventArgs e)
         {
             MetroButton button = (MetroButton)sender;
-            if (!button.Enabled) {
+            if(!button.Enabled) {
                 return;
             }
             _result = (DialogResult)button.Tag;
@@ -67,12 +65,18 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
 
         private void EvaluateButtonStyle()
         {
-            if (_properties.Buttons.Equals(MessageBoxButtons.OK)) MessageButtonsOk();
-            if (_properties.Buttons.Equals(MessageBoxButtons.OKCancel)) MessageButtonsOkCancel();
-            if (_properties.Buttons.Equals(MessageBoxButtons.RetryCancel)) MessageButtonsRetryCancel();
-            if (_properties.Buttons.Equals(MessageBoxButtons.YesNo)) MessageButtonsYesNo();
-            if (_properties.Buttons.Equals(MessageBoxButtons.YesNoCancel)) MessageButtonsYesNoCancel();
-            if (_properties.Buttons.Equals(MessageBoxButtons.AbortRetryIgnore)) MessageButtonsAbortRetryIgnore();
+            if(_properties.Buttons.Equals(MessageBoxButtons.OK))
+                MessageButtonsOk();
+            if(_properties.Buttons.Equals(MessageBoxButtons.OKCancel))
+                MessageButtonsOkCancel();
+            if(_properties.Buttons.Equals(MessageBoxButtons.RetryCancel))
+                MessageButtonsRetryCancel();
+            if(_properties.Buttons.Equals(MessageBoxButtons.YesNo))
+                MessageButtonsYesNo();
+            if(_properties.Buttons.Equals(MessageBoxButtons.YesNoCancel))
+                MessageButtonsYesNoCancel();
+            if(_properties.Buttons.Equals(MessageBoxButtons.AbortRetryIgnore))
+                MessageButtonsAbortRetryIgnore();
         }
 
 
@@ -158,16 +162,20 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
 
         private void EvaluateIconStyle()
         {
-            this.MessageStyle(Color.DarkGray, -1);
-            if (_properties.Icon.Equals(MessageBoxIcon.Error) || _properties.Icon.Equals(MessageBoxIcon.Hand) || _properties.Icon.Equals(MessageBoxIcon.Stop)) this.MessageStyle(_errorColor, 0);
-            if (_properties.Icon.Equals(MessageBoxIcon.Warning) || _properties.Icon.Equals(MessageBoxIcon.Exclamation)) this.MessageStyle(_warningColor, 3);
-            if (_properties.Icon.Equals(MessageBoxIcon.Information) || _properties.Icon.Equals(MessageBoxIcon.Asterisk)) this.MessageStyle(_defaultColor, 1);
-            if (_properties.Icon.Equals(MessageBoxIcon.Question)) this.MessageStyle(_questionColor, 2);
+            this.MessageStyle(System.Drawing.Color.DarkGray, -1);
+            if(_properties.Icon.Equals(MessageBoxIcon.Error) || _properties.Icon.Equals(MessageBoxIcon.Hand) || _properties.Icon.Equals(MessageBoxIcon.Stop))
+                this.MessageStyle(_errorColor, 0);
+            if(_properties.Icon.Equals(MessageBoxIcon.Warning) || _properties.Icon.Equals(MessageBoxIcon.Exclamation))
+                this.MessageStyle(_warningColor, 3);
+            if(_properties.Icon.Equals(MessageBoxIcon.Information) || _properties.Icon.Equals(MessageBoxIcon.Asterisk))
+                this.MessageStyle(_defaultColor, 1);
+            if(_properties.Icon.Equals(MessageBoxIcon.Question))
+                this.MessageStyle(_questionColor, 2);
         }
 
 
         private void MessageStyle
-            (Color color, int imageIndex)
+            (System.Drawing.Color color, int imageIndex)
         {
             panelbody.BackColor = color;
             iconLabel.ImageIndex = imageIndex;
@@ -176,15 +184,18 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
 
         public void SetDefaultButton()
         {
-            if (_properties.DefaultButton.Equals(MessageBoxDefaultButton.Button1)) this.ConfigureDefaultButton(metroButton1);
-            if (_properties.DefaultButton.Equals(MessageBoxDefaultButton.Button2)) this.ConfigureDefaultButton(metroButton2);
-            if (_properties.DefaultButton.Equals(MessageBoxDefaultButton.Button3)) this.ConfigureDefaultButton(metroButton3);
+            if(_properties.DefaultButton.Equals(MessageBoxDefaultButton.Button1))
+                this.ConfigureDefaultButton(metroButton1);
+            if(_properties.DefaultButton.Equals(MessageBoxDefaultButton.Button2))
+                this.ConfigureDefaultButton(metroButton2);
+            if(_properties.DefaultButton.Equals(MessageBoxDefaultButton.Button3))
+                this.ConfigureDefaultButton(metroButton3);
         }
 
 
         private void ConfigureDefaultButton(MetroButton button)
         {
-            if (button is null || !button.Enabled) {
+            if(button is null || !button.Enabled) {
                 return;
             }
             button.Focus();
@@ -194,7 +205,8 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
         private void SetEventToButton(MetroButton button) =>
             SetEventToButton(button, false);
 
-        private void SetEventToButton(MetroButton button, bool hovered)
+        private void SetEventToButton
+            (MetroButton button, bool hovered)
         {
             button.Cursor = Cursors.Hand;
             button.MouseEnter -= Button_MouseEnter;

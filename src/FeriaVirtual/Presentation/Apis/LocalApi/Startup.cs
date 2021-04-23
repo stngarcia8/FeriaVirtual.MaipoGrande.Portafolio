@@ -12,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
+using FeriaVirtual.Api.Local.Controllers.Users.Create;
+using FluentValidation;
 
 namespace FeriaVirtual.Api.Local
 {

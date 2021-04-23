@@ -1,4 +1,5 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Events;
+using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.Models.Users.Rules;
 using FeriaVirtual.Domain.SeedWork;
 using FeriaVirtual.Domain.SeedWork.Events;
@@ -11,6 +12,8 @@ namespace FeriaVirtual.Domain.Models.Users
     public class User
         : EntityBase, IAggregateRoot
     {
+        private readonly IUserUniquenessChecker _uniquenessChecker;
+
         public Guid UserId { get; protected set; }
         public string FirstName { get; protected set; }
         public string LastName { get; protected set; }
@@ -25,13 +28,18 @@ namespace FeriaVirtual.Domain.Models.Users
 
         public User
             (string firstName, string lastName, string dni, int profileId,
-            string username, string password, string email)
+            string username, string password, string email, 
+            IUserUniquenessChecker uniquenessChecker)
         {
+            _uniquenessChecker = uniquenessChecker;
+            CheckRule(new UserDniMustBeUniqueRule(_uniquenessChecker, dni));
+            CheckRule(new UsernameMustBeUniqueRule(_uniquenessChecker, username));
+            CheckRule(new UserEmailMustBeUniqueRule(_uniquenessChecker, email));
+
             InitializeVars(GuidGenerator.NewSequentialGuid(), firstName, lastName, dni, profileId);
             CreateCredentials(username, password, email);
-            var userRule = new CreateUserRules();
+
             var eventId = new DomainEventId(UserId);
-            CheckRule(BusinessRulesValidator<User>.BuildValidator(userRule, this));
             this.Record(new UserWasCreated(eventId, this.GetPrimitives()));
         }
 

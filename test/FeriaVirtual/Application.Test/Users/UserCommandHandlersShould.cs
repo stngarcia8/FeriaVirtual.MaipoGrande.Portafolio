@@ -29,7 +29,7 @@ namespace Application.Test.Users
         public async Task CreateAValidUser()
         {
             var userCommandMother = UserMother.GetValidCreateUserCommand();
-            _repository.Setup(x => x.Create(It.IsAny<User>())).Verifiable();
+            _repository.Setup(x => x.CreateAsync(It.IsAny<User>())).Verifiable();
 
             var _handler = new CreateUserCommandHandler(_repository.Object, _eventBus.Object);
             await _handler.Handle(userCommandMother);
@@ -41,7 +41,7 @@ namespace Application.Test.Users
         [Fact]
         public void ThrownInvalidUserServiceException_IfUserDataIsNull_WhenCreateAnUser()
         {
-            _repository.Setup(x => x.Create(null)).Verifiable();
+            _repository.Setup(x => x.CreateAsync(null)).Verifiable();
 
             var _handler = new CreateUserCommandHandler(_repository.Object, _eventBus.Object);
 
@@ -67,7 +67,7 @@ namespace Application.Test.Users
         [Fact]
         public void ThrownInvalidUserServiceException_IfUserDataIsNull_WhenUpdateAnUser()
         {
-            _repository.Setup(x => x.Create(null)).Verifiable();
+            _repository.Setup(x => x.CreateAsync(null)).Verifiable();
 
             var _handler = new UpdateUserCommandHandler(_repository.Object, _eventBus.Object);
 

@@ -34,7 +34,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.Oracle
 
             var tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                _unitOfWork.Context.SaveByStoredProcedure("sp_add_event", parameters),
+                _unitOfWork.Context.SaveByStoredProcedureAsync("sp_add_event", parameters),
                 _unitOfWork.SaveChangesAsync()
                 );
             await tasks;

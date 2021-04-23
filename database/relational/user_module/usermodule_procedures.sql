@@ -7,21 +7,20 @@ SET ECHO OFF;
 SET feedback OFF;
 ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
 ALTER SESSION SET NLS_LANGUAGE= 'SPANISH' NLS_TERRITORY= 'Spain' NLS_CURRENCY= '$' NLS_ISO_CURRENCY= 'AMERICA' NLS_NUMERIC_CHARACTERS= '.,' NLS_CALENDAR= 'GREGORIAN' NLS_DATE_FORMAT= 'DD-MON-RR' NLS_DATE_LANGUAGE= 'SPANISH' NLS_SORT= 'BINARY';
-prompt Creating user modules stored procedures.;
+prompt Creating USER modules stored procedures.;
 
 
 prompt - Creating credentials stored procedures.;
 prompt   - sp_add_credential;
 CREATE OR REPLACE PROCEDURE fv_user.sp_add_credential(
-    pCredentialId varchar2,
-    pUsername     varchar2,
-    pPassword     varchar2,
-    pEmail        varchar2,
-    pIsActive     number
+    pCredentialId VARCHAR2,
+    pUsername     VARCHAR2,
+    pPassword     VARCHAR2,
+    pEmail        VARCHAR2,
+    pIsActive     NUMBER
 ) IS
 BEGIN
-    INSERT INTO
-        fv_user.user_Credential
+    INSERT INTO fv_user.user_Credential
         (CredentialId, Username, Password, Email, IsActive)
     VALUES (pCredentialId, pUsername, pPassword, pEmail, pIsActive);
 END sp_add_credential;
@@ -29,11 +28,11 @@ END sp_add_credential;
 
 prompt   - sp_update_credential;
 CREATE OR REPLACE PROCEDURE fv_user.sp_update_credential(
-    pCredentialId varchar2,
-    pUsername     varchar2,
-    pPassword     varchar2,
-    pEmail        varchar2,
-    pIsActive     number
+    pCredentialId VARCHAR2,
+    pUsername     VARCHAR2,
+    pPassword     VARCHAR2,
+    pEmail        VARCHAR2,
+    pIsActive     NUMBER
 ) IS
 BEGIN
     UPDATE fv_user.user_Credential
@@ -47,19 +46,18 @@ END sp_update_credential;
 /
 
 
-prompt - Creating users stored procedures.;
+prompt - Creating USERS stored procedures.;
 prompt   - sp_add_user;
 CREATE OR REPLACE PROCEDURE fv_user.sp_add_user(
-    pUserId       varchar2,
-    pCredentialId varchar2,
-    pProfileId    number,
-    pFirstName    varchar2,
-    pLastName     varchar2,
-    pDni          varchar2
+    pUserId       VARCHAR2,
+    pCredentialId VARCHAR2,
+    pProfileId    NUMBER,
+    pFirstName    VARCHAR2,
+    pLastName     VARCHAR2,
+    pDni          VARCHAR2
 ) IS
 BEGIN
-    INSERT INTO
-        fv_user.user_registration
+    INSERT INTO fv_user.user_registration
         (UserId, CredentialId, ProfileId, FirstName, LastName, Dni)
     VALUES (pUserId, pCredentialId, pProfileId, pFirstName, pLastName, pDni);
 END sp_add_user;
@@ -159,7 +157,7 @@ BEGIN
         OPEN pResults FOR
             SELECT UserId,
                    FirstName || ' ' || LastName AS FullName,
-                Dni, ProfileName, Username, Email, UserStatus
+                   Dni, ProfileName, Username, Email, UserStatus
             FROM fv_user.vw_users
             OFFSET vStart ROWS FETCH NEXT vEnd ROWS ONLY;
     ELSE
@@ -183,7 +181,7 @@ BEGIN
     OPEN pResults FOR
         SELECT COUNT(*) AS Total
         FROM fv_user.user_registration
-        WHERE ProfileId in (3, 4, 5, 6);
+        WHERE ProfileId IN (3, 4, 5, 6);
 END sp_count_allusers;
 /
 
@@ -259,10 +257,45 @@ BEGIN
                Dni, Email, ProfileId, IsActive
         FROM fv_user.vw_allusers
         WHERE Username = pUsername AND
-                Password = pPassword;
+              Password = pPassword;
 END sp_signin_user;
 /
 
 
-prompt User modules stored PROCEDURE was created.;
+prompt   - END sp_check_user_existence_rule;
+CREATE OR REPLACE PROCEDURE fv_user.sp_check_user_existence_rule(
+    pUsername   VARCHAR2,
+    pDni        VARCHAR2,
+    pEmail      VARCHAR2,
+    pResults OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN pResults FOR
+        SELECT (
+                   SELECT CASE COUNT(*)
+                              WHEN 0 THEN 0
+                                     ELSE 1
+                          END
+                   FROM fv_user.user_credential
+                   WHERE Username = pUsername) AS UsernameRegistered,
+               (
+                   SELECT CASE COUNT(*)
+                              WHEN 0 THEN 0
+                                     ELSE 1
+                          END
+                   FROM fv_user.user_registration
+                   WHERE Dni = pDni) AS DniRegistered,
+               (
+                   SELECT CASE COUNT(*)
+                              WHEN 0 THEN 0
+                                     ELSE 1
+                          END
+                   FROM fv_user.user_credential
+                   WHERE Email = pEmail) AS EmailRegistered
+        FROM dual;
+
+END sp_check_user_existence_rule;
+/
+
+prompt USER modules stored PROCEDURE was created.;
 prompt;

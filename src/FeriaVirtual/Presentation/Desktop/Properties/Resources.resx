@@ -136,8 +136,8 @@
   <data name="option-reports" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\option-reports.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="search-menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\search-menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="option-exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\option-exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="button-refresh1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\button-refresh1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -160,13 +160,16 @@
   <data name="option-preferences" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\option-preferences.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="option-exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\option-exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="employee-menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employee-menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="search-menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\search-menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="button-disable-user" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\button-disable-user.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="employee-menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\employee-menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="employee-form" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\employee-form.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

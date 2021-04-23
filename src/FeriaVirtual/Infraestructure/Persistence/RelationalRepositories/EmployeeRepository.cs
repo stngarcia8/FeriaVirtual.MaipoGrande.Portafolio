@@ -30,7 +30,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
             _parameters.Add("UserId", userId.ToString());
 
             await _unitOfWork.Context.OpenContextAsync();
-            IEnumerable<TResponse> response = await _unitOfWork.Context.Select<TResponse>("sp_get_employee", _parameters);
+            IEnumerable<TResponse> response = await _unitOfWork.Context.SelectAsync<TResponse>("sp_get_employee", _parameters);
             return response.FirstOrDefault();
         }
 
@@ -43,7 +43,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
             _parameters.Add("PageNumber", pageNumber);
 
             await _unitOfWork.Context.OpenContextAsync();
-            var responses = await _unitOfWork.Context.Select<TResponse>("sp_get_allemployees", _parameters);
+            var responses = await _unitOfWork.Context.SelectAsync<TResponse>("sp_get_allemployees", _parameters);
 
             if(filters is not null)
                 responses = responses.Where(filters);
@@ -56,11 +56,14 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
             Task<int> response;
             var tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                response = _unitOfWork.Context.Count("sp_count_allemployees")
+                response = _unitOfWork.Context.CountAsync("sp_count_allemployees")
                 );
             await tasks;
             return response.Result;
         }
+
+
+
 
 
     }

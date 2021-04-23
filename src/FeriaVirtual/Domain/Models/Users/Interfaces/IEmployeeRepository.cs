@@ -17,6 +17,5 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
         Task<int> CountAllEmployees();
 
 
-
     }
 }

@@ -9,18 +9,18 @@ namespace FeriaVirtual.Infrastructure.SeedWork
     {
         Task OpenContextAsync();
 
-        Task SaveByStoredProcedure<TEntity>
+        Task SaveByStoredProcedureAsync<TEntity>
             (string storedProcedureName, TEntity entity)
             where TEntity : EntityBase;
 
-        Task SaveByStoredProcedure
+        Task SaveByStoredProcedureAsync
             (string storedProcedureName, Dictionary<string, object> parameters);
 
-        Task<IEnumerable<TResponse>> Select<TResponse>
+        Task<IEnumerable<TResponse>> SelectAsync<TResponse>
             (string sqlStatement, Dictionary<string, object> parameters = null)
             where TResponse : IQueryResponseBase;
 
-        Task<int> Count(string sqlStatement);
+        Task<int> CountAsync(string sqlStatement);
 
         Task CommitInContextAsync();
 

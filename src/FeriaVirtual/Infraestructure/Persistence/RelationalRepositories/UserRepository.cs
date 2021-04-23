@@ -24,12 +24,12 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         }
 
 
-        public async Task Create(User user)
+        public async Task CreateAsync(User user)
         {
-            var tasks = Task.WhenAll(
+            Task tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                _unitOfWork.Context.SaveByStoredProcedure<Credential>("sp_add_credential", user.GetCredential),
-                _unitOfWork.Context.SaveByStoredProcedure<User>("sp_add_user", user),
+                _unitOfWork.Context.SaveByStoredProcedureAsync<Credential>("sp_add_credential", user.GetCredential),
+                _unitOfWork.Context.SaveByStoredProcedureAsync<User>("sp_add_user", user),
                 _unitOfWork.SaveChangesAsync()
                 );
             await tasks;
@@ -40,8 +40,8 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         {
             var tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                _unitOfWork.Context.SaveByStoredProcedure<Credential>("sp_update_credential", user.GetCredential),
-                _unitOfWork.Context.SaveByStoredProcedure<User>("sp_update_user", user),
+                _unitOfWork.Context.SaveByStoredProcedureAsync<Credential>("sp_update_credential", user.GetCredential),
+                _unitOfWork.Context.SaveByStoredProcedureAsync<User>("sp_update_user", user),
                 _unitOfWork.SaveChangesAsync()
                 );
             await tasks;
@@ -54,7 +54,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 
             var tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                _unitOfWork.Context.SaveByStoredProcedure("sp_enable_user", _parameters),
+                _unitOfWork.Context.SaveByStoredProcedureAsync("sp_enable_user", _parameters),
                 _unitOfWork.SaveChangesAsync()
                 );
             await tasks;
@@ -67,7 +67,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 
             var tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                _unitOfWork.Context.SaveByStoredProcedure("sp_disable_user", _parameters),
+                _unitOfWork.Context.SaveByStoredProcedureAsync("sp_disable_user", _parameters),
                 _unitOfWork.SaveChangesAsync()
                 );
             await tasks;
@@ -81,7 +81,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
             _parameters.Add("UserId", userId.ToString());
 
             await _unitOfWork.Context.OpenContextAsync();
-            var response = await _unitOfWork.Context.Select<TResponse>("sp_get_user", _parameters);
+            var response = await _unitOfWork.Context.SelectAsync<TResponse>("sp_get_user", _parameters);
             return response.FirstOrDefault();
         }
 
@@ -94,7 +94,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
             _parameters.Add("PageNumber", pageNumber);
 
             await _unitOfWork.Context.OpenContextAsync();
-            var responses= await _unitOfWork.Context.Select<TResponse>("sp_get_allusers", _parameters);
+            var responses= await _unitOfWork.Context.SelectAsync<TResponse>("sp_get_allusers", _parameters);
 
             if(filters is not null)
                 responses = responses.Where(filters);
@@ -105,8 +105,25 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         public async Task<int> CountAllUsers()
         {
             await _unitOfWork.Context.OpenContextAsync();
-            var response = await _unitOfWork.Context.Count("sp_count_allusers");
+            var response = await _unitOfWork.Context.CountAsync("sp_count_allusers");
             return response;
+        }
+
+
+        public async Task<TResponse> UserUniquenessChecker<TResponse>
+            (string username, string dni, string email)
+            where TResponse : IQueryResponseBase
+        {
+            _parameters.Clear();
+            _parameters.Add("Username", username);
+            _parameters.Add("Dni", dni);
+            _parameters.Add("Email", email);
+
+            await _unitOfWork.Context.OpenContextAsync();
+            IEnumerable<TResponse> response = await _unitOfWork
+                .Context
+                .SelectAsync<TResponse>("sp_check_user_existence_rule", _parameters);
+            return response.FirstOrDefault();
         }
 
 

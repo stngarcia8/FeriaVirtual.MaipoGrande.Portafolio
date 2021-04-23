@@ -7,7 +7,7 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
 {
     public interface IUserRepository
     {
-        Task Create(User user);
+        Task CreateAsync(User user);
         Task Update(User user);
         Task EnableUser(Guid userId);
         Task DisableUser(Guid userId);
@@ -20,6 +20,10 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
             where TResponse : IQueryResponseBase;
 
         Task<int> CountAllUsers();
+
+        Task<TResponse> UserUniquenessChecker<TResponse>
+            (string username, string dni, string email)
+            where TResponse : IQueryResponseBase;
 
 
 

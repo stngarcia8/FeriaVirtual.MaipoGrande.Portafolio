@@ -1,4 +1,7 @@
 ﻿using FeriaVirtual.App.Desktop.SeedWork.Filters;
+using FeriaVirtual.App.Desktop.Services.Employees.Dto;
+using FeriaVirtual.App.Desktop.Services.Employees.Exceptions;
+using FeriaVirtual.App.Desktop.Services.Employees.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -60,6 +63,37 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
                 ? null
                 : JsonConvert.DeserializeObject<List<EmployeesViewModel>>(stringResponse);
         }
+
+
+        public async Task<string> CreateEmployee(CreateUserDto employeeDto)
+        {
+            var request = new HttpRequestMessage {
+                Content = new StringContent(JsonConvert.SerializeObject(employeeDto))
+            };
+            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync("api/users/create", request.Content);
+            string stringResponse =  await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if(!response.IsSuccessStatusCode) {
+                throw new InvalidCreateEmployeeException(stringResponse);
+            }
+            return stringResponse;
+        }
+
+
+        public async Task<string> UpdateEmployee(UpdateUserDto employeeDto)
+        {
+            var request = new HttpRequestMessage {
+                Content = new StringContent(JsonConvert.SerializeObject(employeeDto))
+            };
+            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync("api/users/create", request.Content);
+            string stringResponse =  await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if(!response.IsSuccessStatusCode) {
+                throw new InvalidCreateEmployeeException(stringResponse);
+            }
+            return stringResponse;
+        }
+
 
 
 

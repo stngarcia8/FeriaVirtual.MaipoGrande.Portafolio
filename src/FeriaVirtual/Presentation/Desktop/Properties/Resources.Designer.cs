@@ -133,6 +133,16 @@ namespace FeriaVirtual.App.Desktop.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap employee_form {
+            get {
+                object obj = ResourceManager.GetObject("employee-form", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap employee_menu {
             get {
                 object obj = ResourceManager.GetObject("employee-menu", resourceCulture);

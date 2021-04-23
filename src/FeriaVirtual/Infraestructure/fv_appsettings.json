@@ -6,7 +6,7 @@
   },
     "RabbitMQ": {
         "Username": "fv_user",
-        "Password": "fv_pwd",
+        "Password": "aVaras_08",
         "Hostname": "localhost",
         "Port": 5672
     }

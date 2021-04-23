@@ -14,7 +14,8 @@ namespace FeriaVirtual.Domain.SeedWork
 
         public void Record(DomainEventBase domainEvent)
         {
-            if (domainEvent is null) throw new InvalidDomainEventException($"Evento {domainEvent} inválido.");
+            if(domainEvent is null)
+                throw new InvalidDomainEventException($"Evento {domainEvent} inválido.");
             _events.AddEvent(domainEvent);
         }
 
@@ -30,7 +31,8 @@ namespace FeriaVirtual.Domain.SeedWork
 
         protected static void CheckRule(IBusinessRule rule)
         {
-            if (!rule.IsFailed()) return;
+            if(!rule.IsFailed())
+                return;
             throw new BusinessRuleValidationException(rule.Message);
         }
 

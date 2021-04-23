@@ -1,6 +1,6 @@
 ﻿using FeriaVirtual.App.Desktop.SeedWork;
 
-namespace FeriaVirtual.App.Desktop.Services.Employees
+namespace FeriaVirtual.App.Desktop.Services.Employees.ViewModels
 {
     public class EmployeeCounterViewModel
         : IViewModelBase

@@ -4,6 +4,7 @@ using FeriaVirtual.App.Desktop.SeedWork.FormControls;
 using FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox;
 using FeriaVirtual.App.Desktop.SeedWork.Helpers.Utils;
 using FeriaVirtual.App.Desktop.Services.Employees;
+using FeriaVirtual.App.Desktop.Services.Employees.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         private readonly ThemeManager _themeManager;
         private EmployeeFilter _filters;
         private Criteria _actualCriteria;
+        private DataGridViewRow _currentRow ;
 
 
         public EmployeeMainForm()
@@ -33,8 +35,10 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         {
             ConfigureForm();
             ConfigureFilters();
+            ConfigureContextMenu();
             //Task<int> numberOfRecords = CountRecords();
             //ConfigurePaginator(numberOfRecords.Result);
+            _currentRow = null;
             LoadRecords();
         }
 
@@ -75,7 +79,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             int numberOfRecords = 0;
             try {
                 employeeCounter = await _employeeService.GetNumberOfEmployees();
-                numberOfRecords= employeeCounter.Total;
+                numberOfRecords = employeeCounter.Total;
                 return numberOfRecords;
             } catch {
                 return numberOfRecords;
@@ -83,16 +87,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         }
 
 
-
-
-
-
-
-
-
-
         #region "Toolstripmenu events"
-
         private void ToolStripMenuItem_MouseEnter
             (object sender, System.EventArgs e)
         {
@@ -123,22 +118,34 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             var item = (ToolStripMenuItem)sender;
             item.ForeColor = System.Drawing.Color.Black;
         }
-
         #endregion
+
+
+        private void NewEmployeeToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            var form = new EmployeeCreateForm(_employeeService);
+            form.ShowDialog();
+            if(form.IsSaved) {
+                RefreshResults();
+            }
+        }
+
+
+        private void RefreshToolStripMenuItem_Click
+            (object sender, System.EventArgs e) =>
+            RefreshResults();
+
+
+        private void RefreshResults()
+        {
+            VerifyCriteriaValues();
+            LoadRecords();
+        }
 
 
         private void ExitToolStripMenuItem_Click
             (object sender, System.EventArgs e) =>
             Close();
-
-
-        private void ListPageComboBox_SelectedIndexChanged
-            (object sender, System.EventArgs e)
-        {
-            if(_actualCriteria is null)
-                return;
-            _actualCriteria.PageNumber = int.Parse(ListPageComboBox.Text);
-        }
 
 
         private void FilterComboBox_SelectedIndexChanged
@@ -150,11 +157,8 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
 
 
         private void FilterButton_Click
-            (object sender, System.EventArgs e)
-        {
-            VerifyCriteriaValues();
-            LoadRecords();
-        }
+            (object sender, System.EventArgs e) =>
+            RefreshResults();
 
 
         private void VerifyCriteriaValues()
@@ -175,7 +179,9 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
                     employeesFound = await _employeeService.GetEmployeesByCriteria(_actualCriteria);
                 ConfigureDataGridView(employeesFound);
                 ConfigurePaginator(employeesFound.Count);
+                ConfigureContextMenu();
             } catch(System.Exception ex) {
+                ConfigureContextMenu();
                 MsgBox.Show(this, ex.Message, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -186,6 +192,34 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             EmployeeGrid.DataSource = employeesFound;
             configurator.HideColumn("UserId");
         }
+
+
+        private void ListPageComboBox_SelectedIndexChanged
+    (object sender, System.EventArgs e)
+        {
+            if(_actualCriteria is null)
+                return;
+            _actualCriteria.PageNumber = int.Parse(ListPageComboBox.Text);
+        }
+
+
+        private void ConfigureContextMenu()
+        {
+            GridContextMenu.Enabled = !EmployeeGrid.Rows.Count.Equals(0);
+        }
+
+
+        private void EmployeeGrid_SelectionChanged(object sender, System.EventArgs e)
+        {
+            if(EmployeeGrid.Rows.Count.Equals(0))
+                return;
+            _currentRow = EmployeeGrid.CurrentRow;
+            if(_currentRow is null)
+                return;
+            ContextEnableToolStripMenuItem.Visible = !_currentRow.Cells[6].Value.Equals("Activo");
+            ContextDisableToolStripMenuItem.Visible = !_currentRow.Cells[6].Value.Equals("Inactivo");
+        }
+
 
 
     }

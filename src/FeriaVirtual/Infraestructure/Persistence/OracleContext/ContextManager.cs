@@ -40,7 +40,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
         }
 
 
-        public async Task SaveByStoredProcedure<TEntity>
+        public async Task SaveByStoredProcedureAsync<TEntity>
             (string storedProcedureName, TEntity entity)
             where TEntity : EntityBase
         {
@@ -48,14 +48,14 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
             await qm.ExecuteStoredProcedureAsync<TEntity>(storedProcedureName, entity);
         }
 
-        public async Task SaveByStoredProcedure
+        public async Task SaveByStoredProcedureAsync
             (string storedProcedureName, Dictionary<string, object> parameters = null)
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
             await qm.ExecuteStoredProcedureAsync(storedProcedureName, parameters);
         }
 
-        public async Task<IEnumerable<TResponse>> Select<TResponse>
+        public async Task<IEnumerable<TResponse>> SelectAsync<TResponse>
             (string sqlStatement, Dictionary<string, object> parameters = null)
             where TResponse : IQueryResponseBase
         {
@@ -63,7 +63,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
             return (IEnumerable<TResponse>)await qm.ExecuteQueryAsync<TResponse>(sqlStatement, parameters);
         }
 
-        public async Task<int> Count(string sqlStatement)
+        public async Task<int> CountAsync(string sqlStatement)
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
             return await qm.ExecuteQueryAsync<int>(sqlStatement);

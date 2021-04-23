@@ -109,11 +109,23 @@
   <ItemGroup>
     <Compile Include="Extensions\DependencyInjection\Application.cs" />
     <Compile Include="Extensions\DependencyInjection\DependencyContainer.cs" />
+    <Compile Include="Forms\Employees\EmployeeCreateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Employees\EmployeeCreateForm.Designer.cs">
+      <DependentUpon>EmployeeCreateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Employees\EmployeeMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Employees\EmployeeMainForm.Designer.cs">
       <DependentUpon>EmployeeMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Employees\EmployeeUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Employees\EmployeeUpdateForm.Designer.cs">
+      <DependentUpon>EmployeeUpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForms\AdminForm.cs">
       <SubType>Form</SubType>
@@ -157,18 +169,28 @@
     <Compile Include="SeedWork\Helpers\Utils\PreferenceData.cs" />
     <Compile Include="SeedWork\Helpers\Utils\SessionData.cs" />
     <Compile Include="SeedWork\IViewModelBase.cs" />
-    <Compile Include="Services\Employees\EmployeeCounterViewModel.cs" />
+    <Compile Include="Services\Employees\Dto\CreateUserDto.cs" />
+    <Compile Include="Services\Employees\Dto\UpdateUserDto.cs" />
+    <Compile Include="Services\Employees\ViewModels\EmployeeCounterViewModel.cs" />
     <Compile Include="Services\Employees\EmployeeFilter.cs" />
     <Compile Include="Services\Employees\EmployeeService.cs" />
-    <Compile Include="Services\Employees\EmployeesViewModel.cs" />
+    <Compile Include="Services\Employees\ViewModels\EmployeesViewModel.cs" />
+    <Compile Include="Services\Employees\ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="Services\Employees\Exceptions\InvalidCreateEmployeeException.cs" />
     <Compile Include="Services\Employees\IEmployeeService.cs" />
     <Compile Include="Services\SignIn\InvalidAccessException.cs" />
     <Compile Include="Services\SignIn\ISigninService.cs" />
     <Compile Include="Services\SignIn\SignInDto.cs" />
     <Compile Include="Services\SignIn\SigninService.cs" />
     <Compile Include="Services\SignIn\SignInViewModel.cs" />
+    <EmbeddedResource Include="Forms\Employees\EmployeeCreateForm.resx">
+      <DependentUpon>EmployeeCreateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Employees\EmployeeMainForm.resx">
       <DependentUpon>EmployeeMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Employees\EmployeeUpdateForm.resx">
+      <DependentUpon>EmployeeUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
@@ -259,6 +281,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\employee-menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\employee-form.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

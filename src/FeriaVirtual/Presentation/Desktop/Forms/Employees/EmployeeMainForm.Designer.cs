@@ -47,13 +47,13 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.FilterButton = new MetroFramework.Controls.MetroButton();
             this.EmployeeGrid = new MetroFramework.Controls.MetroGrid();
             this.GridContextMenu = new MetroFramework.Controls.MetroContextMenu(this.components);
-            this.RefreshToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EnableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DisableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ChangePasswordToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ContextRefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ContextToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ContextEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ContextEnableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ContextDisableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ContextToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ContextChangePasswordToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ListPageLabel = new MetroFramework.Controls.MetroLabel();
             this.ListPageComboBox = new MetroFramework.Controls.MetroComboBox();
             this.ListResultLabel = new MetroFramework.Controls.MetroLabel();
@@ -113,6 +113,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.NewEmployeeToolStripMenuItem.Overflow = System.Windows.Forms.ToolStripItemOverflow.Always;
             this.NewEmployeeToolStripMenuItem.Size = new System.Drawing.Size(271, 60);
             this.NewEmployeeToolStripMenuItem.Text = "&Crear empleado";
+            this.NewEmployeeToolStripMenuItem.Click += new System.EventHandler(this.NewEmployeeToolStripMenuItem_Click);
             this.NewEmployeeToolStripMenuItem.MouseEnter += new System.EventHandler(this.ToolStripMenuItem_MouseEnter);
             this.NewEmployeeToolStripMenuItem.MouseLeave += new System.EventHandler(this.ToolStripMenuItem_MouseLeave);
             // 
@@ -127,6 +128,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.RefreshToolStripMenuItem.Overflow = System.Windows.Forms.ToolStripItemOverflow.Always;
             this.RefreshToolStripMenuItem.Size = new System.Drawing.Size(271, 60);
             this.RefreshToolStripMenuItem.Text = "&Actualizar resultados";
+            this.RefreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
             this.RefreshToolStripMenuItem.MouseEnter += new System.EventHandler(this.ToolStripMenuItem_MouseEnter);
             this.RefreshToolStripMenuItem.MouseLeave += new System.EventHandler(this.ToolStripMenuItem_MouseLeave);
             // 
@@ -338,71 +340,74 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.EmployeeGrid.Size = new System.Drawing.Size(846, 281);
             this.EmployeeGrid.StandardTab = true;
             this.EmployeeGrid.TabIndex = 5;
+            this.EmployeeGrid.SelectionChanged += new System.EventHandler(this.EmployeeGrid_SelectionChanged);
             // 
             // GridContextMenu
             // 
             this.GridContextMenu.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GridContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.GridContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.RefreshToolStripMenuItem1,
-            this.toolStripSeparator1,
-            this.EditToolStripMenuItem,
-            this.EnableToolStripMenuItem,
-            this.DisableToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.ChangePasswordToolStripMenuItem1});
+            this.ContextRefreshToolStripMenuItem,
+            this.ContextToolStripSeparator1,
+            this.ContextEditToolStripMenuItem,
+            this.ContextEnableToolStripMenuItem,
+            this.ContextDisableToolStripMenuItem,
+            this.ContextToolStripSeparator2,
+            this.ContextChangePasswordToolStripMenuItem1});
             this.GridContextMenu.Name = "GridContextMenu";
             this.GridContextMenu.Size = new System.Drawing.Size(248, 146);
+            this.GridContextMenu.Text = "Opciones";
             // 
-            // RefreshToolStripMenuItem1
+            // ContextRefreshToolStripMenuItem
             // 
-            this.RefreshToolStripMenuItem1.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_refresh1;
-            this.RefreshToolStripMenuItem1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.RefreshToolStripMenuItem1.Name = "RefreshToolStripMenuItem1";
-            this.RefreshToolStripMenuItem1.Size = new System.Drawing.Size(247, 26);
-            this.RefreshToolStripMenuItem1.Text = "Actualizar lista";
+            this.ContextRefreshToolStripMenuItem.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_refresh1;
+            this.ContextRefreshToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ContextRefreshToolStripMenuItem.Name = "ContextRefreshToolStripMenuItem";
+            this.ContextRefreshToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
+            this.ContextRefreshToolStripMenuItem.Text = "Actualizar lista";
+            this.ContextRefreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
             // 
-            // toolStripSeparator1
+            // ContextToolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(244, 6);
+            this.ContextToolStripSeparator1.Name = "ContextToolStripSeparator1";
+            this.ContextToolStripSeparator1.Size = new System.Drawing.Size(244, 6);
             // 
-            // EditToolStripMenuItem
+            // ContextEditToolStripMenuItem
             // 
-            this.EditToolStripMenuItem.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_edit;
-            this.EditToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
-            this.EditToolStripMenuItem.Text = "Editar";
+            this.ContextEditToolStripMenuItem.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_edit;
+            this.ContextEditToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ContextEditToolStripMenuItem.Name = "ContextEditToolStripMenuItem";
+            this.ContextEditToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
+            this.ContextEditToolStripMenuItem.Text = "Editar";
             // 
-            // EnableToolStripMenuItem
+            // ContextEnableToolStripMenuItem
             // 
-            this.EnableToolStripMenuItem.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_enable_user;
-            this.EnableToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.EnableToolStripMenuItem.Name = "EnableToolStripMenuItem";
-            this.EnableToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
-            this.EnableToolStripMenuItem.Text = "Habilitar";
+            this.ContextEnableToolStripMenuItem.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_enable_user;
+            this.ContextEnableToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ContextEnableToolStripMenuItem.Name = "ContextEnableToolStripMenuItem";
+            this.ContextEnableToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
+            this.ContextEnableToolStripMenuItem.Text = "Habilitar";
             // 
-            // DisableToolStripMenuItem
+            // ContextDisableToolStripMenuItem
             // 
-            this.DisableToolStripMenuItem.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_disable_user;
-            this.DisableToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.DisableToolStripMenuItem.Name = "DisableToolStripMenuItem";
-            this.DisableToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
-            this.DisableToolStripMenuItem.Text = "Inhabilitar";
+            this.ContextDisableToolStripMenuItem.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_disable_user;
+            this.ContextDisableToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ContextDisableToolStripMenuItem.Name = "ContextDisableToolStripMenuItem";
+            this.ContextDisableToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
+            this.ContextDisableToolStripMenuItem.Text = "Inhabilitar";
             // 
-            // toolStripSeparator2
+            // ContextToolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(244, 6);
+            this.ContextToolStripSeparator2.Name = "ContextToolStripSeparator2";
+            this.ContextToolStripSeparator2.Size = new System.Drawing.Size(244, 6);
             // 
-            // ChangePasswordToolStripMenuItem1
+            // ContextChangePasswordToolStripMenuItem1
             // 
-            this.ChangePasswordToolStripMenuItem1.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_change_password;
-            this.ChangePasswordToolStripMenuItem1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ChangePasswordToolStripMenuItem1.Name = "ChangePasswordToolStripMenuItem1";
-            this.ChangePasswordToolStripMenuItem1.Size = new System.Drawing.Size(247, 26);
-            this.ChangePasswordToolStripMenuItem1.Text = "Cambiar contraseña";
+            this.ContextChangePasswordToolStripMenuItem1.Image = global::FeriaVirtual.App.Desktop.Properties.Resources.button_change_password;
+            this.ContextChangePasswordToolStripMenuItem1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ContextChangePasswordToolStripMenuItem1.Name = "ContextChangePasswordToolStripMenuItem1";
+            this.ContextChangePasswordToolStripMenuItem1.Size = new System.Drawing.Size(247, 26);
+            this.ContextChangePasswordToolStripMenuItem1.Text = "Cambiar contraseña";
             // 
             // ListPageLabel
             // 
@@ -509,12 +514,12 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         private MetroFramework.Controls.MetroComboBox ListPageComboBox;
         private MetroFramework.Controls.MetroLabel ListResultLabel;
         private MetroFramework.Controls.MetroContextMenu GridContextMenu;
-        private System.Windows.Forms.ToolStripMenuItem RefreshToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem EnableToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem DisableToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ChangePasswordToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem ContextRefreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator ContextToolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem ContextEditToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ContextEnableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ContextDisableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ContextChangePasswordToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator ContextToolStripSeparator2;
     }
 }

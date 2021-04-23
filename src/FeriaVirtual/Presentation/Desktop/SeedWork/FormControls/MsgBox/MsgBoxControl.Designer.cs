@@ -86,10 +86,11 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
             this.messageLabel.BackColor = System.Drawing.Color.Transparent;
             this.messageLabel.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.messageLabel.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.messageLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.messageLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.messageLabel.Location = new System.Drawing.Point(83, 32);
             this.messageLabel.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.messageLabel.Name = "messageLabel";
+            this.messageLabel.Padding = new System.Windows.Forms.Padding(5);
             this.messageLabel.Size = new System.Drawing.Size(631, 156);
             this.messageLabel.TabIndex = 0;
             this.messageLabel.Text = "Mensaje a mostrar...";
@@ -161,7 +162,7 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
             // 
             this.iconLabel.Dock = System.Windows.Forms.DockStyle.Right;
             this.iconLabel.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-            this.iconLabel.ImageIndex = 0;
+            this.iconLabel.ImageKey = "button-info.png";
             this.iconLabel.ImageList = this.formularioImageList;
             this.iconLabel.Location = new System.Drawing.Point(4, 7);
             this.iconLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);

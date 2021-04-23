@@ -36,9 +36,11 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
                 throw new QueryExecutorFailedException("No ha especificado una consulta de selección para ejecutar.");
             }
             ConfigureCommand(sqlStatement);
+
             if(parameters != null)
                 CreateQueryParameters(parameters);
             AddResultsParameter();
+
             var resultType = typeof(TResponse);
             IList<TResponse> responses = new List<TResponse>();
             if(resultType.FullName.StartsWith("System."))

@@ -28,8 +28,8 @@ namespace FeriaVirtual.Domain.Models.Users
             _oldPassword = password;
             InitializeVars(GuidGenerator.NewSequentialGuid(),
                 username, password, email, 1);
-            var credentialRule = new CreateCredentialRules();
-            CheckRule(BusinessRulesValidator<Credential>.BuildValidator(credentialRule, this));
+            // var credentialRule = new CreateCredentialRules();
+            // CheckRule(BusinessRulesValidator<Credential>.BuildValidator(credentialRule, this));
         }
 
         public Credential
