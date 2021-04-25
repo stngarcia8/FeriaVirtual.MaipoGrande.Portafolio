@@ -28,8 +28,8 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         {
             Task tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                _unitOfWork.Context.SaveByStoredProcedureAsync<Credential>("sp_add_credential", user.GetCredential),
                 _unitOfWork.Context.SaveByStoredProcedureAsync<User>("sp_add_user", user),
+                _unitOfWork.Context.SaveByStoredProcedureAsync<Credential>("sp_add_credential", user.GetCredential),
                 _unitOfWork.SaveChangesAsync()
                 );
             await tasks;
@@ -40,8 +40,8 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         {
             var tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                _unitOfWork.Context.SaveByStoredProcedureAsync<Credential>("sp_update_credential", user.GetCredential),
                 _unitOfWork.Context.SaveByStoredProcedureAsync<User>("sp_update_user", user),
+                _unitOfWork.Context.SaveByStoredProcedureAsync<Credential>("sp_update_credential", user.GetCredential),
                 _unitOfWork.SaveChangesAsync()
                 );
             await tasks;
@@ -122,7 +122,25 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
             await _unitOfWork.Context.OpenContextAsync();
             IEnumerable<TResponse> response = await _unitOfWork
                 .Context
-                .SelectAsync<TResponse>("sp_check_user_existence_rule", _parameters);
+                .SelectAsync<TResponse>("sp_check_createuser_rules", _parameters);
+            return response.FirstOrDefault();
+        }
+
+
+        public async Task<TResponse> UserUniquenessChecker<TResponse>
+            (string userId, string username, string dni, string email)
+            where TResponse : IQueryResponseBase
+        {
+            _parameters.Clear();
+            _parameters.Add("UserId", userId);
+            _parameters.Add("Username", username);
+            _parameters.Add("Dni", dni);
+            _parameters.Add("Email", email);
+
+            await _unitOfWork.Context.OpenContextAsync();
+            IEnumerable<TResponse> response = await _unitOfWork
+                .Context
+                .SelectAsync<TResponse>("sp_check_updateuser_rules", _parameters);
             return response.FirstOrDefault();
         }
 

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using FeriaVirtual.Api.Local.SeedWork;
+using System;
 
-namespace FeriaVirtual.Api.Local.Models.Dto
+namespace FeriaVirtual.Api.Local.Controllers.Users.Update
 {
-    public class UpdateUserDto
+    public class UpdateUserRequest
+        : IRequest
     {
         public Guid UserId { get; set; }
         public string Firstname { get; set; }
@@ -11,12 +13,11 @@ namespace FeriaVirtual.Api.Local.Models.Dto
         public int ProfileId { get; set; }
         public Guid CredentialId { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
         public string Email { get; set; }
         public int IsActive { get; set; }
 
 
-        public UpdateUserDto() { }
+        public UpdateUserRequest() { }
 
 
     }

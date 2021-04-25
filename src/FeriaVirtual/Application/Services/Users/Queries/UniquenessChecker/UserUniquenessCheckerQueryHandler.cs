@@ -19,9 +19,15 @@ namespace FeriaVirtual.Application.Services.Users.Queries.UniquenessChecker
         {
             if(query is null)
                 throw new InvalidUserServiceException($"Parámetros de consulta inválidos { query }");
-            return await _repository.UserUniquenessChecker<UserUniquenessCheckerResponse>(
-                query.Username, query.Dni, query.Email
-                );
+            if(query.UserId is null)
+                return await _repository.UserUniquenessChecker<UserUniquenessCheckerResponse>(
+                    query.Username, query.Dni, query.Email
+                    );
+            else
+                return await _repository.UserUniquenessChecker<UserUniquenessCheckerResponse>(
+                    query.UserId, query.Username,
+                    query.Dni, query.Email
+                    );
         }
 
 

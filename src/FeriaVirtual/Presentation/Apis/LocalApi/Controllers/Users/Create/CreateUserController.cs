@@ -1,7 +1,7 @@
-﻿using FeriaVirtual.Domain.SeedWork.Commands;
+﻿using FeriaVirtual.Api.Local.SeedWork.Validations;
+using FeriaVirtual.Domain.SeedWork.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using FeriaVirtual.Api.Local.Validations;
 
 namespace FeriaVirtual.Api.Local.Controllers.Users.Create
 {
@@ -21,18 +21,19 @@ namespace FeriaVirtual.Api.Local.Controllers.Users.Create
         [Route("api/users/create")]
         public async Task<IActionResult> Post([FromBody] CreateUserRequest request)
         {
-            var validator = ValidationRule<CreateUserRequest>.Build(new CreateUserValidation(), request);
+            var rules = new CreateUserValidationRules();
+            var validator = ValidationRules<CreateUserRequest>.Build(rules, request);
             if(validator.IsFailed())
-                return BadRequest(validator.ErrorMessage);
+                return StatusCode(400, validator.ErrorMessage);
 
             var userCommand = CreateUserMapper.BuildMapper(request).Map();
             try {
                 await _commandBus.DispatchAsync(userCommand);
                 return StatusCode(201, $"Usuario {request.Firstname} {request.Lastname} creado correctamente.");
-            } catch (System.Exception ex) {
+
+            } catch(System.Exception ex) {
                 return BadRequest(ex.Message);
             }
-
         }
 
 

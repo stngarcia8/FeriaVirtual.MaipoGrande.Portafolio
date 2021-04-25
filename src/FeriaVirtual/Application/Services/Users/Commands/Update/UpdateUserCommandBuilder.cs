@@ -55,12 +55,6 @@ namespace FeriaVirtual.Application.Services.Users.Commands.Update
             return this;
         }
 
-        public UpdateUserCommandBuilder Password(string password)
-        {
-            _command.Password = password;
-            return this;
-        }
-
         public UpdateUserCommandBuilder Email(string email)
         {
             _command.Email = email;

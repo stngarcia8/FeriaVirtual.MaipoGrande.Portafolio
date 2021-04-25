@@ -8,10 +8,11 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
         bool DniIsUnique { get; }
         bool EmailIsUnique { get; }
 
-
         Task Check
             (string username, string dni, string email);
 
+        Task Check
+            (string userId, string username, string dni, string email);
 
     }
 }

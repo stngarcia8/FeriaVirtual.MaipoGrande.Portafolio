@@ -25,6 +25,10 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
             (string username, string dni, string email)
             where TResponse : IQueryResponseBase;
 
+        Task<TResponse> UserUniquenessChecker<TResponse>
+            (string userId, string username, string dni, string email)
+            where TResponse : IQueryResponseBase;
+
 
 
     }

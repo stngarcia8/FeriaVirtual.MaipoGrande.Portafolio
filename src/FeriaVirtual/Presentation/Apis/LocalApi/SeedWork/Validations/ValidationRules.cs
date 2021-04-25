@@ -1,11 +1,10 @@
-﻿using FeriaVirtual.Api.Local.SeedWork;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace FeriaVirtual.Api.Local.Validations
+namespace FeriaVirtual.Api.Local.SeedWork.Validations
 {
-    public class ValidationRule<TRequest>
-        : IValidationRule
+    public class ValidationRules<TRequest>
+        : IValidationRules
         where TRequest : IRequest
     {
         private readonly TRequest _request;
@@ -14,7 +13,7 @@ namespace FeriaVirtual.Api.Local.Validations
         public string ErrorMessage { get; protected set; }
 
 
-        private ValidationRule
+        private ValidationRules
             (AbstractValidator<TRequest> rule, TRequest request)
         {
             _rule = rule;
@@ -23,7 +22,7 @@ namespace FeriaVirtual.Api.Local.Validations
         }
 
 
-        public static ValidationRule<TRequest> Build
+        public static ValidationRules<TRequest> Build
             (AbstractValidator<TRequest> rule, TRequest request)
             => new(rule, request);
 

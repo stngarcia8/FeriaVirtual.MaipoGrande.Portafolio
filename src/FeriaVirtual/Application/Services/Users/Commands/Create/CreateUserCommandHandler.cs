@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.Application.Services.Users.Commands.Create.DomainServices;
+﻿using FeriaVirtual.Application.Services.Users.DomainServices;
 using FeriaVirtual.Domain.Models.Users;
 using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.SeedWork.Commands;
@@ -29,20 +29,19 @@ namespace FeriaVirtual.Application.Services.Users.Create
 
         public async Task Handle(CreateUserCommand command)
         {
-            if(command is null) {
+            if(command is null)
                 throw new InvalidUserServiceException("Datos de usuario nulos.");
-            }
+
             await _uniquenessChecker.Check(
-                command.Username,
-                command.Dni,
-                command.Email
+                command.Username, command.Dni, command.Email
                 );
 
             var newUser = new User(
                     command.Firstname, command.Lastname,
-                    command.Dni, command.ProfileId, command.Username,
-                    command.Password, command.Email,
-                    _uniquenessChecker);
+                    command.Dni, command.ProfileId,
+                    command.Username, command.Password,
+                    command.Email, _uniquenessChecker
+                    );
 
             Task tasks = Task.WhenAll(
                 _repository.CreateAsync(newUser),

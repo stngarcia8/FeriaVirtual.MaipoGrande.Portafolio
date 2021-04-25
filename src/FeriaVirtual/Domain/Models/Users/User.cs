@@ -3,7 +3,6 @@ using FeriaVirtual.Domain.Models.Users.Interfaces;
 using FeriaVirtual.Domain.Models.Users.Rules;
 using FeriaVirtual.Domain.SeedWork;
 using FeriaVirtual.Domain.SeedWork.Events;
-using FeriaVirtual.Domain.SeedWork.Validations;
 using System;
 using System.Collections.Generic;
 
@@ -12,8 +11,6 @@ namespace FeriaVirtual.Domain.Models.Users
     public class User
         : EntityBase, IAggregateRoot
     {
-        private readonly IUserUniquenessChecker _uniquenessChecker;
-
         public Guid UserId { get; protected set; }
         public string FirstName { get; protected set; }
         public string LastName { get; protected set; }
@@ -22,46 +19,42 @@ namespace FeriaVirtual.Domain.Models.Users
         public Credential GetCredential { get; protected set; }
 
 
-        public User(Guid id) =>
-            UserId = id;
-
+        public User(Guid id)
+            => UserId = id;
 
         public User
             (string firstName, string lastName, string dni, int profileId,
-            string username, string password, string email, 
+            string username, string password, string email,
             IUserUniquenessChecker uniquenessChecker)
         {
-            _uniquenessChecker = uniquenessChecker;
-            CheckRule(new UserDniMustBeUniqueRule(_uniquenessChecker, dni));
-            CheckRule(new UsernameMustBeUniqueRule(_uniquenessChecker, username));
-            CheckRule(new UserEmailMustBeUniqueRule(_uniquenessChecker, email));
-
+            CheckRule(new UserDniMustBeUniqueRule(uniquenessChecker, dni));
             InitializeVars(GuidGenerator.NewSequentialGuid(), firstName, lastName, dni, profileId);
-            CreateCredentials(username, password, email);
+            CreateCredentials(username, password, email, uniquenessChecker);
 
             var eventId = new DomainEventId(UserId);
-            this.Record(new UserWasCreated(eventId, this.GetPrimitives()));
+            Record(new UserWasCreated(eventId, this.GetPrimitives()));
         }
 
 
         public User
-            (Guid id, string firstName, string lastName, string dni, int profileId,
-            Guid credentialId, string username, string password, string email, int isActive)
+            (Guid userId, string firstName, string lastName, string dni, int profileId,
+            Guid credentialId, string username, string email,
+            int isActive, IUserUniquenessChecker uniquenessChecker)
         {
-            InitializeVars(id, firstName, lastName, dni, profileId);
-            GenerateCredentials(credentialId, username, password, email, isActive);
-            var userRule = new UpdateUserRules();
+            CheckRule(new UserDniMustBeUniqueRule(uniquenessChecker, dni));
+            InitializeVars(userId, firstName, lastName, dni, profileId);
+            GenerateCredentials(credentialId, username, email, isActive, uniquenessChecker);
+
             var eventId = new DomainEventId(GuidGenerator.NewSequentialGuid());
-            CheckRule(BusinessRulesValidator<User>.BuildValidator(userRule, this));
-            this.Record(new UserWasUpdated(eventId, this.GetPrimitives()));
+            Record(new UserWasUpdated(eventId, this.GetPrimitives()));
         }
 
 
         private void InitializeVars(
-            Guid id, string firstName, string lastName,
+            Guid userId, string firstName, string lastName,
             string dni, int profileId)
         {
-            UserId = id;
+            UserId = userId;
             FirstName = firstName;
             LastName = lastName;
             Dni = dni;
@@ -70,13 +63,15 @@ namespace FeriaVirtual.Domain.Models.Users
 
 
         private void CreateCredentials
-            (string username, string password, string email) =>
-            GetCredential = new Credential(username, password, email);
+            (string username, string password,
+            string email, IUserUniquenessChecker uniquenessChecker)
+            => GetCredential = new Credential(UserId, username, password, email, uniquenessChecker);
 
 
         private void GenerateCredentials
-            (Guid id, string username, string password, string email, int isActive) =>
-            GetCredential = new Credential(id, username, password, email, isActive);
+            (Guid credentialId, string username, string email, 
+            int isActive, IUserUniquenessChecker uniquenessChecker)
+            => GetCredential = new Credential(UserId, credentialId, username, email, isActive, uniquenessChecker);
 
 
         public void EnableUser()
@@ -103,19 +98,17 @@ namespace FeriaVirtual.Domain.Models.Users
         }
 
 
-        public override Dictionary<string, object> GetPrimitives() =>
-            new() {
+        public override Dictionary<string, object> GetPrimitives()
+            => new() {
                 { "UserId", UserId.ToString() },
-                { "CredentialId", GetCredential is null ? string.Empty : GetCredential.CredentialId.ToString() },
                 { "ProfileId", ProfileId },
                 { "FirstName", FirstName },
                 { "LastName", LastName },
                 { "Dni", Dni }
             };
 
-
-        public override string ToString() =>
-            $"{FirstName} {LastName}";
+        public override string ToString()
+            => $"{FirstName} {LastName}";
 
 
     }

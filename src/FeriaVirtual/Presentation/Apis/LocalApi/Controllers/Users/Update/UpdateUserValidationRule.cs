@@ -1,19 +1,30 @@
 ﻿using FluentValidation;
+using System;
 
-namespace FeriaVirtual.Api.Local.Controllers.Users.Create
+namespace FeriaVirtual.Api.Local.Controllers.Users.Update
 {
-    public class CreateUserValidation
-        : AbstractValidator<CreateUserRequest>
+    public class UpdateUserValidationRule
+        : AbstractValidator<UpdateUserRequest>
     {
-        public CreateUserValidation()
+        public UpdateUserValidationRule()
         {
+            DefineUserIdRules();
             DefineFirstnameRules();
             DefineLastnameRules();
             DefineDniRules();
             DefineProfileIdRules();
+
+            DefineCredentialIdRules();
             DefineUsernameRules();
-            DefinePasswordRules();
             DefineEmailRules();
+            DefineIsactiveRules();
+        }
+
+
+        private void DefineUserIdRules()
+        {
+            RuleFor(x => x.UserId)
+                .NotEqual(Guid.Empty).WithMessage("Identificador de usuario vacío.");
         }
 
 
@@ -52,6 +63,15 @@ namespace FeriaVirtual.Api.Local.Controllers.Users.Create
         }
 
 
+        private void DefineCredentialIdRules()
+        {
+            RuleFor(x => x.CredentialId)
+                .NotNull().WithMessage("Identificador de credencial de usuario nula.");
+            RuleFor(x => x.CredentialId.ToString())
+                .NotEmpty().WithMessage("Identificador de credencial de usuario vacía.");
+        }
+
+
         private void DefineUsernameRules()
         {
             RuleFor(x => x.Username)
@@ -62,24 +82,19 @@ namespace FeriaVirtual.Api.Local.Controllers.Users.Create
         }
 
 
-        private void DefinePasswordRules()
-        {
-            RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Contraseña vacía.")
-                .NotNull().WithMessage("Constraseña nula.")
-                .MinimumLength(8).WithMessage("Contraseña tiene menos de los 8 caracteres de longitud mínima permitida.")
-                .MaximumLength(50).WithMessage("Contraseña excede los 50 caracteres de logitud permitida.")
-                .Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,50}$")
-                .WithMessage("Contraseña con formato incorrecto, debe contener símbolos, caracteres en mayusculas , minusculas y números, por ejemplo @Password.1234@");
-        }
-
-
         private void DefineEmailRules()
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email vacío")
                 .NotNull().WithMessage("Email nulo.")
                 .EmailAddress().WithMessage("Formato de email incorrecto.");
+        }
+
+
+        private void DefineIsactiveRules()
+        {
+            RuleFor(x => x.IsActive)
+                .InclusiveBetween(0, 1).WithMessage("Valor de propiedad IsActive inválida.");
         }
 
 

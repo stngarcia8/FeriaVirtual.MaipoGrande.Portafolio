@@ -1,4 +1,4 @@
-﻿namespace FeriaVirtual.Api.Local.Validations
+﻿namespace FeriaVirtual.Api.Local.SeedWork.Validations
 {
     public class ValidationRuleException
         : System.Exception
