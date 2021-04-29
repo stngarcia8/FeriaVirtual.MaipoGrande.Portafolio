@@ -355,7 +355,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ContextToolStripSeparator2,
             this.ContextChangePasswordToolStripMenuItem1});
             this.GridContextMenu.Name = "GridContextMenu";
-            this.GridContextMenu.Size = new System.Drawing.Size(248, 146);
+            this.GridContextMenu.Size = new System.Drawing.Size(248, 168);
             this.GridContextMenu.Text = "Opciones";
             // 
             // ContextRefreshToolStripMenuItem
@@ -379,6 +379,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ContextEditToolStripMenuItem.Name = "ContextEditToolStripMenuItem";
             this.ContextEditToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.ContextEditToolStripMenuItem.Text = "Editar";
+            this.ContextEditToolStripMenuItem.Click += new System.EventHandler(this.ContextEditToolStripMenuItem_Click);
             // 
             // ContextEnableToolStripMenuItem
             // 

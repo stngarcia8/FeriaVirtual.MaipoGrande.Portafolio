@@ -10,6 +10,7 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
     {
         Task<string> CreateEmployee(CreateUserDto employeeDto);
         Task<string> UpdateEmployee(UpdateUserDto employeeDto);
+        Task<EmployeeViewModel> GetEmployeeById(string employeeid);
         Task<EmployeeCounterViewModel> GetNumberOfEmployees();
         Task<List<EmployeesViewModel>> GetAllEmployees(int pageNumber);
         Task<List<EmployeesViewModel>> GetEmployeesByCriteria(Criteria criteria);

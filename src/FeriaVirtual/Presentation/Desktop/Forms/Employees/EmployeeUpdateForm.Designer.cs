@@ -29,7 +29,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeUpdateForm));
-            this.CleanFormButton = new MetroFramework.Controls.MetroButton();
             this.CancelFormButton = new MetroFramework.Controls.MetroButton();
             this.UpdateFormButton = new MetroFramework.Controls.MetroButton();
             this.UsernameTextBox = new MetroFramework.Controls.MetroTextBox();
@@ -49,16 +48,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.FormPictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.FormPictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // CleanFormButton
-            // 
-            this.CleanFormButton.Location = new System.Drawing.Point(25, 325);
-            this.CleanFormButton.Name = "CleanFormButton";
-            this.CleanFormButton.Size = new System.Drawing.Size(100, 23);
-            this.CleanFormButton.TabIndex = 37;
-            this.CleanFormButton.Text = "Limpiar controles";
-            this.CleanFormButton.UseSelectable = true;
-            this.CleanFormButton.Click += new System.EventHandler(this.CleanFormButton_Click);
             // 
             // CancelFormButton
             // 
@@ -95,8 +84,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.UsernameTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.UsernameTextBox.CustomButton.UseSelectable = true;
             this.UsernameTextBox.CustomButton.Visible = false;
-            this.UsernameTextBox.Lines = new string[] {
-        "METROTEXTBOX1"};
+            this.UsernameTextBox.Lines = new string[0];
             this.UsernameTextBox.Location = new System.Drawing.Point(350, 276);
             this.UsernameTextBox.MaxLength = 50;
             this.UsernameTextBox.Name = "UsernameTextBox";
@@ -109,7 +97,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.UsernameTextBox.ShowClearButton = true;
             this.UsernameTextBox.Size = new System.Drawing.Size(200, 23);
             this.UsernameTextBox.TabIndex = 34;
-            this.UsernameTextBox.Text = "METROTEXTBOX1";
             this.UsernameTextBox.UseSelectable = true;
             this.UsernameTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.UsernameTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -137,8 +124,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.EmailTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.EmailTextBox.CustomButton.UseSelectable = true;
             this.EmailTextBox.CustomButton.Visible = false;
-            this.EmailTextBox.Lines = new string[] {
-        "METROTEXTBOX1"};
+            this.EmailTextBox.Lines = new string[0];
             this.EmailTextBox.Location = new System.Drawing.Point(350, 251);
             this.EmailTextBox.MaxLength = 254;
             this.EmailTextBox.Name = "EmailTextBox";
@@ -151,7 +137,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.EmailTextBox.ShowClearButton = true;
             this.EmailTextBox.Size = new System.Drawing.Size(200, 23);
             this.EmailTextBox.TabIndex = 32;
-            this.EmailTextBox.Text = "METROTEXTBOX1";
             this.EmailTextBox.UseSelectable = true;
             this.EmailTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.EmailTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -213,8 +198,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.RutTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.RutTextBox.CustomButton.UseSelectable = true;
             this.RutTextBox.CustomButton.Visible = false;
-            this.RutTextBox.Lines = new string[] {
-        "METROTEXTBOX1"};
+            this.RutTextBox.Lines = new string[0];
             this.RutTextBox.Location = new System.Drawing.Point(350, 151);
             this.RutTextBox.MaxLength = 10;
             this.RutTextBox.Name = "RutTextBox";
@@ -227,7 +211,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.RutTextBox.ShowClearButton = true;
             this.RutTextBox.Size = new System.Drawing.Size(200, 23);
             this.RutTextBox.TabIndex = 27;
-            this.RutTextBox.Text = "METROTEXTBOX1";
             this.RutTextBox.UseSelectable = true;
             this.RutTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.RutTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -256,8 +239,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.LastnameTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.LastnameTextBox.CustomButton.UseSelectable = true;
             this.LastnameTextBox.CustomButton.Visible = false;
-            this.LastnameTextBox.Lines = new string[] {
-        "METROTEXTBOX1"};
+            this.LastnameTextBox.Lines = new string[0];
             this.LastnameTextBox.Location = new System.Drawing.Point(350, 126);
             this.LastnameTextBox.MaxLength = 50;
             this.LastnameTextBox.Name = "LastnameTextBox";
@@ -270,7 +252,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.LastnameTextBox.ShowClearButton = true;
             this.LastnameTextBox.Size = new System.Drawing.Size(200, 23);
             this.LastnameTextBox.TabIndex = 25;
-            this.LastnameTextBox.Text = "METROTEXTBOX1";
             this.LastnameTextBox.UseSelectable = true;
             this.LastnameTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.LastnameTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -299,8 +280,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.FirstnameTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.FirstnameTextBox.CustomButton.UseSelectable = true;
             this.FirstnameTextBox.CustomButton.Visible = false;
-            this.FirstnameTextBox.Lines = new string[] {
-        "METROTEXTBOX1"};
+            this.FirstnameTextBox.Lines = new string[0];
             this.FirstnameTextBox.Location = new System.Drawing.Point(350, 101);
             this.FirstnameTextBox.MaxLength = 50;
             this.FirstnameTextBox.Name = "FirstnameTextBox";
@@ -313,7 +293,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.FirstnameTextBox.ShowClearButton = true;
             this.FirstnameTextBox.Size = new System.Drawing.Size(200, 23);
             this.FirstnameTextBox.TabIndex = 23;
-            this.FirstnameTextBox.Text = "METROTEXTBOX1";
             this.FirstnameTextBox.UseSelectable = true;
             this.FirstnameTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.FirstnameTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -359,7 +338,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.CancelButton = this.CancelFormButton;
             this.ClientSize = new System.Drawing.Size(602, 388);
             this.ControlBox = false;
-            this.Controls.Add(this.CleanFormButton);
             this.Controls.Add(this.CancelFormButton);
             this.Controls.Add(this.UpdateFormButton);
             this.Controls.Add(this.UsernameTextBox);
@@ -397,8 +375,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         }
 
         #endregion
-
-        private MetroFramework.Controls.MetroButton CleanFormButton;
         private MetroFramework.Controls.MetroButton CancelFormButton;
         private MetroFramework.Controls.MetroButton UpdateFormButton;
         private MetroFramework.Controls.MetroTextBox UsernameTextBox;

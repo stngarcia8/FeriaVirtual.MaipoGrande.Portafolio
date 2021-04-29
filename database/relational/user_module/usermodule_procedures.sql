@@ -183,47 +183,80 @@ END sp_get_employee;
 /
 
 
-prompt   - sp_get_allemployees;
-CREATE OR REPLACE PROCEDURE fv_user.sp_get_allemployees(
+prompt   - sp_get_employees;
+CREATE OR REPLACE PROCEDURE fv_user.sp_get_employees(
+    pFieldName   VARCHAR2,
+    pFieldValue  VARCHAR2,
     pLimit       NUMBER DEFAULT 0,
     pOffset      NUMBER DEFAULT 0,
     pResults OUT SYS_REFCURSOR
 ) AS
+    vSqlStatement VARCHAR2(2000);
+    vCondition    VARCHAR2(2000);
+    vRange        VARCHAR(1000);
 BEGIN
-    IF pLimit > 0 THEN
-        OPEN pResults FOR
-            SELECT UserId,
-                   FirstName || ' ' || LastName AS FullName,
-                   Dni, ProfileName, Username, Email, UserStatus
-            FROM fv_user.vw_employees
-            OFFSET pOffset ROWS FETCH NEXT pLimit ROWS ONLY;
+    vSqlStatement :=
+            'SELECT UserId, FullName, Dni, ProfileName, Username, Email, UserStatus FROM fv_user.vw_employees ';
 
+    CASE
+        WHEN pFieldName = 'none' THEN
+            vCondition := '';
+        WHEN pFieldName = 'FullName' THEN
+            vCondition := ' WHERE upper(FullName) like ' || CHR(39) || '%' || UPPER(pFieldValue) || '%' || CHR(39);
+        WHEN pFieldName = 'Dni' THEN
+            vCondition := ' WHERE trim(upper(Dni)) = trim(upper(' || CHR(39) || pFieldValue || CHR(39) || ')) ';
+        ELSE
+            vCondition := ' WHERE ' || pFieldName || ' =  ' || pFieldValue ;
+    END CASE;
+
+    IF pLimit > 0 THEN
+        vRange := ' OFFSET ' || TO_CHAR(pOffset) || ' ROWS FETCH NEXT ' || TO_CHAR(pLimit) || ' ROWS ONLY ';
     ELSE
-        OPEN pResults FOR
-            SELECT UserId,
-                   FirstName || ' ' || LastName AS FullName,
-                   Dni, ProfileName, Username, Email, UserStatus
-            FROM fv_user.vw_employees;
+        vRange := '';
     END IF;
-END sp_get_allemployees;
+
+    vSqlStatement:=Concat(vSqlStatement, vCondition);
+    vSqlStatement:=Concat(vSqlStatement, vRange);
+
+    OPEN pResults FOR vSqlStatement;
+END sp_get_employees;
 /
 
 
-prompt   - sp_count_allemployees;
-CREATE OR REPLACE PROCEDURE fv_user.sp_count_allemployees(
+prompt   - sp_count_employees;
+CREATE OR REPLACE PROCEDURE fv_user.sp_count_employees(
+    pFieldName   VARCHAR2,
+    pFieldValue  VARCHAR2,
     pResults OUT SYS_REFCURSOR
 ) AS
+    vSqlStatement VARCHAR2(2000);
+    vCondition    VARCHAR2(2000);
 BEGIN
-    OPEN pResults FOR
-        SELECT COUNT(*) AS Total
-        FROM fv_user.user_registration
-        WHERE ProfileId IN (1, 2);
-END sp_count_allemployees;
+    vSqlStatement := ' SELECT COUNT(*) AS Total FROM fv_user.vw_employees';
+    CASE
+        WHEN pFieldName = 'none' THEN
+            vCondition := '';
+        WHEN pFieldName = 'FullName' THEN
+            vCondition := ' WHERE trim(upper(FirstName)) like ' || CHR(39) || '%' || TRIM(UPPER(pFieldValue)) || '%' ||
+                          CHR(39);
+            vCondition :=
+                        vCondition || ' OR trim(upper(LastName)) like ' || CHR(39) || '%' || TRIM(UPPER(pFieldValue)) ||
+                        '%' || CHR(39);
+        WHEN pFieldName = 'Dni' THEN
+            vCondition := ' WHERE trim(upper(Dni)) = trim(upper(' || CHR(39) || pFieldValue || CHR(39) || ')) ';
+        ELSE
+            vCondition := ' WHERE ' || pFieldName || ' =  ' || pFieldValue ;
+    END CASE;
+    vSqlStatement := CONCAT(vSqlStatement, vCondition);
+
+    OPEN pResults FOR vSqlStatement;
+END sp_count_employees;
 /
 
 
-prompt   - sp_signin_user;
-CREATE OR REPLACE PROCEDURE fv_user.sp_signin_user(
+prompt - sp_signin_user;
+CREATE OR
+    REPLACE PROCEDURE fv_user.sp_signin_user(
     pUsername    VARCHAR2,
     pPassword    VARCHAR2,
     pResults OUT SYS_REFCURSOR
@@ -239,8 +272,9 @@ END sp_signin_user;
 /
 
 
-prompt   - sp_check_createuser_rules;
-CREATE OR REPLACE PROCEDURE fv_user.sp_check_createuser_rules(
+prompt - sp_check_createuser_rules;
+CREATE OR
+    REPLACE PROCEDURE fv_user.sp_check_createuser_rules(
     pUsername    VARCHAR2,
     pDni         VARCHAR2,
     pEmail       VARCHAR2,
@@ -274,8 +308,9 @@ END sp_check_createuser_rules;
 /
 
 
-prompt   - sp_check_updateuser_rules;
-CREATE OR REPLACE PROCEDURE fv_user.sp_check_updateuser_rules(
+prompt - sp_check_updateuser_rules;
+CREATE OR
+    REPLACE PROCEDURE fv_user.sp_check_updateuser_rules(
     pUserId      VARCHAR2,
     pUsername    VARCHAR2,
     pDni         VARCHAR2,

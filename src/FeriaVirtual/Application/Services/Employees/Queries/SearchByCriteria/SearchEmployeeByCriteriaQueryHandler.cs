@@ -1,6 +1,6 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
+using FeriaVirtual.Domain.SeedWork.FiltersByCriteria;
 using FeriaVirtual.Domain.SeedWork.Query;
-using System;
 using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Employees.Queries.SearchByCriteria
@@ -15,22 +15,21 @@ namespace FeriaVirtual.Application.Services.Employees.Queries.SearchByCriteria
             _repository = repository;
 
 
-        public async Task<SearchEmployeesByCriteriaResponse> Handle(SearchEmployeeByCriteriaQuery query) =>
-            query is null
-                ? throw new InvalidEmployeeServiceException("Parametros de consulta inválidos.")
-                : new SearchEmployeesByCriteriaResponse(await _repository.SearchByCriteria(GetCriteria(query.SearchType, query.SearchValue), query.PageNumber));
+        public async Task<SearchEmployeesByCriteriaResponse> Handle(SearchEmployeeByCriteriaQuery query)
+        {
+            if(query is null)
+                throw new InvalidEmployeeServiceException("Parametros de consulta inválidos.");
 
+            Criteria criteria = new EmployeeFilter().Filters.GetFilter(query.FilterType);
+            if(criteria is null)
+                throw new InvalidEmployeeServiceException("Criterio de consulta inválido.");
+            criteria.ChangeFieldValue(query.FilterValue);
 
-        private Func<SearchEmployeeByCriteriaResponse, bool> GetCriteria
-            (string searchType, object searchValue = null) =>
-            searchType.Trim().ToLower() switch {
-                "search_by_name" => (SearchEmployeeByCriteriaResponse x) => x.FullName.ToLower().Contains(searchValue.ToString().ToLower()),
-                "search_by_dni" => (SearchEmployeeByCriteriaResponse x) => x.Dni.ToLower().Equals(searchValue.ToString().ToLower()),
-                "search_by_profile" => (SearchEmployeeByCriteriaResponse x) => x.ProfileName.ToLower().Contains(searchValue.ToString().ToLower()),
-                "search_by_status" => (SearchEmployeeByCriteriaResponse x) => x.UserStatus.ToLower().Contains(searchValue.ToString().ToLower()),
-                _ => null,
-            };
-
+            var response = new SearchEmployeesByCriteriaResponse(
+            await _repository.SearchByCriteria<SearchEmployeeByCriteriaResponse>
+                (criteria, query.Limit, query.Offset));
+            return response;
+        }
 
 
     }

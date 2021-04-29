@@ -171,6 +171,7 @@
     <Compile Include="SeedWork\IViewModelBase.cs" />
     <Compile Include="Services\Employees\Dto\CreateUserDto.cs" />
     <Compile Include="Services\Employees\Dto\UpdateUserDto.cs" />
+    <Compile Include="Services\Employees\Exceptions\InvalidArgumentEmployeeException.cs" />
     <Compile Include="Services\Employees\ViewModels\EmployeeCounterViewModel.cs" />
     <Compile Include="Services\Employees\EmployeeFilter.cs" />
     <Compile Include="Services\Employees\EmployeeService.cs" />

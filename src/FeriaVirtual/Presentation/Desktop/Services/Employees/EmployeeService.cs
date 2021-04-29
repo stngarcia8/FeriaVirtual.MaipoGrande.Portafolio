@@ -27,6 +27,7 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
             _httpClient.BaseAddress = _uri;
         }
 
+
         public async Task<EmployeeCounterViewModel> GetNumberOfEmployees()
         {
             var request = new HttpRequestMessage {
@@ -92,6 +93,19 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
                 throw new InvalidCreateEmployeeException(stringResponse);
             }
             return stringResponse;
+        }
+
+
+        public async Task<EmployeeViewModel> GetEmployeeById(string employeeid)
+        {
+            if(string.IsNullOrWhiteSpace(employeeid))
+                throw new InvalidArgumentEmployeeException("No ha especificado un identificador de empleado a buscar.");
+
+            var response = await _httpClient.GetAsync($"api/employees/{employeeid}");
+            var stringResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return !response.IsSuccessStatusCode
+                ? null
+                : JsonConvert.DeserializeObject<EmployeeViewModel>(stringResponse);
         }
 
 

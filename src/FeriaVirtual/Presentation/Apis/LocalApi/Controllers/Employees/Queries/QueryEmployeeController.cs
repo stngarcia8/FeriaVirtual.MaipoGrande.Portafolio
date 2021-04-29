@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace FeriaVirtual.Api.Local.Controllers.Employees
+namespace FeriaVirtual.Api.Local.Controllers.Employees.Queries
 {
     [ApiController]
     public class QueryEmployeeController
@@ -34,26 +34,17 @@ namespace FeriaVirtual.Api.Local.Controllers.Employees
 
 
         [HttpGet]
-        [Route("api/employees/all/{pageNumber}")]
-        public async Task<IActionResult> GetAll(int pageNumber = 0)
+        [Route("api/employees/searchbycriteria/{filterType}/{filterValue}/{limit}/{offset}")]
+        public async Task<IActionResult> GetByCriteria
+            (string filterType, string filterValue, int limit, int offset)
         {
             try {
-                SearchEmployeeByCriteriaQuery query = new("search_all", "", pageNumber);
-                SearchEmployeesByCriteriaResponse results = await _queryBus.Ask<SearchEmployeesByCriteriaResponse>(query);
-                return StatusCode(200, results.EmployeesResponse);
-            } catch(Exception ex) {
-                return StatusCode(400, ex.Message);
-            }
-        }
-
-
-        [HttpGet]
-        [Route("api/employees/searchbycriteria/{searchtype}/{searchvalue}/{pagenumber}")]
-        public async Task<IActionResult>
-            GetByCriteria(string searchtype, string searchvalue, int pagenumber)
-        {
-            try {
-                SearchEmployeeByCriteriaQuery query = new(searchtype, searchvalue, pagenumber);
+                var query = new SearchEmployeeByCriteriaQuery {
+                    FilterType = filterType,
+                    FilterValue = filterValue,
+                    Limit = limit,
+                    Offset = offset
+                };
                 var results = await _queryBus.Ask<SearchEmployeesByCriteriaResponse>(query);
                 return StatusCode(200, results.EmployeesResponse);
 
@@ -64,11 +55,18 @@ namespace FeriaVirtual.Api.Local.Controllers.Employees
 
 
         [HttpGet]
-        [Route("api/employees/count")]
-        public async Task<IActionResult> GetCount()
+        [Route("api/employees/count/{typeFilter}/{valueFilter}")]
+        public async Task<IActionResult> GetCountEmployeesAsync(string typeFilter, string valueFilter)
         {
             try {
-                return base.StatusCode(200, await _queryBus.Ask<EmployeeCounterResponse>(new EmployeeCounterQuery()));
+                var query = new EmployeeCounterQuery {
+                    FilterType = typeFilter,
+                    FilterValue = valueFilter
+                };
+
+                var result = await _queryBus.Ask<EmployeeCounterResponse>(query);
+                return base.StatusCode(200,result );
+
             } catch(Exception ex) {
                 return StatusCode(400, ex.Message);
             }

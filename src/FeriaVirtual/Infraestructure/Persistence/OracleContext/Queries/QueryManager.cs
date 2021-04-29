@@ -54,11 +54,11 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         }
 
 
-        public async Task<TResponse> ExecuteQueryAsync<TResponse>
-            (string sqlStatement)
+        public async Task<TResponse> ExecuteSingleQueryAsync<TResponse>
+            (string sqlStatement, Dictionary<string, object> parameters = null)
         {
             var queryExcecutor = SelectionQuery.BuildQuery(_command);
-            return await queryExcecutor.ExecuteQueryAsync<TResponse>(sqlStatement);
+            return await queryExcecutor.ExecuteSingleQueryAsync<TResponse>(sqlStatement, parameters);
         }
 
 

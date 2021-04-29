@@ -14,11 +14,26 @@ namespace FeriaVirtual.Application.Services.Employees.Queries.Counter
             _repository = repository;
 
 
-        public async Task<EmployeeCounterResponse> Handle(EmployeeCounterQuery query) =>
-            new() {
-                Total = await _repository.CountAllEmployees()
+        public async Task<EmployeeCounterResponse> Handle(EmployeeCounterQuery query)
+        {
+            if(query is null)
+                throw new InvalidEmployeeServiceException("Parametros de consulta inválidos.");
+
+            var employeeFilters = new EmployeeFilter();
+            var filter = employeeFilters.Filters.GetFilter(query.FilterType);
+            if(filter is null)
+                throw new InvalidEmployeeServiceException("Criterio de consulta inválido.");
+            filter.ChangeFieldValue(query.FilterValue);
+
+            return new EmployeeCounterResponse {
+                Total = await _repository.CountEmployeesAsync(filter)
             };
+        }
+
 
 
     }
 }
+
+
+

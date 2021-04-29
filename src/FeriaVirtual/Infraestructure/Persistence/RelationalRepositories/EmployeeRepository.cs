@@ -1,4 +1,5 @@
 ﻿using FeriaVirtual.Domain.Models.Users.Interfaces;
+using FeriaVirtual.Domain.SeedWork.FiltersByCriteria;
 using FeriaVirtual.Domain.SeedWork.Query;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext;
 using FeriaVirtual.Infrastructure.Persistence.OracleContext.Configuration;
@@ -36,34 +37,35 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
 
 
         public async Task<IEnumerable<TResponse>> SearchByCriteria<TResponse>
-             (System.Func<TResponse, bool> filters = null, int pageNumber = 0)
-         where TResponse : IQueryResponseBase
+            (Criteria criteria, int limit = 0, int offset = 0)
+            where TResponse : IQueryResponseBase
         {
             _parameters.Clear();
-            _parameters.Add("PageNumber", pageNumber);
+            _parameters.Add("FieldName", criteria.FieldName);
+            _parameters.Add("FieldValue", criteria.FieldValue);
+            _parameters.Add("Limit", limit);
+            _parameters.Add("Offset", offset);
 
             await _unitOfWork.Context.OpenContextAsync();
-            var responses = await _unitOfWork.Context.SelectAsync<TResponse>("sp_get_allemployees", _parameters);
-
-            if(filters is not null)
-                responses = responses.Where(filters);
+            var responses = await _unitOfWork.Context.SelectAsync<TResponse>("sp_get_employees", _parameters);
             return responses.ToList();
         }
 
 
-        public async Task<int> CountAllEmployees()
+        public async Task<int> CountEmployeesAsync(Criteria criteria)
         {
+            _parameters.Clear();
+            _parameters.Add("FieldName", criteria.FieldName);
+            _parameters.Add("FieldValue", criteria.FieldValue);
+
             Task<int> response;
             var tasks = Task.WhenAll(
                 _unitOfWork.Context.OpenContextAsync(),
-                response = _unitOfWork.Context.CountAsync("sp_count_allemployees")
+                response = _unitOfWork.Context.CountAsync("sp_count_employees", _parameters)
                 );
             await tasks;
             return response.Result;
         }
-
-
-
 
 
     }

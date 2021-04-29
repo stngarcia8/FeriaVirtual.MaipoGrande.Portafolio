@@ -5,18 +5,13 @@ namespace FeriaVirtual.Application.Services.Employees.Queries.SearchByCriteria
     public class SearchEmployeeByCriteriaQuery
         : Query
     {
-        public string SearchType { get; }
-        public object SearchValue { get; }
-        public int PageNumber { get; }
+        public string FilterType { get; set; }
+        public string FilterValue { get; set; }
+        public int Limit { get; set; }
+        public int Offset { get; set; }
 
 
-        public SearchEmployeeByCriteriaQuery
-            (string searchType, object searchValue, int pagenumber = 0)
-        {
-            SearchType = searchType;
-            SearchValue = searchValue;
-            PageNumber = pagenumber;
-        }
+        public SearchEmployeeByCriteriaQuery() { }
 
 
     }

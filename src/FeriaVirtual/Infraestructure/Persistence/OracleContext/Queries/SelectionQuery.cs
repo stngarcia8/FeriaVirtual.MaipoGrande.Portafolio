@@ -17,12 +17,15 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
             new(command);
 
 
-        public async Task<TResponse> ExecuteQueryAsync<TResponse>(string spName)
+        public async Task<TResponse> ExecuteSingleQueryAsync<TResponse>
+            (string spName, Dictionary<string, object> parameters = null)
         {
-            if(string.IsNullOrWhiteSpace(spName)) {
+            if(string.IsNullOrWhiteSpace(spName))
                 throw new QueryExecutorFailedException("No ha especificado una consulta de selección para ejecutar.");
-            }
+
             ConfigureCommand(spName);
+            if(parameters is not null )
+                CreateQueryParameters(parameters);
             AddResultsParameter();
             return (TResponse)System.Convert.ChangeType(await _command.ExecuteScalarAsync(), typeof(TResponse));
         }

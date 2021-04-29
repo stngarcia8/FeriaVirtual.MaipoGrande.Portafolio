@@ -63,10 +63,11 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
             return (IEnumerable<TResponse>)await qm.ExecuteQueryAsync<TResponse>(sqlStatement, parameters);
         }
 
-        public async Task<int> CountAsync(string sqlStatement)
+        public async Task<int> CountAsync
+            (string sqlStatement, Dictionary<string, object> parameters = null)
         {
             var qm = QueryManager.BuildManager(_connection, _transaction);
-            return await qm.ExecuteQueryAsync<int>(sqlStatement);
+            return await qm.ExecuteSingleQueryAsync<int>(sqlStatement, parameters);
         }
 
 

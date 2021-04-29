@@ -35,7 +35,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         {
             ConfigureForm();
             ConfigureFilters();
-            ConfigureContextMenu();
+            //ConfigureContextMenu();
             //Task<int> numberOfRecords = CountRecords();
             //ConfigurePaginator(numberOfRecords.Result);
             _currentRow = null;
@@ -178,7 +178,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
                 else
                     employeesFound = await _employeeService.GetEmployeesByCriteria(_actualCriteria);
                 ConfigureDataGridView(employeesFound);
-                ConfigurePaginator(employeesFound.Count);
+                //ConfigurePaginator(employeesFound.Count);
                 ConfigureContextMenu();
             } catch(System.Exception ex) {
                 ConfigureContextMenu();
@@ -190,7 +190,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         {
             var configurator = DataGridViewConfigurator.Configure(EmployeeGrid);
             EmployeeGrid.DataSource = employeesFound;
-            configurator.HideColumn("UserId");
+            //configurator.HideColumn("UserId");
         }
 
 
@@ -220,6 +220,18 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             ContextDisableToolStripMenuItem.Visible = !_currentRow.Cells[6].Value.Equals("Inactivo");
         }
 
+
+        private void ContextEditToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            if(_currentRow is null)
+                return;
+            var form = new EmployeeUpdateForm(_employeeService) {
+                EmployeeId = _currentRow.Cells[0].Value.ToString()
+            };
+            form.ShowDialog();
+            if(form.IsSaved)
+                RefreshResults();
+        }
 
 
     }

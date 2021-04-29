@@ -49,7 +49,8 @@ ORDER BY usr.LastName, usr.FirstName;
 PROMPT   - vw_employeess;
 CREATE OR REPLACE VIEW fv_user.vw_employees
 AS
-SELECT usr.UserId, usr.FirstName, usr.LastName, usr.Dni,
+SELECT usr.UserId, usr.FirstName, usr.LastName,
+       usr.FirstName || ' ' || usr.LastName AS FullName, usr.Dni,
        pro.ProfileId, pro.ProfileName,
        cre.CredentialId, cre.Username, cre.Password, cre.Email, cre.IsActive,
        CASE cre.IsActive
