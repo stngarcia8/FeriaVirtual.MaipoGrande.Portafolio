@@ -3,10 +3,9 @@ using FeriaVirtual.Application.Services.Users.Queries.SearchBycriteria;
 using FeriaVirtual.Application.Services.Users.Queries.SearchById;
 using FeriaVirtual.Domain.SeedWork.Query;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
-namespace FeriaVirtual.Api.Local.Controllers.Users
+namespace FeriaVirtual.Api.Local.Controllers.Users.Queries
 {
     [ApiController]
     public class QueryUserController
@@ -27,7 +26,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
                 var result = _queryBus.Ask<SearchUserByIdResponse>(new SearchUserByIdQuery(userid));
                 return StatusCode(200, result);
 
-            } catch (Exception ex) {
+            } catch(System.Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }
@@ -42,7 +41,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
                 SearchUsersByCriteriaResponse results = await _queryBus.Ask<SearchUsersByCriteriaResponse>(query);
                 return StatusCode(200, results.UsersResponse);
 
-            } catch (Exception ex) {
+            } catch(System.Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }
@@ -58,7 +57,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
                 var value = results.Result;
                 return StatusCode(200, value.UsersResponse);
 
-            } catch (Exception ex) {
+            } catch(System.Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }
@@ -71,7 +70,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users
             try {
                 return base.StatusCode(200, _queryBus.Ask<UserCounterResponse>(new UserCounterQuery()));
 
-            } catch (Exception ex) {
+            } catch(System.Exception ex) {
                 return StatusCode(400, ex.Message);
             }
         }

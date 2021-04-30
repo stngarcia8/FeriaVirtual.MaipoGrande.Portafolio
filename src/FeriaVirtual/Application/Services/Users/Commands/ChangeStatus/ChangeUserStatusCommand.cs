@@ -10,9 +10,9 @@ namespace FeriaVirtual.Application.Users.Commands.ChangeStatus
         public int IsActive { get; protected set; }
 
 
-        public ChangeUserStatusCommand(string userId, int isActive)
+        public ChangeUserStatusCommand(System.Guid userId, int isActive)
         {
-            UserId = new System.Guid(userId);
+            UserId = userId;
             IsActive = isActive;
         }
 

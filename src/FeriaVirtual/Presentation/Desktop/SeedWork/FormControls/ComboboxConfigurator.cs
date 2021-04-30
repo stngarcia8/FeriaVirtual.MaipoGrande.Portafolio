@@ -20,6 +20,20 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls
             _combobox.Items.Clear();
 
 
+        public void DefineDatasource<T>
+            (IList<T> source, string displayMember, string valueMember)
+            where T:class
+        {
+            _combobox.BeginUpdate();
+            _combobox.DataSource = null;
+            _combobox.DataSource = source;
+            _combobox.DisplayMember = displayMember;
+            _combobox.ValueMember = valueMember;
+            _combobox.SelectedIndex = 0;
+            _combobox.EndUpdate();
+        }
+
+
         public void AddStringList(IList<string> items)
         {
             ClearCombobox();

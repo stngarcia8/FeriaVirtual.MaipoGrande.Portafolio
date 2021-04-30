@@ -1,4 +1,4 @@
-﻿
+﻿using  System.Reflection;
 namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
 {
     partial class MsgBoxControl
@@ -35,6 +35,7 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
             this.messageLabel = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
             this.pnlBottom = new System.Windows.Forms.Panel();
+
             this.metroButton2 = new MetroFramework.Controls.MetroButton();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.metroButton3 = new MetroFramework.Controls.MetroButton();

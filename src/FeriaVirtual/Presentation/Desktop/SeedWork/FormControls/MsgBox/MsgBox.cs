@@ -107,9 +107,7 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
             msgboxControl.Size = new Size(ownerForm.Size.Width - 100, height);
             msgboxControl.Location = new Point(ownerForm.Location.X + (ownerForm.Width - msgboxControl.Width) / 2, ownerForm.Location.Y + (ownerForm.Height - msgboxControl.Height) / 2);
             msgboxControl.AdjustAppearance();
-#pragma warning disable IDE0059 // Asignación innecesaria de un valor
             int _overlaySizes = Convert.ToInt32(Math.Floor(msgboxControl.Size.Height * 0.28));
-#pragma warning restore IDE0059 // Asignación innecesaria de un valor
             msgboxControl.ShowDialog();
             msgboxControl.BringToFront();
             msgboxControl.SetDefaultButton();

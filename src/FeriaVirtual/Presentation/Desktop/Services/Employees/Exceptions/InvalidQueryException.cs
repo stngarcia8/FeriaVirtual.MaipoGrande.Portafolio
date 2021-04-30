@@ -1,9 +1,9 @@
 ﻿namespace FeriaVirtual.App.Desktop.Services.Employees.Exceptions
 {
-    class InvalidArgumentEmployeeException
+    public class InvalidQueryException
         : System.Exception
     {
-        public InvalidArgumentEmployeeException(string message)
+        public InvalidQueryException(string message)
             : base(message) { }
 
 

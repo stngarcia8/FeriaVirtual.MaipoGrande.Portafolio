@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.App.Desktop.SeedWork.Filters;
+﻿using FeriaVirtual.App.Desktop.SeedWork.FiltersByCriteria;
 using FeriaVirtual.App.Desktop.Services.Employees.Dto;
 using FeriaVirtual.App.Desktop.Services.Employees.ViewModels;
 using System.Collections.Generic;
@@ -10,10 +10,10 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
     {
         Task<string> CreateEmployee(CreateUserDto employeeDto);
         Task<string> UpdateEmployee(UpdateUserDto employeeDto);
+
         Task<EmployeeViewModel> GetEmployeeById(string employeeid);
-        Task<EmployeeCounterViewModel> GetNumberOfEmployees();
-        Task<List<EmployeesViewModel>> GetAllEmployees(int pageNumber);
-        Task<List<EmployeesViewModel>> GetEmployeesByCriteria(Criteria criteria);
+        Task<EmployeeCounterViewModel> GetNumberOfEmployees(Criteria criteria);
+        Task<List<EmployeesViewModel>> GetEmployeesByCriteria(Criteria criteria, int limit, int offset);
 
 
     }

@@ -9,8 +9,8 @@ namespace FeriaVirtual.Application.Services.Employees.Queries.SearchById
         public Guid Id { get; protected set; }
 
 
-        public SearchEmployeeByIdQuery(string id) =>
-            Id = new Guid(id);
+        public SearchEmployeeByIdQuery(Guid id) =>
+            Id = id;
 
 
     }

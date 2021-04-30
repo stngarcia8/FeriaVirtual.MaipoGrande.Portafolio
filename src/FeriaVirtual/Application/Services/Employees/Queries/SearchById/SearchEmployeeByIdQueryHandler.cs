@@ -18,11 +18,12 @@ namespace FeriaVirtual.Application.Services.Employees.Queries.SearchById
         {
             if (query is null)
                 throw new InvalidEmployeeServiceException("Identificador de empleado inválido.");
+
             var response = await _repository.SearchById<SearchEmployeeByIdResponse>(query.Id);
+            if(response is null)
+                throw new InvalidEmployeeServiceException("No es posible encontrar un empleado con el identificador especificado.");
+
             return response;
-//            return response is null 
-//                ? throw new InvalidEmployeeServiceException("El empleado solicitado no existe.") 
-  //              : response;
         }
 
 

@@ -221,12 +221,12 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.FilterLabel.Size = new System.Drawing.Size(79, 41);
             this.FilterLabel.TabIndex = 1;
             this.FilterLabel.Text = "Filtros:";
-            this.FilterLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.FilterLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // FilterComboBox
             // 
             this.ListLayoutPanel.SetColumnSpan(this.FilterComboBox, 2);
-            this.FilterComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FilterComboBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.FilterComboBox.FormattingEnabled = true;
             this.FilterComboBox.ItemHeight = 23;
             this.FilterComboBox.Location = new System.Drawing.Point(88, 44);
@@ -252,7 +252,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.FilterTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.FilterTextBox.CustomButton.UseSelectable = true;
             this.FilterTextBox.CustomButton.Visible = false;
-            this.FilterTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FilterTextBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.FilterTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.FilterTextBox.Lines = new string[0];
             this.FilterTextBox.Location = new System.Drawing.Point(471, 44);
@@ -273,7 +273,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             // 
             // FilterButton
             // 
-            this.FilterButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FilterButton.Dock = System.Windows.Forms.DockStyle.Top;
             this.FilterButton.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.FilterButton.Location = new System.Drawing.Point(769, 44);
             this.FilterButton.Name = "FilterButton";
@@ -355,7 +355,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ContextToolStripSeparator2,
             this.ContextChangePasswordToolStripMenuItem1});
             this.GridContextMenu.Name = "GridContextMenu";
-            this.GridContextMenu.Size = new System.Drawing.Size(248, 168);
+            this.GridContextMenu.Size = new System.Drawing.Size(248, 146);
             this.GridContextMenu.Text = "Opciones";
             // 
             // ContextRefreshToolStripMenuItem
@@ -419,7 +419,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ListPageLabel.Size = new System.Drawing.Size(79, 42);
             this.ListPageLabel.TabIndex = 6;
             this.ListPageLabel.Text = "Páginas:";
-            this.ListPageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ListPageLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // ListPageComboBox
             // 
@@ -446,7 +446,6 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ListResultLabel.Size = new System.Drawing.Size(676, 42);
             this.ListResultLabel.TabIndex = 8;
             this.ListResultLabel.Text = "x/y registros encontrados.";
-            this.ListResultLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // DataPanel
             // 

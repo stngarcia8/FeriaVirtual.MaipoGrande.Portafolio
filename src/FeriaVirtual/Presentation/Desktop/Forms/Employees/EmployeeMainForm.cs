@@ -1,5 +1,5 @@
 ﻿using FeriaVirtual.App.Desktop.Extensions.DependencyInjection;
-using FeriaVirtual.App.Desktop.SeedWork.Filters;
+using FeriaVirtual.App.Desktop.SeedWork.FiltersByCriteria;
 using FeriaVirtual.App.Desktop.SeedWork.FormControls;
 using FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox;
 using FeriaVirtual.App.Desktop.SeedWork.Helpers.Utils;
@@ -19,6 +19,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         private EmployeeFilter _filters;
         private Criteria _actualCriteria;
         private DataGridViewRow _currentRow ;
+        private int _offset;
 
 
         public EmployeeMainForm()
@@ -35,11 +36,11 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         {
             ConfigureForm();
             ConfigureFilters();
-            //ConfigureContextMenu();
-            //Task<int> numberOfRecords = CountRecords();
-            //ConfigurePaginator(numberOfRecords.Result);
+            ConfigureContextMenu();
+            ConfigurePaginator();
             _currentRow = null;
             LoadRecords();
+            FilterTextBox.Visible = _actualCriteria.RequireInput;
         }
 
 
@@ -54,33 +55,41 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
 
         private void ConfigureFilters()
         {
+            this.FilterComboBox.SelectedIndexChanged -= this.FilterComboBox_SelectedIndexChanged;
             _filters = EmployeeFilter.CreateFilter();
             var configurator = ComboboxConfigurator.Configure(FilterComboBox);
-            configurator.AddStringList(_filters.GetFilters);
+            configurator.DefineDatasource<Filter>(_filters.Filters, "FilterName", "FilterCriteria");
             FilterTextBox.Text = string.Empty;
-            _actualCriteria = _filters.GetCriteriaByIndex(0);
+            _actualCriteria = (Criteria)FilterComboBox.SelectedValue;
+            this.FilterComboBox.SelectedIndexChanged += new System.EventHandler(this.FilterComboBox_SelectedIndexChanged);
         }
 
 
-        private void ConfigurePaginator(int numberOfRecords)
+        private async void ConfigurePaginator()
         {
             var pages = 0;
+            int numberOfRecords = await CountRecords();
+
             pages = numberOfRecords / PreferenceData.RowsPerPage;
             if((numberOfRecords % PreferenceData.RowsPerPage) != 0)
                 pages++;
+            _offset= (int)((pages * PreferenceData.RowsPerPage)-PreferenceData.RowsPerPage);
+
             var configurator = ComboboxConfigurator.Configure(ListPageComboBox);
             configurator.AddNumbers(1, pages);
             ListResultLabel.Text = $"{numberOfRecords} registros encontrados.";
         }
+
 
         private async Task<int> CountRecords()
         {
             var employeeCounter = new EmployeeCounterViewModel();
             int numberOfRecords = 0;
             try {
-                employeeCounter = await _employeeService.GetNumberOfEmployees();
+                employeeCounter = await _employeeService.GetNumberOfEmployees(_actualCriteria);
                 numberOfRecords = employeeCounter.Total;
                 return numberOfRecords;
+
             } catch {
                 return numberOfRecords;
             }
@@ -151,7 +160,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         private void FilterComboBox_SelectedIndexChanged
             (object sender, System.EventArgs e)
         {
-            _actualCriteria = _filters.GetCriteriaByIndex(FilterComboBox.SelectedIndex);
+            _actualCriteria = (Criteria)FilterComboBox.SelectedValue;
             FilterTextBox.Visible = _actualCriteria.RequireInput;
         }
 
@@ -165,41 +174,38 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         {
             if(!_actualCriteria.RequireInput)
                 return;
-            _actualCriteria.ChangeCriteriaValue(FilterTextBox.Text);
+            _actualCriteria.ChangeFieldValue(FilterTextBox.Text);
         }
-
 
         private async void LoadRecords()
         {
             try {
-                IList < EmployeesViewModel > employeesFound;
-                if(_actualCriteria.CriteriaType.Equals("search_all"))
-                    employeesFound = await _employeeService.GetAllEmployees(_actualCriteria.PageNumber);
-                else
-                    employeesFound = await _employeeService.GetEmployeesByCriteria(_actualCriteria);
-                ConfigureDataGridView(employeesFound);
-                //ConfigurePaginator(employeesFound.Count);
+                ConfigureDataGridView(
+                    (IList<EmployeesViewModel>)await _employeeService.GetEmployeesByCriteria
+                        (_actualCriteria, 
+                        PreferenceData.RowsPerPage, _offset)
+                    );
                 ConfigureContextMenu();
+                ConfigurePaginator();
+
             } catch(System.Exception ex) {
                 ConfigureContextMenu();
                 MsgBox.Show(this, ex.Message, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+
         private void ConfigureDataGridView(IList<EmployeesViewModel> employeesFound)
         {
             var configurator = DataGridViewConfigurator.Configure(EmployeeGrid);
             EmployeeGrid.DataSource = employeesFound;
-            //configurator.HideColumn("UserId");
+            configurator.HideColumn("UserId");
         }
 
 
         private void ListPageComboBox_SelectedIndexChanged
     (object sender, System.EventArgs e)
         {
-            if(_actualCriteria is null)
-                return;
-            _actualCriteria.PageNumber = int.Parse(ListPageComboBox.Text);
         }
 
 

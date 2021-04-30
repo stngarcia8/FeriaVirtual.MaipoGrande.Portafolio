@@ -26,6 +26,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             _themeManager.DarkMode();
         }
 
+
         private void EmployeeUpdateForm_Load
             (object sender, EventArgs e)
         {
@@ -61,10 +62,8 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         }
 
         private void CancelFormButton_Click
-            (object sender, EventArgs e)
-        {
-            Close();
-        }
+            (object sender, EventArgs e) 
+            => Close();
 
 
         private async Task UpdateEmployee()

@@ -52,7 +52,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             // CancelFormButton
             // 
             this.CancelFormButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelFormButton.Location = new System.Drawing.Point(450, 325);
+            this.CancelFormButton.Location = new System.Drawing.Point(500, 325);
             this.CancelFormButton.Name = "CancelFormButton";
             this.CancelFormButton.Size = new System.Drawing.Size(100, 23);
             this.CancelFormButton.TabIndex = 39;
@@ -62,11 +62,11 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             // 
             // UpdateFormButton
             // 
-            this.UpdateFormButton.Location = new System.Drawing.Point(300, 325);
+            this.UpdateFormButton.Location = new System.Drawing.Point(350, 325);
             this.UpdateFormButton.Name = "UpdateFormButton";
             this.UpdateFormButton.Size = new System.Drawing.Size(125, 23);
             this.UpdateFormButton.TabIndex = 38;
-            this.UpdateFormButton.Text = "&Crear empleado";
+            this.UpdateFormButton.Text = "&Actualizar empleado";
             this.UpdateFormButton.UseSelectable = true;
             this.UpdateFormButton.Click += new System.EventHandler(this.UpdateFormButton_Click);
             // 
@@ -76,7 +76,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             // 
             // 
             this.UsernameTextBox.CustomButton.Image = null;
-            this.UsernameTextBox.CustomButton.Location = new System.Drawing.Point(178, 1);
+            this.UsernameTextBox.CustomButton.Location = new System.Drawing.Point(228, 1);
             this.UsernameTextBox.CustomButton.Name = "";
             this.UsernameTextBox.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.UsernameTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -95,7 +95,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.UsernameTextBox.SelectionStart = 0;
             this.UsernameTextBox.ShortcutsEnabled = true;
             this.UsernameTextBox.ShowClearButton = true;
-            this.UsernameTextBox.Size = new System.Drawing.Size(200, 23);
+            this.UsernameTextBox.Size = new System.Drawing.Size(250, 23);
             this.UsernameTextBox.TabIndex = 34;
             this.UsernameTextBox.UseSelectable = true;
             this.UsernameTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -116,7 +116,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             // 
             // 
             this.EmailTextBox.CustomButton.Image = null;
-            this.EmailTextBox.CustomButton.Location = new System.Drawing.Point(178, 1);
+            this.EmailTextBox.CustomButton.Location = new System.Drawing.Point(228, 1);
             this.EmailTextBox.CustomButton.Name = "";
             this.EmailTextBox.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.EmailTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -135,7 +135,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.EmailTextBox.SelectionStart = 0;
             this.EmailTextBox.ShortcutsEnabled = true;
             this.EmailTextBox.ShowClearButton = true;
-            this.EmailTextBox.Size = new System.Drawing.Size(200, 23);
+            this.EmailTextBox.Size = new System.Drawing.Size(250, 23);
             this.EmailTextBox.TabIndex = 32;
             this.EmailTextBox.UseSelectable = true;
             this.EmailTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -159,7 +159,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             "Consultor"});
             this.ProfileComboBox.Location = new System.Drawing.Point(350, 226);
             this.ProfileComboBox.Name = "ProfileComboBox";
-            this.ProfileComboBox.Size = new System.Drawing.Size(200, 29);
+            this.ProfileComboBox.Size = new System.Drawing.Size(250, 29);
             this.ProfileComboBox.TabIndex = 30;
             this.ProfileComboBox.UseSelectable = true;
             // 
@@ -190,7 +190,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             // 
             // 
             this.RutTextBox.CustomButton.Image = null;
-            this.RutTextBox.CustomButton.Location = new System.Drawing.Point(178, 1);
+            this.RutTextBox.CustomButton.Location = new System.Drawing.Point(228, 1);
             this.RutTextBox.CustomButton.Name = "";
             this.RutTextBox.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.RutTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -209,7 +209,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.RutTextBox.SelectionStart = 0;
             this.RutTextBox.ShortcutsEnabled = true;
             this.RutTextBox.ShowClearButton = true;
-            this.RutTextBox.Size = new System.Drawing.Size(200, 23);
+            this.RutTextBox.Size = new System.Drawing.Size(250, 23);
             this.RutTextBox.TabIndex = 27;
             this.RutTextBox.UseSelectable = true;
             this.RutTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -231,7 +231,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             // 
             // 
             this.LastnameTextBox.CustomButton.Image = null;
-            this.LastnameTextBox.CustomButton.Location = new System.Drawing.Point(178, 1);
+            this.LastnameTextBox.CustomButton.Location = new System.Drawing.Point(228, 1);
             this.LastnameTextBox.CustomButton.Name = "";
             this.LastnameTextBox.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.LastnameTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -250,7 +250,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.LastnameTextBox.SelectionStart = 0;
             this.LastnameTextBox.ShortcutsEnabled = true;
             this.LastnameTextBox.ShowClearButton = true;
-            this.LastnameTextBox.Size = new System.Drawing.Size(200, 23);
+            this.LastnameTextBox.Size = new System.Drawing.Size(250, 23);
             this.LastnameTextBox.TabIndex = 25;
             this.LastnameTextBox.UseSelectable = true;
             this.LastnameTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -272,7 +272,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             // 
             // 
             this.FirstnameTextBox.CustomButton.Image = null;
-            this.FirstnameTextBox.CustomButton.Location = new System.Drawing.Point(178, 1);
+            this.FirstnameTextBox.CustomButton.Location = new System.Drawing.Point(228, 1);
             this.FirstnameTextBox.CustomButton.Name = "";
             this.FirstnameTextBox.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.FirstnameTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -291,7 +291,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.FirstnameTextBox.SelectionStart = 0;
             this.FirstnameTextBox.ShortcutsEnabled = true;
             this.FirstnameTextBox.ShowClearButton = true;
-            this.FirstnameTextBox.Size = new System.Drawing.Size(200, 23);
+            this.FirstnameTextBox.Size = new System.Drawing.Size(250, 23);
             this.FirstnameTextBox.TabIndex = 23;
             this.FirstnameTextBox.UseSelectable = true;
             this.FirstnameTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -336,7 +336,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CancelButton = this.CancelFormButton;
-            this.ClientSize = new System.Drawing.Size(602, 388);
+            this.ClientSize = new System.Drawing.Size(644, 388);
             this.ControlBox = false;
             this.Controls.Add(this.CancelFormButton);
             this.Controls.Add(this.UpdateFormButton);

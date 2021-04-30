@@ -12,17 +12,17 @@ PROMPT Starting TO populate USER module TABLES FOR INITIAL execution.;
 
 PROMPT - INSERTING USER profiles.;
 INSERT INTO fv_user.user_profile (ProfileId, ProfileName)
-VALUES (1, '"Administrador');
+VALUES (1, 'Administrador');
 INSERT INTO fv_user.user_profile (ProfileId, ProfileName)
-VALUES (2, '"Consultor');
+VALUES (2, 'Consultor');
 INSERT INTO fv_user.user_profile (ProfileId, ProfileName)
-VALUES (3, '"Cliente externo');
+VALUES (3, 'Cliente externo');
 INSERT INTO fv_user.user_profile (ProfileId, ProfileName)
-VALUES (4, '"Cliente interno');
+VALUES (4, 'Cliente interno');
 INSERT INTO fv_user.user_profile (ProfileId, ProfileName)
-VALUES (5, '"Productor');
+VALUES (5, 'Productor');
 INSERT INTO fv_user.user_profile (ProfileId, ProfileName)
-VALUES (6, '"Transportista');
+VALUES (6, 'Transportista');
 
 
 PROMPT INSERTING example administrator USER.;

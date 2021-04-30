@@ -1,54 +1,44 @@
-﻿using FeriaVirtual.App.Desktop.SeedWork.Filters;
+﻿using FeriaVirtual.App.Desktop.SeedWork.FiltersByCriteria;
 using System.Collections.Generic;
 
 namespace FeriaVirtual.App.Desktop.Services.Employees
 {
     public class EmployeeFilter
     {
-        private IList<string> _filters;
-        private IList<Criteria> _criteriaCollection;
-
-        public IList<string> GetFilters => _filters;
-        public IList<Criteria> GetCriteriaCollection => _criteriaCollection;
+        public IList<Filter> Filters { get; protected set; }
 
 
         private EmployeeFilter()
+            => Filters = DefineFilters();
+
+
+        public static EmployeeFilter CreateFilter()
+            => new EmployeeFilter();
+
+
+        private IList<Filter> DefineFilters()
+            => new List<Filter> {
+                CreateFilter("Todos los empleados", "search_all", "none", false),
+                CreateFilter("Mostrar solo administradores", "search_by_profile", 1, false),
+                CreateFilter("Mostrar solo consultores", "search_by_profile", 2, false),
+                CreateFilter("Mostrar empleados activos", "search_by_status", 1, false),
+                CreateFilter("Mostrar empleados inactivos", "search_by_status", 0, false),
+                CreateFilter("Filtrar por nombre", "search_by_name", null, true),
+                CreateFilter("Filtrar por rut", "search_by_dni", null, true)
+            };
+
+
+        private Filter CreateFilter
+            (string filterName, string criteriaType, object criteriaValue, bool requireInput)
         {
-            DefineFilterNames();
-            DefineFilterCriteria();
+            var criteria = new Criteria(criteriaType, criteriaValue, requireInput);
+            return new Filter(filterName, criteria);
         }
 
 
-        public static EmployeeFilter CreateFilter() =>
-            new EmployeeFilter();
 
 
-        private void DefineFilterNames() =>
-            _filters = new List<string> {
-                "Todos los empleados",
-                "Solo administradores",
-                "Solo consultores",
-                "Empleados habilitados",
-                "Empleados inhabilitados",
-                "Filtrar por nombre",
-                "Filtrar por DNI"
-            };
 
-
-        private void DefineFilterCriteria() =>
-            _criteriaCollection = new List<Criteria> {
-                new Criteria("search_all", "", 1, false),
-                new Criteria("search_by_profile", "Administrador", 0, false),
-                new Criteria("search_by_profile", "Consultor", 0, false),
-                new Criteria("search_by_status", "Activo", 0, false),
-                new Criteria("search_by_status", "Inactivo", 0, false),
-                new Criteria("search_by_name", "", 0, true),
-                new Criteria("search_by_dni", "", 0, true)
-            };
-
-
-        public Criteria GetCriteriaByIndex(int criteriaIndex) =>
-            _criteriaCollection[criteriaIndex];
 
 
     }

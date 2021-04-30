@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.App.Desktop.SeedWork.Filters;
+﻿using FeriaVirtual.App.Desktop.SeedWork.FiltersByCriteria;
 using FeriaVirtual.App.Desktop.Services.Employees.Dto;
 using FeriaVirtual.App.Desktop.Services.Employees.Exceptions;
 using FeriaVirtual.App.Desktop.Services.Employees.ViewModels;
@@ -28,13 +28,14 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
         }
 
 
-        public async Task<EmployeeCounterViewModel> GetNumberOfEmployees()
+        public async Task<EmployeeCounterViewModel> GetNumberOfEmployees
+            (Criteria criteria)
         {
-            var request = new HttpRequestMessage {
-                Method = new HttpMethod("GET")
-            };
-            request.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-            var response = await _httpClient.GetAsync("api/employees/count");
+            if(criteria is null)
+                throw new InvalidQueryException("Criterios de consulta inválidos.");
+
+            string url = $"api/employees/count/{criteria.CriteriaType}/{criteria.CriteriaValue}";
+            var response = await _httpClient.GetAsync(url);
             var stringResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             return !response.IsSuccessStatusCode
                 ? new EmployeeCounterViewModel {
@@ -44,20 +45,13 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
         }
 
 
-        public async Task<List<EmployeesViewModel>> GetAllEmployees(int pageNumber)
-        {
-            var response = await _httpClient.GetAsync($"api/employees/all/{pageNumber}");
-            var stringResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return !response.IsSuccessStatusCode
-                ? null
-                : JsonConvert.DeserializeObject<List<EmployeesViewModel>>(stringResponse);
-        }
-
-
         public async Task<List<EmployeesViewModel>> GetEmployeesByCriteria
-            (Criteria criteria)
+            (Criteria criteria, int limit, int offset)
         {
-            string url = $"api/employees/searchbycriteria/{criteria.CriteriaType}/{criteria.CriteriaValue}/{criteria.PageNumber}";
+            if(criteria is null)
+                throw new InvalidQueryException("Criterios de consulta inválidos.");
+
+            var url = $"api/employees/searchbycriteria/{criteria.CriteriaType}/{criteria.CriteriaValue}/{limit}/{offset}";
             var response = await _httpClient.GetAsync(url);
             var stringResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             return !response.IsSuccessStatusCode
@@ -87,7 +81,7 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
                 Content = new StringContent(JsonConvert.SerializeObject(employeeDto))
             };
             request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            HttpResponseMessage response = await _httpClient.PostAsync("api/users/create", request.Content);
+            HttpResponseMessage response = await _httpClient.PutAsync("api/users/update", request.Content);
             string stringResponse =  await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if(!response.IsSuccessStatusCode) {
                 throw new InvalidCreateEmployeeException(stringResponse);
@@ -107,9 +101,6 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
                 ? null
                 : JsonConvert.DeserializeObject<EmployeeViewModel>(stringResponse);
         }
-
-
-
 
 
     }
