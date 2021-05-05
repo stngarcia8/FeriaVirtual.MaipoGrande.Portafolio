@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 
-namespace FeriaVirtual.Domain.Models.Users.Rules
+namespace FeriaVirtual.Api.Local.Controllers.Signin
 {
-    sealed class SignInRules
-        : AbstractValidator<SignInData>
+    public class SigninValidationRules
+        : AbstractValidator<SigninRequest>
     {
-
-        public SignInRules()
+        public SigninValidationRules()
         {
             DefineUsernameRules();
             DefinePasswordRules();

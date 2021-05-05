@@ -22,17 +22,17 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.RabbitMQ
 
         public async Task PublishAsync(DomainEventCollection eventCollection)
         {
-            foreach (var e in eventCollection.GetEvents)
+            foreach(var e in eventCollection.GetEvents)
                 await Publish(e);
         }
 
 
-        private async Task  Publish(DomainEventBase domainEvent)
+        private async Task Publish(DomainEventBase domainEvent)
         {
             try {
                 var serializedDomainEvent = DomainEventJsonSerializer.Serialize(domainEvent);
                 await Task.Run(() => _rabbitMqPublisher.Publish(_exchangeName, domainEvent.EventName(), serializedDomainEvent));
-            } catch (RabbitMQClientException ex) {
+            } catch(RabbitMQClientException ex) {
                 throw new Exception(ex.Message);
             }
         }

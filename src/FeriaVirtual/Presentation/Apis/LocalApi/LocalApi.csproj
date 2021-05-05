@@ -24,4 +24,8 @@
     <ProjectReference Include="..\..\..\Infrastructure.IOC\Infrastructure.IOC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

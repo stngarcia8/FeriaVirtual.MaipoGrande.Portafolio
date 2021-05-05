@@ -30,7 +30,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.RabbitMQ
             channel.ExchangeDeclare(retryDomainEventExchange, ExchangeType.Topic);
             channel.ExchangeDeclare(deadLetterDomainEventExchange, ExchangeType.Topic);
 
-            foreach (var subscriberInformation in _domainEventSubscribersInformation.All()) {
+            foreach(var subscriberInformation in _domainEventSubscribersInformation.All()) {
                 var domainEventsQueueName = RabbitMqQueueNameFormatter.Format(subscriberInformation);
                 var retryQueueName = RabbitMqQueueNameFormatter.FormatRetry(subscriberInformation);
                 var deadLetterQueueName = RabbitMqQueueNameFormatter.FormatDeadLetter(subscriberInformation);

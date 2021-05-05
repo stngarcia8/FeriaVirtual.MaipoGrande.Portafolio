@@ -96,11 +96,11 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
 
         public void Dispose()
         {
-            DisposeAsync(true);
+            DisposeAsync(true).GetAwaiter();
             System.GC.SuppressFinalize(this);
         }
 
-        public async void DisposeAsync(bool disposing)
+        public async Task DisposeAsync(bool disposing)
         {
             if(_disposed)
                 return;
@@ -112,7 +112,8 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext
 
         ~ContextManager()
         {
-            DisposeAsync(false);
+            DisposeAsync(false).GetAwaiter();
+            ;
         }
 
 

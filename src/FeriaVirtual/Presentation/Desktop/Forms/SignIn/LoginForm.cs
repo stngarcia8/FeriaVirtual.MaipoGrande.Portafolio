@@ -39,7 +39,7 @@ namespace FeriaVirtual.App.Desktop.Forms.SignIn
                 ISigninService s = serviceProvider.GetService<ISigninService>();
                 await s.SigninAsync(this.UsernameTextBox.Text, this.PasswordTextBox.Text);
                 OpenForm();
-            } catch (Exception ex) {
+            } catch(Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -54,7 +54,7 @@ namespace FeriaVirtual.App.Desktop.Forms.SignIn
         private void OpenForm()
         {
             Hide();
-            using (var form = new AdminForm()) {
+            using(var form = new AdminForm()) {
                 form.ShowDialog();
             }
         }

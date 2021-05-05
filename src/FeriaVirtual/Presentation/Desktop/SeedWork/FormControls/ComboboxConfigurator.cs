@@ -22,7 +22,7 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls
 
         public void DefineDatasource<T>
             (IList<T> source, string displayMember, string valueMember)
-            where T:class
+            where T : class
         {
             _combobox.BeginUpdate();
             _combobox.DataSource = null;
@@ -38,7 +38,7 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls
         {
             ClearCombobox();
             _combobox.BeginUpdate();
-            foreach (string item in items)
+            foreach(string item in items)
                 _combobox.Items.Add(item);
             _combobox.SelectedIndex = 0;
             _combobox.EndUpdate();
@@ -51,7 +51,7 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls
             var stopValue = endValue < startValue ? startValue : endValue;
             _combobox.BeginUpdate();
             ClearCombobox();
-            for (int value = startValue; value <= stopValue; value++)
+            for(int value = startValue; value <= stopValue; value++)
                 _combobox.Items.Add(value.ToString());
             _combobox.SelectedIndex = 0;
             _combobox.EndUpdate();

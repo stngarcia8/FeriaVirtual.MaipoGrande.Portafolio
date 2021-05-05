@@ -8,7 +8,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events
     {
         public static string Serialize(DomainEventBase domainEvent)
         {
-            if (domainEvent == null) {
+            if(domainEvent == null) {
                 return "";
             }
             var attributes = domainEvent.ToPrimitives();

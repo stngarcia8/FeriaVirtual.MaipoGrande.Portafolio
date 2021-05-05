@@ -21,7 +21,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork
             where TResponse : IQueryResponseBase;
 
         Task<int> CountAsync
-            (string sqlStatement, Dictionary<string, object> parameters = null );
+            (string sqlStatement, Dictionary<string, object> parameters = null);
 
         Task CommitInContextAsync();
 

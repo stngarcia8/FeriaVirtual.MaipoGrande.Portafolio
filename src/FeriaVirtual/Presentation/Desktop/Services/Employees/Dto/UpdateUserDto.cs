@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FeriaVirtual.App.Desktop.Services.Employees.Dto
+﻿namespace FeriaVirtual.App.Desktop.Services.Employees.Dto
 {
     public class UpdateUserDto
     {

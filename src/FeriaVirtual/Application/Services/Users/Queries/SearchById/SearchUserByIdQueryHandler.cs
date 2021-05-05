@@ -16,10 +16,10 @@ namespace FeriaVirtual.Application.Services.Users.Queries.SearchById
 
         public async Task<SearchUserByIdResponse> Handle(SearchUserByIdQuery query)
         {
-            if (query is null)
+            if(query is null)
                 throw new InvalidUserServiceException("Identificador de usuario inválido.");
             var response = await _repository.SearchById<SearchUserByIdResponse>(query.Id);
-            if (response is null)
+            if(response is null)
                 throw new InvalidUserServiceException("El Usuario solicitado no existe.");
             return response;
         }

@@ -19,7 +19,7 @@ namespace FeriaVirtual.Domain.SeedWork.Events
             _id = new Guid(id);
 
 
-        public override string ToString() => 
+        public override string ToString() =>
             Value.ToString();
 
 

@@ -145,5 +145,21 @@ namespace FeriaVirtual.Infrastructure.Persistence.RelationalRepositories
         }
 
 
+        public async Task ChangePasswordAsync
+            (string userId, string password)
+        {
+            _parameters.Clear();
+            _parameters.Add("UserId", userId);
+            _parameters.Add("Password", password);
+
+            var tasks = Task.WhenAll(
+                _unitOfWork.Context.OpenContextAsync(),
+                _unitOfWork.Context.SaveByStoredProcedureAsync("sp_change_password", _parameters),
+                _unitOfWork.SaveChangesAsync()
+                );
+            await tasks;
+        }
+
+
     }
 }

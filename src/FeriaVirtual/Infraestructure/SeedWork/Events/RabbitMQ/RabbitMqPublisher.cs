@@ -1,7 +1,6 @@
 ﻿using RabbitMQ.Client;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FeriaVirtual.Infrastructure.SeedWork.Events.RabbitMQ
 {
@@ -11,11 +10,11 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.RabbitMQ
         private readonly RabbitMqConfig _config;
 
 
-        public RabbitMqPublisher() => 
+        public RabbitMqPublisher() =>
             _config = new RabbitMqConfig();
 
 
-        public void  Publish(string exchangeName, string eventName, string message)
+        public void Publish(string exchangeName, string eventName, string message)
         {
             var channel = _config.Channel();
             channel.ExchangeDeclare(exchangeName, ExchangeType.Topic);
@@ -25,7 +24,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.RabbitMQ
             {
                 {HeaderReDelivery, 0}
             };
-            channel.BasicPublish(exchangeName,eventName, properties, body);
+            channel.BasicPublish(exchangeName, eventName, properties, body);
         }
 
 

@@ -11,6 +11,7 @@ namespace FeriaVirtual.Domain.Models.Users.Interfaces
         Task Update(User user);
         Task EnableUser(Guid userId);
         Task DisableUser(Guid userId);
+        Task ChangePasswordAsync(string userId, string password);
 
         Task<TResponse> SearchById<TResponse>(Guid userId)
             where TResponse : IQueryResponseBase;

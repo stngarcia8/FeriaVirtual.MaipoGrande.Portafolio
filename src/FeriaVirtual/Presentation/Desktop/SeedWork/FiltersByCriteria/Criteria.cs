@@ -2,7 +2,7 @@
 {
     public class Criteria
     {
-        public string CriteriaType { get; } 
+        public string CriteriaType { get; }
         public object CriteriaValue { get; protected set; }
         public bool RequireInput { get; set; }
 

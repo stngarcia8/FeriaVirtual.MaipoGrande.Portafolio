@@ -19,7 +19,7 @@ namespace FeriaVirtual.Domain.Models.Users.Events
             "User.Updated";
 
         public override DomainEventBase FromPrimitives
-            (DomainEventId eventId, Dictionary<string, object> body) => 
+            (DomainEventId eventId, Dictionary<string, object> body) =>
             new UserWasUpdated(eventId, body);
 
 

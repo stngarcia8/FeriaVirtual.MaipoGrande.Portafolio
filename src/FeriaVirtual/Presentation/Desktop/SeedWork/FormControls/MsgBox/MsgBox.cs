@@ -58,7 +58,7 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
             MessageBoxDefaultButton defaultButton, int height)
         {
             var _result = DialogResult.None;
-            if (owner != null) {
+            if(owner != null) {
                 var ownerForm = ((owner as Form) == null) ? ((UserControl)owner).ParentForm : (Form)owner;
                 AdjustSounds(icon);
                 var msgboxControl = AdjustDialogScreen(message, title, buttons, icon, defaultButton, height, ownerForm);
@@ -66,22 +66,22 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
                 var asyncResult = actionDelegate.BeginInvoke(msgboxControl, null, actionDelegate);
                 bool canceled = false;
                 try {
-                    while (!asyncResult.IsCompleted) {
+                    while(!asyncResult.IsCompleted) {
                         Thread.Sleep(1);
                         Application.DoEvents();
                     }
                 } catch {
                     canceled = true;
-                    if (!asyncResult.IsCompleted) {
+                    if(!asyncResult.IsCompleted) {
                         try {
                             asyncResult = null;
                         } catch { }
                     }
                     actionDelegate = null;
                 }
-                if (!canceled) {
+                if(!canceled) {
                     _result = msgboxControl.Result;
-                    msgboxControl.Dispose(); msgboxControl = null;
+                    msgboxControl.Dispose();
                 }
             }
             return _result;
@@ -117,22 +117,26 @@ namespace FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox
 
         private static void AdjustSounds(MessageBoxIcon icon)
         {
-            switch (icon) {
+            switch(icon) {
                 case MessageBoxIcon.Error:
-                    SystemSounds.Hand.Play(); break;
+                    SystemSounds.Hand.Play();
+                    break;
                 case MessageBoxIcon.Exclamation:
-                    SystemSounds.Exclamation.Play(); break;
+                    SystemSounds.Exclamation.Play();
+                    break;
                 case MessageBoxIcon.Question:
-                    SystemSounds.Beep.Play(); break;
+                    SystemSounds.Beep.Play();
+                    break;
                 default:
-                    SystemSounds.Asterisk.Play(); break;
+                    SystemSounds.Asterisk.Play();
+                    break;
             }
         }
 
 
         private static void ModalState(MsgBoxControl control)
         {
-            while (control.Visible) { }
+            while(control.Visible) { }
         }
 
 

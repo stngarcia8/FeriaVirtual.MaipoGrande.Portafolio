@@ -357,6 +357,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.GridContextMenu.Name = "GridContextMenu";
             this.GridContextMenu.Size = new System.Drawing.Size(248, 146);
             this.GridContextMenu.Text = "Opciones";
+            this.GridContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.GridContextMenu_Opening);
             // 
             // ContextRefreshToolStripMenuItem
             // 
@@ -388,6 +389,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ContextEnableToolStripMenuItem.Name = "ContextEnableToolStripMenuItem";
             this.ContextEnableToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.ContextEnableToolStripMenuItem.Text = "Habilitar";
+            this.ContextEnableToolStripMenuItem.Click += new System.EventHandler(this.ContextEnableToolStripMenuItem_Click);
             // 
             // ContextDisableToolStripMenuItem
             // 
@@ -396,6 +398,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ContextDisableToolStripMenuItem.Name = "ContextDisableToolStripMenuItem";
             this.ContextDisableToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.ContextDisableToolStripMenuItem.Text = "Inhabilitar";
+            this.ContextDisableToolStripMenuItem.Click += new System.EventHandler(this.ContextDisableToolStripMenuItem_Click);
             // 
             // ContextToolStripSeparator2
             // 
@@ -409,6 +412,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             this.ContextChangePasswordToolStripMenuItem1.Name = "ContextChangePasswordToolStripMenuItem1";
             this.ContextChangePasswordToolStripMenuItem1.Size = new System.Drawing.Size(247, 26);
             this.ContextChangePasswordToolStripMenuItem1.Text = "Cambiar contraseña";
+            this.ContextChangePasswordToolStripMenuItem1.Click += new System.EventHandler(this.ContextChangePasswordToolStripMenuItem1_Click);
             // 
             // ListPageLabel
             // 

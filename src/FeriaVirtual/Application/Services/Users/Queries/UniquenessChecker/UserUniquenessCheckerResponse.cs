@@ -1,13 +1,9 @@
 ﻿using FeriaVirtual.Domain.SeedWork.Query;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Users.Queries.UniquenessChecker
 {
     public class UserUniquenessCheckerResponse
-        :IQueryResponseBase
+        : IQueryResponseBase
     {
         public int UsernameRegistered { get; set; }
         public int DniRegistered { get; set; }

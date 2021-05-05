@@ -94,7 +94,7 @@ namespace FeriaVirtual.Api.Local.Controllers.Users.Update
         private void DefineIsactiveRules()
         {
             RuleFor(x => x.IsActive)
-                .InclusiveBetween(0, 1).WithMessage("Valor de propiedad IsActive inválida.");
+                .InclusiveBetween(0, 1).WithMessage("Estado de usuario inválido.");
         }
 
 

@@ -2,6 +2,7 @@
 using FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox;
 using FeriaVirtual.App.Desktop.Services.Employees;
 using FeriaVirtual.App.Desktop.Services.Employees.Dto;
+using FeriaVirtual.App.Desktop.Services.Employees.ViewModels;
 using MetroFramework.Forms;
 using System;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
     {
         private readonly IEmployeeService _employeeService;
         private readonly ThemeManager _themeManager;
+        private EmployeeViewModel _actualEmployee;
 
         public string EmployeeId { get; set; }
         public bool IsSaved { get; protected set; }
@@ -24,6 +26,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             _employeeService = employeeService;
             _themeManager = ThemeManager.SuscribeForm(this);
             _themeManager.DarkMode();
+            _actualEmployee = null;
         }
 
 
@@ -38,18 +41,24 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
 
         private async Task LoadEmployeeData()
         {
-            var employeeFound = await _employeeService.GetEmployeeById(EmployeeId);
-            if(employeeFound is null) {
+            _actualEmployee = await _employeeService.GetEmployeeById(EmployeeId);
+            if(_actualEmployee is null) {
                 MsgBox.Show(this, "Imposible cargar datos de usuario.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 UpdateFormButton.Enabled = false;
                 return;
             }
-            FirstnameTextBox.Text = employeeFound.FirstName;
-            LastnameTextBox.Text = employeeFound.LastName;
-            RutTextBox.Text = employeeFound.Dni;
-            ProfileComboBox.Text = employeeFound.ProfileName;
-            UsernameTextBox.Text = employeeFound.Username;
-            EmailTextBox.Text = employeeFound.Email;
+            FillControlsWithEmployeeData();
+        }
+
+
+        private void FillControlsWithEmployeeData()
+        {
+            FirstnameTextBox.Text = _actualEmployee.FirstName;
+            LastnameTextBox.Text = _actualEmployee.LastName;
+            RutTextBox.Text = _actualEmployee.Dni;
+            ProfileComboBox.Text = _actualEmployee.ProfileName;
+            UsernameTextBox.Text = _actualEmployee.Username;
+            EmailTextBox.Text = _actualEmployee.Email;
         }
 
         private async void UpdateFormButton_Click
@@ -62,7 +71,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
         }
 
         private void CancelFormButton_Click
-            (object sender, EventArgs e) 
+            (object sender, EventArgs e)
             => Close();
 
 
@@ -82,12 +91,14 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
 
         private UpdateUserDto GenerateDto()
             => new UpdateUserDto {
+                UserId = _actualEmployee.UserId,
                 Firstname = FirstnameTextBox.Text,
                 Lastname = LastnameTextBox.Text,
                 Dni = RutTextBox.Text,
                 ProfileId = ProfileComboBox.SelectedIndex + 1,
+                Username = UsernameTextBox.Text,
                 Email = EmailTextBox.Text,
-                Username = UsernameTextBox.Text
+                IsActive = _actualEmployee.IsActive
             };
 
 

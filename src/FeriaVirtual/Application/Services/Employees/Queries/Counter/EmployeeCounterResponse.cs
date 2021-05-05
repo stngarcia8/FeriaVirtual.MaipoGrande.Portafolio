@@ -1,13 +1,9 @@
 ﻿using FeriaVirtual.Domain.SeedWork.Query;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Employees.Queries.Counter
 {
     public class EmployeeCounterResponse
-        :IQueryResponseBase
+        : IQueryResponseBase
     {
         public int Total { get; set; }
 

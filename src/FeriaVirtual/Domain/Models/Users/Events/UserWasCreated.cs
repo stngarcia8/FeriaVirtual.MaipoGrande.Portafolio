@@ -15,14 +15,13 @@ namespace FeriaVirtual.Domain.Models.Users.Events
             : base(eventId, body) { }
 
 
-        public override string EventName() =>
-            "User.Created";
+        public override string EventName()
+            => "User.Created";
 
 
         public override DomainEventBase FromPrimitives
-            (DomainEventId eventId, Dictionary<string, object> body) =>
-            new UserWasCreated(eventId, body);
-
+            (DomainEventId eventId, Dictionary<string, object> body)
+            => new UserWasCreated(eventId, body);
 
 
     }

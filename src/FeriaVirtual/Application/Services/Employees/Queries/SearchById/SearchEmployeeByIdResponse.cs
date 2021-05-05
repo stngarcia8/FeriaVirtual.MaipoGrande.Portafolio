@@ -1,8 +1,4 @@
 ﻿using FeriaVirtual.Domain.SeedWork.Query;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FeriaVirtual.Application.Services.Employees.Queries.SearchById
 {

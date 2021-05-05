@@ -23,14 +23,16 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.RabbitMQ
 
         public IConnection Connection()
         {
-            if (RmqConnection == null) RmqConnection = ConnectionFactory.CreateConnection();
+            if(RmqConnection == null)
+                RmqConnection = ConnectionFactory.CreateConnection();
             return RmqConnection;
         }
 
 
         public IModel Channel()
         {
-            if (RmqChannel == null) RmqChannel = Connection().CreateModel();
+            if(RmqChannel == null)
+                RmqChannel = Connection().CreateModel();
             return RmqChannel;
         }
 

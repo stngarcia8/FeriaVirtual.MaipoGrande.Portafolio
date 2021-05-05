@@ -17,14 +17,14 @@ namespace FeriaVirtual.Domain.SeedWork.Helpers.Security
 
         public string GetEncriptedPassword()
         {
-            if (string.IsNullOrEmpty(_password)) {
+            if(string.IsNullOrEmpty(_password)) {
                 return string.Empty;
             }
             var sha1 = SHA1.Create();
             var originalPassword = Encoding.Default.GetBytes(_password);
             var hash = sha1.ComputeHash(originalPassword);
             var encriptedString = new StringBuilder();
-            foreach (var i in hash) {
+            foreach(var i in hash) {
                 encriptedString.AppendFormat("{0:x2}", i);
             }
             return encriptedString.ToString();

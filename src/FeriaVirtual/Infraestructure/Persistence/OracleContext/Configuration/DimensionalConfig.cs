@@ -13,7 +13,7 @@
             GetConnectionString = GetDimensionalConnectionString;
             GetDatabaseName = this.GetType().Name;
         }
-            
+
 
         public static IDBConfig Build() =>
             new DimensionalConfig();

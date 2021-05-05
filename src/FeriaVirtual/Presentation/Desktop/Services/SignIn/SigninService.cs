@@ -49,7 +49,7 @@ namespace FeriaVirtual.App.Desktop.Services.SignIn
             };
             request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             HttpResponseMessage response = await _httpClient.PostAsync("api/sign_in", request.Content);
-            if (!response.IsSuccessStatusCode) {
+            if(!response.IsSuccessStatusCode) {
                 throw new InvalidAccessException("El usuario no tiene acceso a Feria virtual.");
             }
             return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -59,7 +59,7 @@ namespace FeriaVirtual.App.Desktop.Services.SignIn
 
         private void VerifyUserProfile(SignInViewModel result)
         {
-            if (result.ProfileId < 1 || result.ProfileId > 2) {
+            if(result.ProfileId < 1 || result.ProfileId > 2) {
                 throw new InvalidAccessException("El usuario no tiene permisos para ingresar a la aplicación.");
             }
             SessionData.AssignUserData(result);

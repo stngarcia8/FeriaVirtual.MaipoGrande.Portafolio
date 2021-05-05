@@ -10,7 +10,8 @@ namespace FeriaVirtual.Domain.SeedWork.ValueObjects
         protected static bool EqualOperator
             (ValueObject left, ValueObject right)
         {
-            if (left is null ^ right is null) return false;
+            if(left is null ^ right is null)
+                return false;
             return left is null || left.Equals(right);
         }
 
@@ -24,14 +25,14 @@ namespace FeriaVirtual.Domain.SeedWork.ValueObjects
 
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != GetType()) {
+            if(obj == null || obj.GetType() != GetType()) {
                 return false;
             }
             var other = (ValueObject)obj;
             var thisValues = GetAtomicValues().GetEnumerator();
             var otherValues = other.GetAtomicValues().GetEnumerator();
-            while (thisValues.MoveNext() && otherValues.MoveNext()) {
-                if (thisValues.Current is null ^
+            while(thisValues.MoveNext() && otherValues.MoveNext()) {
+                if(thisValues.Current is null ^
                     otherValues.Current is null || thisValues.Current != null &&
                     !thisValues.Current.Equals(otherValues.Current)) {
                     return false;
@@ -49,7 +50,7 @@ namespace FeriaVirtual.Domain.SeedWork.ValueObjects
 
         protected static void CheckRule(IBusinessRule rule)
         {
-            if (rule.IsFailed()) {
+            if(rule.IsFailed()) {
                 throw new BusinessRuleValidationException(rule.Message);
             }
         }

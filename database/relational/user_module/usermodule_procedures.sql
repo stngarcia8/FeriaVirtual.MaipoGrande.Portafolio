@@ -40,6 +40,10 @@ BEGIN
         Email= pEmail,
         LastUpdate = SYSDATE
     WHERE UserId = pUserId;
+
+    UPDATE fv_user.user_registration
+    SET LastUpdate = SYSDATE
+    WHERE UserId = pUserId;
 END sp_update_credential;
 /
 
@@ -215,8 +219,8 @@ BEGIN
         vRange := '';
     END IF;
 
-    vSqlStatement:=Concat(vSqlStatement, vCondition);
-    vSqlStatement:=Concat(vSqlStatement, vRange);
+    vSqlStatement := CONCAT(vSqlStatement, vCondition);
+    vSqlStatement := CONCAT(vSqlStatement, vRange);
 
     OPEN pResults FOR vSqlStatement;
 END sp_get_employees;
@@ -251,24 +255,6 @@ BEGIN
 
     OPEN pResults FOR vSqlStatement;
 END sp_count_employees;
-/
-
-
-prompt - sp_signin_user;
-CREATE OR
-    REPLACE PROCEDURE fv_user.sp_signin_user(
-    pUsername    VARCHAR2,
-    pPassword    VARCHAR2,
-    pResults OUT SYS_REFCURSOR
-) AS
-BEGIN
-    OPEN pResults FOR
-        SELECT FirstName || ' ' || LastName AS FullName,
-               Dni, Email, ProfileId, IsActive
-        FROM fv_user.vw_allusers
-        WHERE Username = pUsername AND
-              Password = pPassword;
-END sp_signin_user;
 /
 
 
@@ -342,6 +328,42 @@ BEGIN
                    WHERE Email = pEmail AND UserId <> pUserId) AS EmailRegistered
         FROM dual;
 END sp_check_updateuser_rules;
+/
+
+
+prompt - sp_change_password;
+CREATE OR REPLACE PROCEDURE fv_user.sp_change_password(
+    pUserId   VARCHAR2,
+    pPassword VARCHAR2
+) IS
+BEGIN
+    UPDATE fv_user.user_credential
+    SET Password   = pPassword,
+        LastUpdate = SYSDATE
+    WHERE UserId = pUserId;
+
+    UPDATE fv_user.user_registration
+    SET LastUpdate = SYSDATE
+    WHERE UserId = pUserId;
+END sp_change_password;
+/
+
+
+prompt - sp_signin_user;
+CREATE OR
+    REPLACE PROCEDURE fv_user.sp_signin_user(
+    pUsername    VARCHAR2,
+    pPassword    VARCHAR2,
+    pResults OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN pResults FOR
+        SELECT FirstName || ' ' || LastName AS FullName,
+               Dni, Email, ProfileId, IsActive
+        FROM fv_user.vw_allusers
+        WHERE Username = pUsername AND
+              Password = pPassword;
+END sp_signin_user;
 /
 
 

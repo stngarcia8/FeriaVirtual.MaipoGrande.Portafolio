@@ -60,6 +60,19 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
         }
 
 
+        public async Task<EmployeeViewModel> GetEmployeeById(string employeeid)
+        {
+            if(string.IsNullOrWhiteSpace(employeeid))
+                throw new InvalidArgumentEmployeeException("No ha especificado un identificador de empleado a buscar.");
+
+            var response = await _httpClient.GetAsync($"api/employees/{employeeid}");
+            var stringResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return !response.IsSuccessStatusCode
+                ? null
+                : JsonConvert.DeserializeObject<EmployeeViewModel>(stringResponse);
+        }
+
+
         public async Task<string> CreateEmployee(CreateUserDto employeeDto)
         {
             var request = new HttpRequestMessage {
@@ -90,16 +103,41 @@ namespace FeriaVirtual.App.Desktop.Services.Employees
         }
 
 
-        public async Task<EmployeeViewModel> GetEmployeeById(string employeeid)
+        public async Task<string> ChangeEmployeeStatus(ChangeStatusDto changeStatusDto)
         {
-            if(string.IsNullOrWhiteSpace(employeeid))
-                throw new InvalidArgumentEmployeeException("No ha especificado un identificador de empleado a buscar.");
+            if(changeStatusDto == null)
+                throw new InvalidArgumentEmployeeException("Valores de cambio de estado inválidos.");
 
-            var response = await _httpClient.GetAsync($"api/employees/{employeeid}");
-            var stringResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return !response.IsSuccessStatusCode
-                ? null
-                : JsonConvert.DeserializeObject<EmployeeViewModel>(stringResponse);
+            var request = new HttpRequestMessage {
+                Content = new StringContent(JsonConvert.SerializeObject(changeStatusDto)),
+            };
+            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            HttpResponseMessage response = await _httpClient.PutAsync("api/users/changestatus", request.Content).ConfigureAwait(false);
+            string stringResponse =  await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            if(!response.IsSuccessStatusCode) {
+                throw new InvalidChangeUserStatusException(stringResponse);
+            }
+            return stringResponse;
+        }
+
+
+        public async Task<string> ChangeEmployeePassword(ChangePasswordDto changePasswordDto)
+        {
+            if(changePasswordDto == null)
+                throw new InvalidArgumentEmployeeException("Valores de cambio de contraseña inválidos.");
+
+            var request = new HttpRequestMessage {
+                Content = new StringContent(JsonConvert.SerializeObject(changePasswordDto)),
+            };
+            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            HttpResponseMessage response = await _httpClient.PutAsync("api/users/changepassword", request.Content).ConfigureAwait(false);
+            string stringResponse =  await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            if(!response.IsSuccessStatusCode) {
+                throw new InvalidChangeUserPasswordException(stringResponse);
+            }
+            return stringResponse;
         }
 
 

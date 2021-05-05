@@ -20,7 +20,7 @@ namespace FeriaVirtual.Domain.SeedWork
         private static void AsignFirstPartOfGuid
             (byte[] uid, byte[] secuentialGuid)
         {
-            for (int i = 0; i <= 6; i++)
+            for(int i = 0; i <= 6; i++)
                 secuentialGuid[i] = uid[i];
             secuentialGuid[7] = (byte)(0xc0 | (0xf & uid[7]));
         }
@@ -31,8 +31,7 @@ namespace FeriaVirtual.Domain.SeedWork
             int reverse = 15;
             secuentialGuid[9] = binDate[0];
             secuentialGuid[8] = binDate[1];
-            for (int i = 2; i <= 7; i++)
-            {
+            for(int i = 2; i <= 7; i++) {
                 secuentialGuid[reverse] = binDate[i];
                 reverse -= 2;
             }

@@ -24,7 +24,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
                 throw new QueryExecutorFailedException("No ha especificado una consulta de selección para ejecutar.");
 
             ConfigureCommand(spName);
-            if(parameters is not null )
+            if(parameters is not null)
                 CreateQueryParameters(parameters);
             AddResultsParameter();
             return (TResponse)System.Convert.ChangeType(await _command.ExecuteScalarAsync(), typeof(TResponse));

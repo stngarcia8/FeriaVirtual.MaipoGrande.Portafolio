@@ -10,8 +10,4 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.3" />
-  </ItemGroup>
-
 </Project>

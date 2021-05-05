@@ -33,7 +33,8 @@ namespace FeriaVirtual.App.Desktop.Forms.MainForms
             DialogResult result = MsgBox.Show(this, "¿Abandonar aplicación de Feria Virtual?", "Atención",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             e.Cancel = !result.Equals(DialogResult.Yes);
-            if (!e.Cancel) Environment.Exit(0);
+            if(!e.Cancel)
+                Environment.Exit(0);
         }
 
 
@@ -60,7 +61,8 @@ namespace FeriaVirtual.App.Desktop.Forms.MainForms
         private void ToolStripMenuItem_MouseLeave
             (object sender, EventArgs e)
         {
-            if (_menuIsOpened) return;
+            if(_menuIsOpened)
+                return;
             var item = (ToolStripMenuItem)sender;
             item.ForeColor = _themeManager.Style.Equals(MetroThemeStyle.Dark) ? Color.White : Color.Black;
         }
@@ -105,7 +107,8 @@ namespace FeriaVirtual.App.Desktop.Forms.MainForms
 
         private void OpenForm(MetroForm form)
         {
-            if (form is null) return;
+            if(form is null)
+                return;
             Hide();
             form.ShowDialog();
             Show();

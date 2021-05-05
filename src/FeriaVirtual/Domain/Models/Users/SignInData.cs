@@ -1,7 +1,4 @@
-﻿using FeriaVirtual.Domain.Models.Users.Rules;
-using FeriaVirtual.Domain.SeedWork.Helpers.Security;
-using FeriaVirtual.Domain.SeedWork.Validations;
-using FeriaVirtual.Domain.SeedWork.ValueObjects;
+﻿using FeriaVirtual.Domain.SeedWork.ValueObjects;
 using System.Collections.Generic;
 
 namespace FeriaVirtual.Domain.Models.Users
@@ -9,28 +6,22 @@ namespace FeriaVirtual.Domain.Models.Users
     public class SignInData
         : ValueObject
     {
-        public string Username;
-        public string Password;
+        public string Username { get; protected set; }
+        public string Password { get; protected set; }
 
         public SignInData(string username, string password)
         {
             Username = username;
             Password = password;
-            ValidateVars();
-        }
-
-        private void ValidateVars()
-        {
-            var signinRule = new SignInRules();
-            CheckRule(BusinessRulesValidator<SignInData>.BuildValidator(signinRule, this));
         }
 
 
-        protected  override IEnumerable<object> GetAtomicValues()
+        protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Username;
             yield return Password;
         }
+
 
         public Dictionary<string, object> GetPrimitives() =>
             new()

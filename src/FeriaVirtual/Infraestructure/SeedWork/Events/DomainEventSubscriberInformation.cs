@@ -10,24 +10,21 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events
         public Type SubscribedEvent { get; }
 
         public string ContextName {
-            get
-            {
+            get {
                 var nameParts = _subscriberClass.FullName?.Split(".");
                 return nameParts?[1];
             }
         }
 
         public string ModuleName {
-            get
-            {
+            get {
                 var nameParts = _subscriberClass.FullName?.Split(".");
                 return nameParts?[2];
             }
         }
 
         public string ClassName {
-            get
-            {
+            get {
                 var nameParts = _subscriberClass.FullName?.Split(".");
                 return nameParts?[^1];
             }

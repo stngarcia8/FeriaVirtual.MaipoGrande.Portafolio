@@ -16,15 +16,15 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events
             _serviceProvider = serviceProvider;
 
 
-        public async Task  PublishAsync(DomainEventCollection  eventCollection)
+        public async Task PublishAsync(DomainEventCollection eventCollection)
         {
-            if (eventCollection is null) {
+            if(eventCollection is null) {
                 return;
             }
             using var scope = _serviceProvider.CreateScope();
-            foreach (var @event in eventCollection.GetEvents) {
+            foreach(var @event in eventCollection.GetEvents) {
                 var subscribers = GetSubscribers(@event, scope);
-                foreach (var subscriber in subscribers) 
+                foreach(var subscriber in subscribers)
                     await ((IDomainEventSubscriberBase)subscriber).On(@event);
             }
         }

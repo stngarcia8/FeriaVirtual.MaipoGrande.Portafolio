@@ -18,7 +18,7 @@ namespace FeriaVirtual.Application.Services.Signin.Queries
 
         public async Task<SigninResponse> Handle(SigninQuery query)
         {
-            if (query is null) {
+            if(query is null) {
                 throw new InvalidSigninServiceException("Credenciales de usuario inválidas.");
             }
             return await ValidateResult(query);
@@ -28,9 +28,9 @@ namespace FeriaVirtual.Application.Services.Signin.Queries
         private async Task<SigninResponse> ValidateResult(SigninQuery userQuery)
         {
             var result = await _repository.SignIn<SigninResponse>(userQuery.Username, userQuery.Password);
-            if (result is null)
+            if(result is null)
                 throw new InvalidSigninServiceException("Usuario no esta registrado en Feria virtual.");
-            if (result.IsActive < 0 || result.IsActive > 2)
+            if(result.IsActive < 0 || result.IsActive > 2)
                 throw new InvalidSigninServiceException("Usuario no tiene acceso a Feria virtual.");
             return result;
         }

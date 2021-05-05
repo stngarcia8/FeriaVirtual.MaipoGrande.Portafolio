@@ -15,8 +15,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 
         protected void AddParameter(string parameterName, object parameterValue, DbType parameterType)
         {
-            _command.Parameters.Add(new OracleParameter
-            {
+            _command.Parameters.Add(new OracleParameter {
                 ParameterName = parameterName,
                 Value = parameterValue,
                 DbType = parameterType
@@ -25,8 +24,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
 
         public void AddResultsParameter()
         {
-            _command.Parameters.Add(new OracleParameter
-            {
+            _command.Parameters.Add(new OracleParameter {
                 ParameterName = "pResults",
                 OracleDbType = OracleDbType.RefCursor,
                 Direction = ParameterDirection.Output
@@ -39,14 +37,14 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         public void CreateStoredProcedureParameters<TEntity>(TEntity entity)
             where TEntity : EntityBase
         {
-            foreach (KeyValuePair<string, object> primitive in entity.GetPrimitives()) {
+            foreach(KeyValuePair<string, object> primitive in entity.GetPrimitives()) {
                 this.AddParameter($"p{primitive.Key}", primitive.Value, GetFieldDbType(primitive.Value));
             }
         }
 
         public void CreateQueryParameters(Dictionary<string, object> parameters)
         {
-            foreach (KeyValuePair<string, object> parameter in parameters) {
+            foreach(KeyValuePair<string, object> parameter in parameters) {
                 this.AddParameter($"p{parameter.Key}", parameter.Value, GetFieldDbType(parameter.Value));
             }
         }
@@ -54,8 +52,7 @@ namespace FeriaVirtual.Infrastructure.Persistence.OracleContext.Queries
         public static DbType GetFieldDbType(object value)
         {
             Type obj = value.GetType();
-            return obj.Name switch
-            {
+            return obj.Name switch {
                 "DateTime" => DbType.Date,
                 "float" => DbType.Double,
                 "Int32" => DbType.Int32,

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FeriaVirtual.Api.Local.Controllers.Employees.Queries
+﻿namespace FeriaVirtual.Api.Local.Controllers.Employees.Queries
 {
     public class QueryRequest
     {

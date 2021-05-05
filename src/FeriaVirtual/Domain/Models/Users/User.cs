@@ -69,7 +69,7 @@ namespace FeriaVirtual.Domain.Models.Users
 
 
         private void GenerateCredentials
-            (Guid credentialId, string username, string email, 
+            (Guid credentialId, string username, string email,
             int isActive, IUserUniquenessChecker uniquenessChecker)
             => GetCredential = new Credential(UserId, credentialId, username, email, isActive, uniquenessChecker);
 
@@ -95,6 +95,22 @@ namespace FeriaVirtual.Domain.Models.Users
             };
             var eventId = new DomainEventId(UserId);
             this.Record(new UserWasDisabled(eventId, values));
+        }
+
+
+        public void ChangePassword(string password)
+        {
+            var credential = new Credential(UserId);
+            credential.ChangePassword(password);
+            GetCredential = credential;
+            Dictionary<string, object> values = new() {
+                { "userId", UserId.ToString() },
+                { "type", "Change password user" },
+                { "password", password },
+                {"encriptedPassword", credential.EncryptedPassword}
+            };
+            var eventId = new DomainEventId(UserId);
+            this.Record(new UserPasswordWasChanged(eventId, values));
         }
 
 

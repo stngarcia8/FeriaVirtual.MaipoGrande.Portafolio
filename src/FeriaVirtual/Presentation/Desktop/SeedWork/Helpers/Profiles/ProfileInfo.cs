@@ -20,7 +20,7 @@
 
         private IProfileInfo CheckProfile()
         {
-            switch (_profileType) {
+            switch(_profileType) {
                 case ProfileType.Administrator:
                     return AdministratorProfile.CreateProfile();
                 case ProfileType.Consultant:

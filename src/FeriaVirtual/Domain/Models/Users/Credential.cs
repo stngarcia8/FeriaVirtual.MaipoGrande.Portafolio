@@ -2,7 +2,6 @@
 using FeriaVirtual.Domain.Models.Users.Rules;
 using FeriaVirtual.Domain.SeedWork;
 using FeriaVirtual.Domain.SeedWork.Helpers.Security;
-using FeriaVirtual.Domain.SeedWork.Validations;
 using System;
 using System.Collections.Generic;
 
@@ -22,10 +21,15 @@ namespace FeriaVirtual.Domain.Models.Users
         public string EncryptedPassword { get; protected set; }
 
 
-        internal Credential() { }
+        public Credential(Guid userid)
+        {
+            _userId = userid;
+            InitializeVars(GuidGenerator.NewSequentialGuid(),
+                string.Empty, string.Empty, string.Empty, 0);
+        }
 
         public Credential
-            (Guid userid, string username, string password, 
+            (Guid userid, string username, string password,
             string email, IUserUniquenessChecker uniquenessChecker)
         {
             _isUpdate = false;
@@ -38,7 +42,7 @@ namespace FeriaVirtual.Domain.Models.Users
         }
 
         public Credential
-            (Guid userid, Guid id, string username, string email, 
+            (Guid userid, Guid id, string username, string email,
             int isActive, IUserUniquenessChecker uniquenessChecker)
         {
             _isUpdate = true;
@@ -64,17 +68,28 @@ namespace FeriaVirtual.Domain.Models.Users
 
         private string EncryptPassword()
         {
+            if(string.IsNullOrWhiteSpace(Password))
+                return string.Empty;
+
             IEncriptor encryptor = EncriptSha1.CreateEncriptor(Password);
             return encryptor.GetEncriptedPassword();
         }
 
 
-        public void EnableCredential() 
+        public void EnableCredential()
             => IsActive = 1;
 
 
-        public void DisableCredential() 
+        public void DisableCredential()
             => IsActive = 0;
+
+
+        public void ChangePassword(string password)
+        {
+            Password = password;
+            EncryptedPassword = EncryptPassword();
+        }
+
 
 
         public override Dictionary<string, object> GetPrimitives()

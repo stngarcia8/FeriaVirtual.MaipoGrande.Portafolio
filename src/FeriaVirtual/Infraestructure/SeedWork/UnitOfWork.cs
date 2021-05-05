@@ -2,7 +2,7 @@
 
 namespace FeriaVirtual.Infrastructure.SeedWork
 {
-    public class UnitOfWork 
+    public class UnitOfWork
         : IUnitOfWork
     {
         private bool _disposed;
@@ -15,7 +15,7 @@ namespace FeriaVirtual.Infrastructure.SeedWork
         }
 
 
-        public async Task  SaveChangesAsync() =>
+        public async Task SaveChangesAsync() =>
             await Context.CommitInContextAsync();
 
 
@@ -26,10 +26,12 @@ namespace FeriaVirtual.Infrastructure.SeedWork
         }
 
 
-        public async Task  Dispose(bool disposing)
+        public async Task Dispose(bool disposing)
         {
-            if (_disposed) return;
-            if (disposing) await Context.CloseContextAsync();
+            if(_disposed)
+                return;
+            if(disposing)
+                await Context.CloseContextAsync();
             _disposed = true;
         }
 

@@ -14,7 +14,7 @@ namespace FeriaVirtual.Domain.SeedWork.ValueObjects
             Value = value;
 
 
-        public override string ToString() => 
+        public override string ToString() =>
             Value.ToString(NumberFormatInfo.InvariantInfo);
 
         protected override IEnumerable<object> GetAtomicValues()
@@ -22,7 +22,7 @@ namespace FeriaVirtual.Domain.SeedWork.ValueObjects
             yield return Value;
         }
 
-        public override bool Equals(object obj) => 
+        public override bool Equals(object obj) =>
             this == obj || (obj is IntValueObject item && Value == item.Value);
 
 

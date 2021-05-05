@@ -2,13 +2,8 @@
 using FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox;
 using FeriaVirtual.App.Desktop.Services.Employees;
 using FeriaVirtual.App.Desktop.Services.Employees.Dto;
-using MetroFramework;
 using MetroFramework.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -63,19 +58,20 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             Close();
         }
 
-        
+
         private void CancelFormButton_Click
             (object sender, EventArgs e) =>
             Close();
 
 
-        private async  Task CreateEmployee()
+        private async Task CreateEmployee()
         {
             try {
                 var employeeDto = GenerateDto();
                 var result = await _employeeService.CreateEmployee(employeeDto);
                 IsSaved = true;
                 MsgBox.Show(this, result, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             } catch(Exception ex) {
                 IsSaved = false;
                 MsgBox.Show(this, ex.Message, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

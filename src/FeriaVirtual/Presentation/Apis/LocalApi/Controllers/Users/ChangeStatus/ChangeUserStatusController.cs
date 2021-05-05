@@ -1,4 +1,4 @@
-﻿using FeriaVirtual.Application.Users.Commands.ChangeStatus;
+﻿using FeriaVirtual.Api.Local.SeedWork.Validations;
 using FeriaVirtual.Domain.SeedWork.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,37 +17,20 @@ namespace FeriaVirtual.Api.Local.Controllers.Users.ChangeStatus
             _commandBus = commandBus;
 
 
-        [HttpPatch]
-        [Route("api/users/enable/{userid}")]
-        public async Task<IActionResult> EnableUser(string userid)
+        [HttpPut]
+        [Route("api/users/changestatus")]
+        public async Task<IActionResult> ChangeStatus([FromBody] ChangeUserStatusRequest request)
         {
-            var isValidId = Guid.TryParse((string) userid, out var result);
-            if(userid is null || !isValidId)
-                return StatusCode(400, "Identificador de usuario inválido.");
+            var rules = new ChangeUserStatusValidationRule();
+            var validator = ValidationRules<ChangeUserStatusRequest>.Build(rules, request);
+            if(validator.IsFailed())
+                return StatusCode(400, validator.ErrorMessage);
 
             try {
-                var command = new ChangeUserStatusCommand(result, 1);
+                var command = ChangeUserStatusMapper.BuildMapper(request).Map();
                 await _commandBus.DispatchAsync(command);
-                return StatusCode(201, "El usuario fue habilitado.");
-
-            } catch(Exception ex) {
-                return StatusCode(400, ex.Message);
-            }
-        }
-
-
-        [HttpPatch]
-        [Route("api/users/disable/{userid}")]
-        public async Task<IActionResult> DisableUser(string userid)
-        {
-            var isValidId = Guid.TryParse((string) userid, out var result);
-            if(userid is null || !isValidId)
-                return StatusCode(400, "Identificador de usuario inválido.");
-
-            try {
-                var command = new ChangeUserStatusCommand(result, 0);
-                await _commandBus.DispatchAsync(command);
-                return StatusCode(201, "El usuario fue inhabilitado.");
+                var status = (request.Status.Equals(1)?"habilitado":"inhabilitado");
+                return StatusCode(201, "El usuario fue {status}.");
 
             } catch(Exception ex) {
                 return StatusCode(400, ex.Message);

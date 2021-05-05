@@ -1,8 +1,4 @@
 ﻿using FeriaVirtual.Application.Services.Users.Commands.Update;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FeriaVirtual.Api.Local.Controllers.Users.Update
 {
@@ -11,15 +7,15 @@ namespace FeriaVirtual.Api.Local.Controllers.Users.Update
         private readonly UpdateUserRequest _request;
 
 
-        private UpdateUserMapper(UpdateUserRequest request) 
+        private UpdateUserMapper(UpdateUserRequest request)
             => _request = request;
 
 
-        public static UpdateUserMapper BuildMapper(UpdateUserRequest request) 
+        public static UpdateUserMapper BuildMapper(UpdateUserRequest request)
             => new(request);
 
 
-        public UpdateUserCommand Map() 
+        public UpdateUserCommand Map()
             => UpdateUserCommandBuilder.GetInstance()
                     .UserId(_request.UserId.ToString())
                     .Firstname(_request.Firstname)

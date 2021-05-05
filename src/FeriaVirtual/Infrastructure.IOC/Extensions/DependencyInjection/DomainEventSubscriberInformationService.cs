@@ -17,10 +17,10 @@ namespace FeriaVirtual.Infrastructure.IOC.Extensions.DependencyInjection
             var classTypes = assembly.ExportedTypes
                 .Select(t => t.GetTypeInfo())
                 .Where(t => t.IsClass && !t.IsAbstract);
-            foreach (var type in classTypes) {
+            foreach(var type in classTypes) {
                 var interfaces = type.ImplementedInterfaces
                     .Select(i => i.GetTypeInfo());
-                foreach (var handlerInterfaceType in interfaces
+                foreach(var handlerInterfaceType in interfaces
                     .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDomainEventSubscriber<>))) {
                     services.AddScoped(handlerInterfaceType.AsType(), type.AsType());
                     FormatSubscribers(assembly, handlerInterfaceType, information);
@@ -37,10 +37,10 @@ namespace FeriaVirtual.Infrastructure.IOC.Extensions.DependencyInjection
             var handlerClassTypes = assembly.GetLoadableTypes()
                 .Where(handlerInterfaceType.IsAssignableFrom);
             var eventType = handlerInterfaceType.GenericTypeArguments.FirstOrDefault();
-            if (eventType == null) {
+            if(eventType == null) {
                 return;
             }
-            foreach (var handlerClassType in handlerClassTypes)
+            foreach(var handlerClassType in handlerClassTypes)
                 information.Add(handlerClassType, new DomainEventSubscriberInformation(handlerClassType, eventType));
         }
 
@@ -49,7 +49,7 @@ namespace FeriaVirtual.Infrastructure.IOC.Extensions.DependencyInjection
         {
             try {
                 return assembly.GetTypes();
-            } catch (ReflectionTypeLoadException e) {
+            } catch(ReflectionTypeLoadException e) {
                 return e.Types.Where(t => t != null);
             }
         }

@@ -10,7 +10,7 @@ namespace FeriaVirtual.Domain.SeedWork.Events
         public DateTime OcurredOn { get; protected set; }
 
 
-        public DomainEventBase()
+        protected  DomainEventBase()
         {
             EventId = new DomainEventId();
             Body = new Dictionary<string, object>();
@@ -18,7 +18,7 @@ namespace FeriaVirtual.Domain.SeedWork.Events
         }
 
 
-        public DomainEventBase
+        protected  DomainEventBase
             (DomainEventId eventId, Dictionary<string, object> body)
         {
             EventId = eventId;
@@ -36,8 +36,9 @@ namespace FeriaVirtual.Domain.SeedWork.Events
         public Dictionary<string, string> ToPrimitives()
         {
             Dictionary<string, string> values = new();
-            if (Body is null) return values;
-            foreach (KeyValuePair<string, object> item in Body)
+            if(Body is null)
+                return values;
+            foreach(KeyValuePair<string, object> item in Body)
                 values.Add(item.Key, item.Value.ToString());
             return values;
         }

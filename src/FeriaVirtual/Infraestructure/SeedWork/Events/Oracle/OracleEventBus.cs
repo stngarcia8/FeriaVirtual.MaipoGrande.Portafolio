@@ -16,9 +16,9 @@ namespace FeriaVirtual.Infrastructure.SeedWork.Events.Oracle
             _unitOfWork = new UnitOfWork(ContextManager.BuildContext(EventStoreConfig.Build()));
 
 
-        public async  Task PublishAsync(DomainEventCollection evenCollection)
+        public async Task PublishAsync(DomainEventCollection eventCollection)
         {
-            foreach (var domainEvent in evenCollection.GetEvents)
+            foreach(var domainEvent in eventCollection.GetEvents)
                 await PublishAsync(domainEvent);
         }
 

@@ -21,11 +21,11 @@ namespace FeriaVirtual.Domain.SeedWork.ValueObjects
             yield return Value;
         }
 
-        public override bool Equals(object obj) => 
+        public override bool Equals(object obj) =>
             this == obj || (obj is StringValueObject item && Value == item.Value);
 
 
-        public override int GetHashCode() => 
+        public override int GetHashCode() =>
             HashCode.Combine(Value);
 
 

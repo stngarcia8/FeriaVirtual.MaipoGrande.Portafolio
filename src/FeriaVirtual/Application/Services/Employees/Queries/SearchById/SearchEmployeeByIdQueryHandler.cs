@@ -16,7 +16,7 @@ namespace FeriaVirtual.Application.Services.Employees.Queries.SearchById
 
         public async Task<SearchEmployeeByIdResponse> Handle(SearchEmployeeByIdQuery query)
         {
-            if (query is null)
+            if(query is null)
                 throw new InvalidEmployeeServiceException("Identificador de empleado inválido.");
 
             var response = await _repository.SearchById<SearchEmployeeByIdResponse>(query.Id);
