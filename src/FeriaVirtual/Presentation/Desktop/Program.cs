@@ -1,16 +1,20 @@
 ﻿using FeriaVirtual.App.Desktop.Extensions.DependencyInjection;
 using FeriaVirtual.App.Desktop.Forms.MainForms;
-using System;
+using FeriaVirtual.App.Desktop.SeedWork.Helpers.Preferences;
 
 namespace FeriaVirtual.App.Desktop
 {
     static class Program
     {
 
-        [STAThread]
+        [System.STAThread]
         static void Main()
         {
             DependencyContainer.RegisterServices();
+
+            var preferences = Preference.Build();
+            preferences.ReadSettings();
+
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
             System.Windows.Forms.Application.Run(new AdminForm());

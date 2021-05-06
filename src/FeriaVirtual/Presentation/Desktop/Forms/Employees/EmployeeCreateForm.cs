@@ -1,5 +1,6 @@
-﻿using FeriaVirtual.App.Desktop.SeedWork.FormControls;
-using FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox;
+﻿using FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox;
+using FeriaVirtual.App.Desktop.SeedWork.FormControls.Themes;
+using FeriaVirtual.App.Desktop.SeedWork.Helpers.Preferences;
 using FeriaVirtual.App.Desktop.Services.Employees;
 using FeriaVirtual.App.Desktop.Services.Employees.Dto;
 using MetroFramework.Forms;
@@ -22,7 +23,7 @@ namespace FeriaVirtual.App.Desktop.Forms.Employees
             InitializeComponent();
             _employeeService = employeeService;
             _themeManager = ThemeManager.SuscribeForm(this);
-            _themeManager.DarkMode();
+            _themeManager.Initialize(PreferenceData.ColorSchema, PreferenceData.DarkMode);
         }
 
         private void EmployeeCreateForm_Load(object sender, EventArgs e)

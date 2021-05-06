@@ -1,6 +1,7 @@
 ﻿using FeriaVirtual.App.Desktop.Extensions.DependencyInjection;
 using FeriaVirtual.App.Desktop.Forms.MainForms;
-using FeriaVirtual.App.Desktop.SeedWork.FormControls;
+using FeriaVirtual.App.Desktop.SeedWork.FormControls.Themes;
+using FeriaVirtual.App.Desktop.SeedWork.Helpers.Preferences;
 using FeriaVirtual.App.Desktop.Services.SignIn;
 using MetroFramework;
 using MetroFramework.Forms;
@@ -19,7 +20,7 @@ namespace FeriaVirtual.App.Desktop.Forms.SignIn
         {
             InitializeComponent();
             _themeManager = ThemeManager.SuscribeForm(this);
-            _themeManager.DarkMode();
+            _themeManager.Initialize(PreferenceData.ColorSchema, PreferenceData.DarkMode);
         }
 
 

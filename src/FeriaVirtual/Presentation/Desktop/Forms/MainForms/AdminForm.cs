@@ -1,6 +1,8 @@
 ﻿using FeriaVirtual.App.Desktop.Forms.Employees;
-using FeriaVirtual.App.Desktop.SeedWork.FormControls;
+using FeriaVirtual.App.Desktop.Forms.Utils;
 using FeriaVirtual.App.Desktop.SeedWork.FormControls.MsgBox;
+using FeriaVirtual.App.Desktop.SeedWork.FormControls.Themes;
+using FeriaVirtual.App.Desktop.SeedWork.Helpers.Preferences;
 using MetroFramework;
 using MetroFramework.Forms;
 using System;
@@ -19,7 +21,7 @@ namespace FeriaVirtual.App.Desktop.Forms.MainForms
         {
             InitializeComponent();
             _themeManager = ThemeManager.SuscribeForm(this);
-            _themeManager.DarkMode();
+            _themeManager.Initialize(PreferenceData.ColorSchema, PreferenceData.DarkMode);
         }
 
 
@@ -88,9 +90,16 @@ namespace FeriaVirtual.App.Desktop.Forms.MainForms
 
 
 
-        private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PreferencesToolStripMenuItem_Click
+            (object sender, EventArgs e)
         {
-
+            var form = new PreferencesForm();
+            form.ShowDialog();
+            if(form.IsSabed) {
+                _themeManager.Initialize(PreferenceData.ColorSchema, PreferenceData.DarkMode);
+                Refresh();
+                FormMenuStrip.Refresh();
+            }
         }
 
         private void ExitToolStripMenuItem_Click
